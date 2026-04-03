@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>404 Page Not Found | GitHub Copilot Dev Days</title>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              ghGray9: '#121613',
+              ghGray8: '#353D37',
+              ghGray4: '#B6BFB8',
+              ghGreen4: '#0FBF3E',
+              ghGreen5: '#088728',
+              ghCopilotPurple: '#8534F3',
+              ghSecurityBlue: '#3094FF',
+              bgDark: '#0d1117',
+            },
+            fontFamily: {
+              sans: ['"Mona Sans"', 'sans-serif'],
+              mono: ['"Mona Sans Mono"', 'monospace'],
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- GSAP Plugins (Required for Minigame) -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Draggable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/InertiaPlugin.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Physics2DPlugin.min.js"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+      /* GitHub Mona Sans Font Implementation */
+      @font-face {
+        font-family: 'Mona Sans';
+        src: url('https://hub.githubassets.com/assets/Mona-Sans.woff2') format('woff2');
+        font-weight: 200 900;
+        font-stretch: 75 125;
+        font-display: swap;
+      }
+      @font-face {
+        font-family: 'Mona Sans Mono';
+        src: url('https://hub.githubassets.com/assets/Mona-Sans-Mono.woff2') format('woff2');
+        font-weight: 200 900;
+        font-display: swap;
+      }
+
+      body {
+        background-color: #0d1117;
+        color: #ffffff;
+        font-family: 'Mona Sans', sans-serif;
+        margin: 0;
+        overflow: hidden;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      /* Fixed Floating Background - Grid */
+      #fixed-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background-color: #0d1117;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+
+      /* --- PREMIUM BRACKET BUTTON --- */
+      .bracket-btn {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 24px;
+        font-family: 'Mona Sans Mono', monospace;
+        font-size: 13px;
+        font-weight: 600;
+        color: #ffffff;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(4px);
+        transition: all 0.3s ease;
+        text-decoration: none;
+      }
+
+      .bracket-btn:hover { 
+        background: rgba(255, 255, 255, 0.08); 
+        text-shadow: 0 0 10px rgba(255,255,255,0.3);
+      }
+
+      .bracket-corner {
+        position: absolute;
+        width: 8px; 
+        height: 8px;
+        border-color: rgba(255, 255, 255, 0.5);
+        border-style: solid;
+        transition: all 0.3s ease;
+      }
+
+      .bracket-btn:hover .bracket-corner { 
+        border-color: #0FBF3E; 
+        width: 12px; 
+        height: 12px; 
+        box-shadow: inset 0 0 8px rgba(15,191,62,0.4);
+      }
+
+      .corner-tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
+      .corner-tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
+      .corner-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+      .corner-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+
+      /* --- MINIGAME LAYOUT & CSS --- */
+      .minigame {
+        position: relative;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+      }
+
+      .minigame__center {
+        position: relative;
+        z-index: 10;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 90%;
+        max-width: 800px;
+      }
+
+      .minigame__eyebrow {
+        width: 100%;
+        max-width: 250px;
+        color: #0FBF3E; 
+        margin-bottom: 2rem;
+      }
+
+      .minigame__h1 {
+        width: 100%;
+        max-width: 800px;
+        color: #353D37; 
+      }
+      
+      .minigame__h1-span {
+        transition: color 0.3s;
+      }
+
+      .minigame__fly {
+        position: absolute;
+        width: 48px;
+        height: 48px;
+        z-index: 20;
+        transform-origin: center center;
+      }
+
+      .minigame__controls {
+        position: absolute;
+        bottom: 10vh;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 30;
+        transition: opacity 0.4s ease, visibility 0.4s ease;
+      }
+
+      .minigame:has([data-minigame-status="finished"]) .minigame__controls {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      .minigame__pull {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        cursor: grab;
+        position: relative;
+        z-index: 2;
+      }
+
+      .minigame__pull.is--drag {
+        cursor: grabbing;
+      }
+
+      .minigame__pull-text {
+        font-family: 'Mona Sans Mono', monospace;
+        font-size: 12px;
+        color: #0FBF3E;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+
+      .minigame__pull-hand {
+        width: 48px;
+        color: white;
+      }
+
+      .mingame__rocket {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 48px;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .mingame__ball-svg {
+        width: 100%;
+        color: #0FBF3E; 
+      }
+
+      .minigame__line {
+        position: absolute;
+        height: 2px;
+        background: rgba(15, 191, 62, 0.6);
+        transform-origin: left center;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .dot {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 40;
+      }
+
+      .minigame__score {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 50;
+        pointer-events: none;
+      }
+
+      .minigame__score-screen {
+        background: rgba(18, 22, 19, 0.85); 
+        backdrop-filter: blur(12px);
+        border: 1px solid #353D37; 
+        padding: 3rem 4rem;
+        border-radius: 4px;
+        text-align: center;
+        pointer-events: auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(32px) scale(0.9);
+        transition: all 0.4s cubic-bezier(0.625, 0.05, 0, 1);
+      }
+
+      [data-minigame-status="finished"] .minigame__score-screen {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0px) scale(1);
+      }
+
+      .minigame__score-svg {
+        width: 48px;
+        color: #0FBF3E;
+        margin-bottom: 1rem;
+      }
+
+      .minigame__score-h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: white;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+      }
+
+      .minigame__score-p {
+        font-family: 'Mona Sans Mono', monospace;
+        color: #B6BFB8;
+        font-size: 0.875rem;
+        margin-bottom: 2rem;
+      }
+
+      .minigame__btn {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: transparent;
+        border: 2px solid #353D37;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        font-family: 'Mona Sans Mono', monospace;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-radius: 4px;
+      }
+
+      .minigame__btn:hover {
+        border-color: #0FBF3E;
+        color: #0FBF3E;
+        transform: translateY(-2px);
+      }
+
+      .retry-svg {
+        width: 20px;
+        height: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- FIXED FLOATING BACKGROUND -->
+    <div id="fixed-bg"></div>
+
+    <!-- HOME / BACK BUTTON -->
+    <div class="absolute top-6 left-6 md:top-8 md:left-8 z-[100]">
+      <a href="/" class="bracket-btn group">
+        <div class="bracket-corner corner-tl"></div>
+        <div class="bracket-corner corner-tr"></div>
+        <div class="bracket-corner corner-bl"></div>
+        <div class="bracket-corner corner-br"></div>
+        <i data-lucide="arrow-left" class="w-4 h-4 text-[#8b949e] group-hover:text-white transition-colors"></i>
+        RETURN TO BASE
+      </a>
+    </div>
+
+    <div class="page-wrapper u-max-100vh">
+      <div class="main-wrapper">
+        <section data-minigame-init="" class="minigame">
+          
+          <div class="minigame__center">
+            <!-- EYEBROW SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 211 23" fill="none" data-minigame-target="" class="minigame__eyebrow">
+              <path d="M208.096 0.545898H210.278V18.0004H208.096V15.8186H205.915V13.6368H208.096V9.27317H205.915V7.09135H208.096V0.545898ZM205.915 15.8186V18.0004H201.551V15.8186H205.915ZM201.551 15.8186H199.369V7.09135H201.551V15.8186ZM205.915 7.09135H201.551V4.90953H205.915V7.09135Z" fill="currentColor"></path>
+              <path d="M184.088 4.90918H186.27V7.091H188.452V9.27282H186.27V18.0001H184.088V4.90918ZM188.452 4.90918H192.815V7.091H188.452V4.90918ZM192.815 7.091H194.997V18.0001H192.815V7.091Z" fill="currentColor"></path>
+              <path d="M168.807 4.90918H170.988V15.8183H168.807V4.90918ZM170.988 15.8183H175.352V18.0001H170.988V15.8183ZM177.534 4.90918H179.716V18.0001H177.534V15.8183H175.352V13.6365H177.534V4.90918Z" fill="currentColor"></path>
+              <path d="M155.707 4.90918H162.253V7.091H155.707V4.90918ZM162.253 7.091H164.434V15.8183H162.253V7.091ZM153.525 7.091H155.707V15.8183H153.525V7.091ZM155.707 15.8183H162.253V18.0001H155.707V15.8183Z" fill="currentColor"></path>
+              <path d="M140.426 7.09135H138.244V4.90953H140.426V2.72772H142.608V4.90953H149.153V7.09135H142.608V15.8186H146.971V18.0004H138.244V15.8186H140.426V7.09135ZM142.608 0.545898H149.153V2.72772H142.608V0.545898Z" fill="currentColor"></path>
+              <path d="M109.863 0.545898H112.045V4.90953H118.591V7.09135H112.045V15.8186H109.863V7.09135H107.682V4.90953H109.863V0.545898ZM112.045 15.8186H116.409V18.0004H112.045V15.8186ZM116.409 13.6368H118.591V15.8186H116.409V13.6368Z" fill="currentColor"></path>
+              <path d="M94.5822 4.90918H101.128V7.091H94.5822V4.90918ZM101.128 7.091H103.309V15.8183H101.128V7.091ZM92.4004 7.091H94.5822V15.8183H92.4004V7.091ZM94.5822 15.8183H101.128V18.0001H94.5822V15.8183Z" fill="currentColor"></path>
+              <path d="M77.1191 4.90918H79.301V7.091H81.4828V9.27282H79.301V18.0001H77.1191V4.90918ZM81.4828 4.90918H85.8464V7.091H81.4828V4.90918ZM85.8464 7.091H88.0282V18.0001H85.8464V7.091Z" fill="currentColor"></path>
+              <path d="M48.7385 4.90918H55.2839V7.091H48.7385V4.90918ZM46.5566 7.091H48.7385V9.27282H55.2839V7.091H57.4657V11.4546H48.7385V15.8183H46.5566V7.091ZM48.7385 15.8183H55.2839V18.0001H48.7385V15.8183ZM55.2839 13.6365H57.4657V15.8183H55.2839V13.6365Z" fill="currentColor"></path>
+              <path d="M33.4572 4.90918H37.8208V7.091H33.4572V4.90918ZM31.2754 7.091H33.4572V15.8183H31.2754V7.091ZM33.4572 15.8183H37.8208V18.0001H33.4572V15.8183ZM33.4572 20.1819H40.0027V22.3637H33.4572V20.1819ZM37.8208 13.6365H40.0027V9.27282H37.8208V7.091H40.0027V4.90918H42.1845V20.1819H40.0027V15.8183H37.8208V13.6365Z" fill="currentColor"></path>
+              <path d="M15.9941 11.4546H18.176V15.8183H15.9941V11.4546ZM18.176 15.8183H22.5396V18.0001H18.176V15.8183ZM22.5396 13.6365H24.7214V11.4546H18.176V9.27282H24.7214V7.091H26.9032V18.0001H24.7214V15.8183H22.5396V13.6365ZM18.176 4.90918H24.7214V7.091H18.176V4.90918Z" fill="currentColor"></path>
+              <path d="M0.712891 0.545898H9.44016V2.72772H2.89471V9.27317H9.44016V11.455H2.89471V18.0004H0.712891V0.545898ZM9.44016 2.72772H11.622V9.27317H9.44016V2.72772Z" fill="currentColor"></path>
+            </svg>
+
+            <!-- H1 "404" SVG -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 693 291" fill="none" class="minigame__h1">
+              <path d="M619.298 0.0908203H692.025V291H655.662V218.273H510.207V109.182H546.571V181.909H655.662V36.4545H619.298V0.0908203ZM582.934 36.4545H619.298V72.8181H582.934V36.4545ZM546.571 72.8181H582.934V109.182H546.571V72.8181Z" fill="currentColor" data-minigame-target="" class="minigame__h1-span"></path>
+              <path d="M255.52 36.4545H291.883V145.545H328.247V181.909H291.883V254.636H255.52V36.4545ZM291.883 254.636H400.974V291H291.883V254.636ZM291.883 0.0908203H400.974V36.4545H291.883V0.0908203ZM400.974 36.4545H437.338V254.636H400.974V109.182H364.61V72.8181H400.974V36.4545ZM328.247 109.182H364.61V145.545H328.247V109.182Z" fill="currentColor" data-minigame-target="" class="minigame__h1-span"></path>
+              <path d="M109.923 0.0908203H182.651V291H146.287V218.273H0.83252V109.182H37.1962V181.909H146.287V36.4545H109.923V0.0908203ZM73.5598 36.4545H109.923V72.8181H73.5598V36.4545ZM37.1962 72.8181H73.5598V109.182H37.1962V72.8181Z" fill="currentColor" data-minigame-target="" class="minigame__h1-span"></path>
+            </svg>
+          </div>
+          
+          <div data-minigame-line="" class="minigame__line"></div>
+          
+          <div class="minigame__controls">
+            <div data-minigame-pull="" class="minigame__pull">
+              <p class="minigame__pull-text">Pull me</p>
+              <!-- Pull Hand SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 100" fill="none" class="minigame__pull-hand">
+                <g>
+                  <path d="M33.9181 0.0001V4.1681H29.754V8.3361H25.5899V16.672H21.4258V58.34H25.5899V66.6759H33.9219V58.34H38.086V66.6759H46.418V58.34H50.5821V16.668H46.418V8.3321H42.2539V4.1641H38.0898V0L33.9181 0.0001ZM42.2462 25.0001V45.8321H46.4103V50.0001H42.2462V54.1681H29.7502V50.0001H25.5861V45.8321H29.7502V25.0001H33.9143V20.8321H38.0784V25.0001H42.2462Z" fill="currentColor"></path>
+                  <path d="M8.92586 41.6679H4.76176V45.8359H0.597656V58.3359H4.76176V62.5039H13.0938V58.3359H17.2579V33.3359H8.92586V41.6718V41.6679ZM8.92586 54.1639H4.76176V49.9959H8.92586V54.1639Z" fill="currentColor"></path>
+                  <path d="M54.7422 33.332V58.332H58.9063V62.5H67.2383V58.332H71.4024V45.832H67.2383V41.664H63.0742V33.3281H54.7422V33.332ZM67.2422 50V54.168H63.0781V50H67.2422Z" fill="currentColor"></path>
+                  <path d="M13.0899 66.668H8.92578V70.836H13.0899V66.668Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M58.9102 66.668V70.836H63.0742V66.668H58.9102Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M4.75781 75H8.92191V70.832H4.75781V75Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M25.5859 70.832V75H29.75V70.832H25.5859Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M46.4141 70.832H42.25V75H46.4141V70.832Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M67.2422 75V70.832H63.0781V75H67.2422Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M33.918 79.168V75H29.7539V79.168H33.918Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M38.082 79.168H42.2461V75H38.082V79.168Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M8.92578 83.3321H13.0899V79.1641H8.92578V83.3321Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M58.9102 83.3321H63.0742V79.1641H58.9102V83.3321Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M25.5859 87.5H29.75V83.332H25.5859V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M42.2461 87.5H46.4102V83.332H42.2461V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M38.0821 87.5H33.918V91.668H38.0821V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M38.0821 95.832H33.918V100H38.0821V95.832Z" fill="white" fill-opacity="0.16"></path>
+                </g>
+              </svg>
+            </div>
+            <div data-minigame-rocket="" class="mingame__rocket">
+              <!-- Rocket/Ball SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 100" fill="none" class="mingame__ball-svg">
+                <g>
+                  <path d="M33.9181 0.0001V4.1681H29.754V8.3361H25.5899V16.672H21.4258V58.34H25.5899V66.6759H33.9219V58.34H38.086V66.6759H46.418V58.34H50.5821V16.668H46.418V8.3321H42.2539V4.1641H38.0898V0L33.9181 0.0001ZM42.2462 25.0001V45.8321H46.4103V50.0001H42.2462V54.1681H29.7502V50.0001H25.5861V45.8321H29.7502V25.0001H33.9143V20.8321H38.0784V25.0001H42.2462Z" fill="currentColor"></path>
+                  <path d="M8.92586 41.6679H4.76176V45.8359H0.597656V58.3359H4.76176V62.5039H13.0938V58.3359H17.2579V33.3359H8.92586V41.6718V41.6679ZM8.92586 54.1639H4.76176V49.9959H8.92586V54.1639Z" fill="currentColor"></path>
+                  <path d="M54.7422 33.332V58.332H58.9063V62.5H67.2383V58.332H71.4024V45.832H67.2383V41.664H63.0742V33.3281H54.7422V33.332ZM67.2422 50V54.168H63.0781V50H67.2422Z" fill="currentColor"></path>
+                  <path d="M13.0899 66.668H8.92578V70.836H13.0899V66.668Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M58.9102 66.668V70.836H63.0742V66.668H58.9102Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M4.75781 75H8.92191V70.832H4.75781V75Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M25.5859 70.832V75H29.75V70.832H25.5859Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M46.4141 70.832H42.25V75H46.4141V70.832Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M67.2422 75V70.832H63.0781V75H67.2422Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M33.918 79.168V75H29.7539V79.168H33.918Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M38.082 79.168H42.2461V75H38.082V79.168Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M8.92578 83.3321H13.0899V79.1641H8.92578V83.3321Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M58.9102 83.3321H63.0742V79.1641H58.9102V83.3321Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M25.5859 87.5H29.75V83.332H25.5859V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M42.2461 87.5H46.4102V83.332H42.2461V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M38.0821 87.5H33.918V91.668H38.0821V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M38.0821 95.832H33.918V100H38.0821V95.832Z" fill="white" fill-opacity="0.16"></path>
+                </g>
+              </svg>
+            </div>
+          </div>
+          
+          <!-- FLY 1 (Green) -->
+          <div data-minigame-fly="" class="minigame__fly">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 56 56" fill="none">
+              <path d="M23.2 4H32.8V23.2H42.4V32.8H32.8V52H23.2V32.8H13.6V23.2H23.2V4ZM13.6 23.2H4V13.6H13.6V23.2ZM4 32.8H13.6V42.4H4V32.8ZM42.4 13.6H52V23.2H42.4V13.6ZM42.4 32.8H52V42.4H42.4V32.8Z" fill="currentColor"></path>
+              <path d="M4 13.5996V23.2002H13.5996V13.5996H4ZM4 42.4004H13.5996V32.7998H4V42.4004ZM23.2002 4V23.2002H13.5996V32.7998H23.2002V52H32.7998V32.7998H42.4004V42.4004H52V32.7998H42.4004V23.2002H52V13.5996H42.4004V23.2002H32.7998V4H23.2002ZM36.7998 19.2002H38.4004V9.59961H56V27.2002H46.4004V28.7998H56V46.4004H38.4004V36.7998H36.7998V56H19.2002V36.7998H17.5996V46.4004H0V28.7998H9.59961V27.2002H0V9.59961H17.5996V19.2002H19.2002V0H36.7998V19.2002Z" fill="#0FBF3E" fill-opacity="0.8"></path>
+            </svg>
+          </div>
+          
+          <!-- FLY 2 (Purple) -->
+          <div data-minigame-fly="" class="minigame__fly">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 57 57" fill="none">
+              <path d="M23.6658 4.46484L33.2658 4.46484V23.6648L42.8658 23.6648L42.8658 33.2648L33.2658 33.2648L33.2658 52.4648L23.6658 52.4648L23.6658 33.2648H14.0658L14.0658 23.6648L23.6658 23.6648L23.6658 4.46484ZM14.0658 23.6648H4.46582L4.46582 14.0648L14.0658 14.0648L14.0658 23.6648ZM4.46582 33.2648H14.0658V42.8648H4.46582L4.46582 33.2648ZM42.8658 14.0648L52.4658 14.0648V23.6648H42.8658V14.0648ZM42.8658 33.2648H52.4658V42.8648H42.8658V33.2648Z" fill="#8534F3"></path>
+              <path d="M35.2656 2.46484V21.665L40.8662 21.665V12.0645H54.4658V25.665H44.8662L44.8662 31.2646H54.4658V44.8652H40.8662V35.2646L35.2656 35.2646L35.2656 54.4648L21.666 54.4648L21.666 35.2646H16.0654V44.8652H2.46582L2.46582 31.2646H12.0654V25.665H2.46582L2.46582 12.0645L16.0654 12.0645L16.0654 21.665H21.666L21.666 2.46484L35.2656 2.46484Z" stroke="#8534F3" stroke-opacity="0.8" stroke-width="4"></path>
+            </svg>
+          </div>
+          
+          <!-- SCORE SCREEN -->
+          <div data-minigame-status="" class="minigame__score">
+            <div class="minigame__score-screen">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 100" fill="none" class="minigame__score-svg">
+                <g>
+                  <path d="M33.9181 0.0001V4.1681H29.754V8.3361H25.5899V16.672H21.4258V58.34H25.5899V66.6759H33.9219V58.34H38.086V66.6759H46.418V58.34H50.5821V16.668H46.418V8.3321H42.2539V4.1641H38.0898V0L33.9181 0.0001ZM42.2462 25.0001V45.8321H46.4103V50.0001H42.2462V54.1681H29.7502V50.0001H25.5861V45.8321H29.7502V25.0001H33.9143V20.8321H38.0784V25.0001H42.2462Z" fill="currentColor"></path>
+                  <path d="M8.92586 41.6679H4.76176V45.8359H0.597656V58.3359H4.76176V62.5039H13.0938V58.3359H17.2579V33.3359H8.92586V41.6718V41.6679ZM8.92586 54.1639H4.76176V49.9959H8.92586V54.1639Z" fill="currentColor"></path>
+                  <path d="M54.7422 33.332V58.332H58.9063V62.5H67.2383V58.332H71.4024V45.832H67.2383V41.664H63.0742V33.3281H54.7422V33.332ZM67.2422 50V54.168H63.0781V50H67.2422Z" fill="currentColor"></path>
+                  <path d="M13.0899 66.668H8.92578V70.836H13.0899V66.668Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M58.9102 66.668V70.836H63.0742V66.668H58.9102Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M4.75781 75H8.92191V70.832H4.75781V75Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M25.5859 70.832V75H29.75V70.832H25.5859Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M46.4141 70.832H42.25V75H46.4141V70.832Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M67.2422 75V70.832H63.0781V75H67.2422Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M33.918 79.168V75H29.7539V79.168H33.918Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M38.082 79.168H42.2461V75H38.082V79.168Z" fill="white" fill-opacity="0.56"></path>
+                  <path d="M8.92578 83.3321H13.0899V79.1641H8.92578V83.3321Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M58.9102 83.3321H63.0742V79.1641H58.9102V83.3321Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M25.5859 87.5H29.75V83.332H25.5859V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M42.2461 87.5H46.4102V83.332H42.2461V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M38.0821 87.5H33.918V91.668H38.0821V87.5Z" fill="white" fill-opacity="0.28"></path>
+                  <path d="M38.0821 95.832H33.918V100H38.0821V95.832Z" fill="white" fill-opacity="0.16"></path>
+                </g>
+              </svg>
+              <h2 class="minigame__score-h2">All targets hit!</h2>
+              <p class="minigame__score-p">
+                It took you <span data-minigame-score-time="">X</span> seconds.
+              </p>
+              <button data-hover="" data-minigame-reset="" class="minigame__btn group">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" class="retry-svg group-hover:rotate-180 transition-transform duration-500">
+                  <path d="M17 10H23V4" stroke="currentColor" stroke-width="2"></path>
+                  <path d="M7 14H1V20" stroke="currentColor" stroke-width="2"></path>
+                  <path d="M23 9.99998L18.4 5.59998C17.4072 4.69457 16.2541 3.98238 15 3.49998C12.7447 2.72782 10.2765 2.87143 8.12606 3.89992C5.97557 4.92842 4.31451 6.75968 3.5 8.99998M20.5 15C20.0176 16.2541 19.3054 17.4072 18.4 18.4C16.6963 20.0855 14.3965 21.0308 12 21.0308C9.60347 21.0308 7.30368 20.0855 5.6 18.4L1 14" stroke="currentColor" stroke-width="2"></path>
+                </svg>
+                <p>Try again</p>
+              </button>
+            </div>
+          </div>
+
+        </section>
+      </div>
+    </div>
+
+    <!-- GAME LOGIC SCRIPT -->
+    <script>
+      lucide.createIcons();
+
+      function initConfettiExplosion(x, y) {
+        const dotCount = gsap.utils.random(10, 20, 1);
+        // Updated Confetti to GitHub Brand Colors
+        const colors = ["#0FBF3E", "#088728", "#8534F3", "#3094FF", "#ffffff"];
+        const container = document.querySelector("[data-minigame-init]");
+
+        for (let i = 0; i < dotCount; i++) {
+          const dot = document.createElement("div");
+          dot.classList.add("dot");
+          container.appendChild(dot);
+
+          gsap.set(dot, {
+            left: `${x}px`,
+            top: `${y}px`,
+            scale: 0,
+            backgroundColor: gsap.utils.random(colors),
+          });
+
+          gsap
+            .timeline({ onComplete: () => dot.remove() })
+            .to(dot, {
+              scale: gsap.utils.random(0.3, 1),
+              duration: 0.3,
+              ease: "power3.out",
+            })
+            .to(
+              dot,
+              {
+                duration: 2,
+                physics2D: {
+                  velocity: gsap.utils.random(500, 1000),
+                  angle: gsap.utils.random(0, 360),
+                  gravity: 500,
+                },
+                autoAlpha: 0,
+                ease: "none",
+              },
+              "<",
+            );
+        }
+      }
+
+      function init404Minigame() {
+        const CONFIG = {
+          dragToVelocityRatio: 0.01,
+          inertiaResistance: 20,
+          pullReset: { duration: 0.8, ease: "elastic.out(1,0.5)" },
+          rocketFadeOut: { duration: 0.5 },
+          maxSpeed: 2000,
+          flyMinDuration: 1.5,
+          flyMaxDuration: 3,
+          flyRotateDuration: 1,
+        };
+
+        const container = document.querySelector("[data-minigame-init]");
+        const pull = container.querySelector("[data-minigame-pull]");
+        const rocket = container.querySelector("[data-minigame-rocket]");
+        const line = container.querySelector("[data-minigame-line]");
+        const statusEl = container.querySelector("[data-minigame-status]");
+        const scoreTimeSpan = container.querySelector("[data-minigame-score-time]");
+        const resetButton = container.querySelector("[data-minigame-reset]");
+        const flies = Array.from(container.querySelectorAll("[data-minigame-fly]"));
+
+        let dragStart, rocketTween, isFlying = false;
+        let containerRect, origin;
+        let startTime = null;
+
+        const rawTargets = [
+          ...container.querySelectorAll("[data-minigame-target]"),
+          ...flies,
+        ];
+        const allTargets = rawTargets.filter(
+          (el) => el && window.getComputedStyle(el).display !== "none"
+        );
+        const totalTargets = allTargets.length;
+        const hitTargets = new Set();
+        const flyTweens = new Map();
+
+        function resetGame() {
+          hitTargets.clear();
+          allTargets.forEach((el) => {
+            el.style.visibility = "";
+            el.style.opacity = "";
+            el.style.pointerEvents = "";
+          });
+
+          gsap.set(allTargets, { scale: 1, clearProps: "transform" });
+
+          startTime = null;
+          statusEl.setAttribute("data-minigame-status", "ready");
+          scoreTimeSpan.textContent = "0.00";
+
+          gsap.set([pull, rocket, line], {
+            clearProps: "all", x: 0, y: 0, opacity: 1, rotation: 0,
+          });
+          
+          isFlying = false;
+          if (rocketTween) rocketTween.kill();
+
+          containerRect = container.getBoundingClientRect();
+
+          flies.forEach((fly) => {
+            if (flyTweens.has(fly)) flyTweens.get(fly).kill();
+
+            const maxX = containerRect.width - fly.offsetWidth;
+            const maxY = containerRect.height - fly.offsetHeight;
+            const startX = gsap.utils.random(0, maxX);
+            const startY = gsap.utils.random(0, maxY);
+
+            gsap.set(fly, { clearProps: "x,y,rotation" });
+            fly.style.left = `${startX}px`;
+            fly.style.top = `${startY}px`;
+            fly.style.transform = "rotate(0deg)";
+
+            moveFly(fly);
+          });
+        }
+
+        resetButton.addEventListener("click", resetGame);
+        resetGame();
+
+        function moveFly(fly) {
+          const maxX = containerRect.width - fly.offsetWidth;
+          const maxY = containerRect.height - fly.offsetHeight;
+          const newX = gsap.utils.random(0, maxX);
+          const newY = gsap.utils.random(0, maxY);
+
+          const cur = fly.getBoundingClientRect();
+          const curX = cur.left - containerRect.left;
+          const curY = cur.top - containerRect.top;
+          const dx = newX - curX;
+          const dy = newY - curY;
+          const targetAngle = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
+
+          gsap.to(fly, {
+            rotation: targetAngle,
+            duration: CONFIG.flyRotateDuration,
+            ease: "elastic.out(1,0.75)",
+          });
+
+          const tween = gsap.to(fly, {
+            left: `${newX}px`,
+            top: `${newY}px`,
+            duration: gsap.utils.random(CONFIG.flyMinDuration, CONFIG.flyMaxDuration),
+            ease: "power1.inOut",
+            onComplete: () => moveFly(fly),
+          });
+          flyTweens.set(fly, tween);
+        }
+
+        function rectsOverlap(r1, r2) {
+          return !(r2.left > r1.right || r2.right < r1.left || r2.top > r1.bottom || r2.bottom < r1.top);
+        }
+
+        function onRocketUpdate() {
+          const rRect = rocket.getBoundingClientRect();
+          const cRect = containerRect;
+          if (rRect.right < cRect.left || rRect.left > cRect.right || rRect.bottom < cRect.top || rRect.top > cRect.bottom) {
+            rocketTween.kill();
+            isFlying = false;
+            gsap.set(rocket, { opacity: 0 });
+            return;
+          }
+          for (let t of allTargets) {
+            if (hitTargets.has(t)) continue;
+            const tRect = t.getBoundingClientRect();
+            if (rectsOverlap(rRect, tRect)) {
+              hitTargets.add(t);
+              if (flies.includes(t) && flyTweens.has(t)) flyTweens.get(t).kill();
+              explodeTarget(t, tRect);
+              onHit();
+              break;
+            }
+          }
+        }
+
+        function onHit() {
+          if (hitTargets.size === totalTargets) {
+            const elapsed = ((Date.now() - startTime) / 1000).toFixed(2);
+            statusEl.setAttribute("data-minigame-status", "finished");
+            scoreTimeSpan.textContent = elapsed;
+          }
+        }
+
+        function explodeTarget(el, tRect) {
+          gsap.to(el, { scale: 0.95, opacity: 0.1, duration: 0.2, pointerEvents: "none" });
+          const cx = tRect.left + tRect.width / 2 + window.scrollX;
+          const cy = tRect.top + tRect.height / 2 + window.scrollY;
+          initConfettiExplosion(cx, cy);
+        }
+
+        Draggable.create(pull, {
+          type: "x,y",
+          bounds: container,
+
+          onPress() {
+            if (isFlying) return this.endDrag();
+            if (!startTime) {
+              startTime = Date.now();
+              statusEl.setAttribute("data-minigame-status", "running");
+            }
+            if (rocketTween) {
+              rocketTween.kill();
+              isFlying = false;
+            }
+            gsap.set(rocket, { clearProps: "all", x: 0, y: 0, opacity: 0, rotation: 0 });
+
+            containerRect = container.getBoundingClientRect();
+            this.hasDraggedEnough = false;
+
+            const rb = rocket.getBoundingClientRect();
+            origin = {
+              x: rb.left + rb.width / 2 - containerRect.left,
+              y: rb.top + rb.height / 2 - containerRect.top,
+            };
+
+            Object.assign(line.style, {
+              left: `${origin.x}px`,
+              top: `${origin.y}px`,
+              width: "0px",
+              transform: "rotate(0deg)",
+              transformOrigin: "0 50%",
+              opacity: "0",
+            });
+
+            const pr = pull.getBoundingClientRect();
+            dragStart = {
+              x: pr.left + pr.width / 2,
+              y: pr.top + pr.height / 2,
+            };
+            pull.classList.add("is--drag");
+            pull.style.cursor = "grabbing";
+          },
+
+          onDrag() {
+            const pr = pull.getBoundingClientRect();
+            const px = pr.left + pr.width / 2 - containerRect.left;
+            const py = pr.top + pr.height / 2 - containerRect.top;
+            const dx = px - origin.x, dy = py - origin.y;
+            const len = Math.hypot(dx, dy);
+            if (len >= 24) this.hasDraggedEnough = true;
+
+            const ang = (Math.atan2(dy, dx) * 180) / Math.PI;
+            line.style.width = `${len}px`;
+            line.style.transform = `rotate(${ang}deg)`;
+            line.style.opacity = "1";
+            gsap.set(pull, { rotation: ang - 90 });
+          },
+
+          onRelease() {
+            pull.style.cursor = "grab";
+            pull.classList.remove("is--drag");
+
+            if (!this.hasDraggedEnough || isFlying) {
+              gsap.to(pull, { x: 0, y: 0, rotate: 0, ...CONFIG.pullReset });
+              gsap.to(line, { opacity: 0, duration: 0.2 });
+              return;
+            }
+
+            gsap.to(line, { opacity: 0, duration: 0.2 });
+
+            const pr = pull.getBoundingClientRect();
+            const dx0 = dragStart.x - (pr.left + pr.width / 2);
+            const dy0 = dragStart.y - (pr.top + pr.height / 2);
+            const avg = (containerRect.width + containerRect.height) / 2;
+            const scale = CONFIG.dragToVelocityRatio * avg;
+            let vx = dx0 * scale, vy = dy0 * scale;
+            const speed = Math.hypot(vx, vy);
+            if (speed > CONFIG.maxSpeed) {
+              const f = CONFIG.maxSpeed / speed;
+              vx *= f;
+              vy *= f;
+            }
+
+            const launchAngle = (Math.atan2(vy, vx) * 180) / Math.PI;
+            gsap.set(rocket, { rotation: launchAngle + 90 });
+            gsap.to(pull, { x: 0, y: 0, rotate: 0, ...CONFIG.pullReset });
+            gsap.set(rocket, { x: 0, y: 0, opacity: 1 });
+            isFlying = true;
+
+            rocketTween = gsap.to(rocket, {
+              inertia: { x: { velocity: vx }, y: { velocity: vy }, resistance: CONFIG.inertiaResistance },
+              onUpdate: onRocketUpdate,
+              onComplete: () => {
+                isFlying = false;
+                gsap.to(rocket, { opacity: 0, duration: CONFIG.rocketFadeOut.duration });
+              },
+            });
+          },
+        });
+      }
+
+      window.addEventListener("load", () => {
+        gsap.registerPlugin(Draggable, InertiaPlugin, Physics2DPlugin);
+        setTimeout(init404Minigame, 500);
+      });
+    </script>
+  </body>
+</html>

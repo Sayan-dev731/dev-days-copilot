@@ -1,906 +1,924 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GitHub Copilot Dev Days - Bhilai</title>
-  
-  <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  
-  <!-- GSAP & ScrollTrigger -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GitHub Copilot Dev Days - Bhilai</title>
 
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Configuration & Custom CSS -->
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Mona Sans"', 'sans-serif'],
-            mono: ['"Mona Sans Mono"', 'monospace'],
-          },
-          colors: {
-            // Official GitHub 2026 Brand Palette
-            ghGray9: '#121613',
-            ghGray8: '#353D37',
-            ghGray4: '#B6BFB8',
-            ghGreen4: '#0FBF3E',
-            ghGreen5: '#088728',
-            ghCopilotPurple: '#8534F3',
-            ghSecurityBlue: '#3094FF',
-          }
-        }
-      }
-    }
-  </script>
+        <!-- GSAP & ScrollTrigger -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-  <style>
-    /* GitHub Mona Sans Font Implementation */
-    @font-face {
-      font-family: 'Mona Sans';
-      src: url('https://hub.githubassets.com/assets/Mona-Sans.woff2') format('woff2');
-      font-weight: 200 900;
-      font-stretch: 75 125;
-      font-display: swap;
-    }
-    @font-face {
-      font-family: 'Mona Sans Mono';
-      src: url('https://hub.githubassets.com/assets/Mona-Sans-Mono.woff2') format('woff2');
-      font-weight: 200 900;
-      font-display: swap;
-    }
+        <!-- Lucide Icons -->
+        <script src="https://unpkg.com/lucide@latest"></script>
 
-    body {
-      background-color: #0d1117;
-      color: #ffffff;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    /* Fixed Floating Background - Semantic Search Visual */
-    #fixed-bg {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
-      background-color: #0d1117;
-      overflow: hidden;
-    }
-
-    /* GitHub 2026 Dithering Texture Overlay */
-    .bg-dither {
-      background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-      background-size: 4px 4px;
-      opacity: 0.8;
-    }
-
-    /* Contribution Graph Pattern */
-    .bg-contrib-graph {
-      background-image: 
-        linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
-    }
-
-    .contrib-cell {
-      width: 23px;
-      height: 23px;
-      border-radius: 4px;
-      background-color: #161b22;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      cursor: pointer;
-    }
-    .contrib-cell:hover { transform: scale(1.15); box-shadow: 0 0 10px rgba(15, 191, 62, 0.4); }
-    .contrib-cell.lvl-1 { background-color: #0e4429; }
-    .contrib-cell.lvl-2 { background-color: #006d32; }
-    .contrib-cell.lvl-3 { background-color: #26a641; }
-    .contrib-cell.lvl-4 { background-color: #39d353; }
-    .contrib-cell.purple { background-color: #8534F3; } 
-
-    /* Typography Classes (Based on Guidelines) */
-    .text-display { font-size: clamp(2.5rem, 8vw, 6.5rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 700; }
-    .text-h1 { font-size: clamp(2.2rem, 5vw, 4.5rem); line-height: 1.1; letter-spacing: -0.02em; font-weight: 700; }
-    .text-h2 { font-size: clamp(1.8rem, 3.5vw, 2.375rem); line-height: 1.2; letter-spacing: -0.01em; font-weight: 600; }
-    .text-body-xl { font-size: clamp(1.125rem, 2vw, 1.5rem); line-height: 1.5; font-weight: 500; }
-    .text-body-lg { font-size: 1.0625rem; line-height: 1.6; color: #B6BFB8; }
-    
-    /* Layout Details */
-    .border-default { border: 2px solid #353D37; }
-    .border-subtle { border: 1px solid #353D37; }
-    .border-accent { border-left: 4px solid #0FBF3E; }
-    .border-accent-purple { border-left: 4px solid #8534F3; }
-
-    /* --- PREMIUM BRACKET BUTTON --- */
-    .bracket-btn {
-      position: relative;
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      padding: 16px 32px;
-      font-family: 'Mona Sans Mono', monospace;
-      font-size: 14px;
-      font-weight: 600;
-      color: #ffffff;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.03);
-      backdrop-filter: blur(4px);
-      transition: all 0.3s ease;
-    }
-    
-    @media (min-width: 768px) {
-      .bracket-btn { padding: 18px 40px; font-size: 15px; }
-    }
-
-    .bracket-btn:hover { 
-      background: rgba(255, 255, 255, 0.08); 
-      text-shadow: 0 0 10px rgba(255,255,255,0.3);
-    }
-
-    .bracket-corner {
-      position: absolute;
-      width: 10px; 
-      height: 10px;
-      border-color: rgba(255, 255, 255, 0.7);
-      border-style: solid;
-      transition: all 0.3s ease;
-    }
-
-    .bracket-btn:hover .bracket-corner { 
-      border-color: #ffffff; 
-      width: 14px; 
-      height: 14px; 
-      box-shadow: inset 0 0 8px rgba(255,255,255,0.2);
-    }
-
-    .corner-tl { top: 0; left: 0; border-width: 2px 0 0 2px; }
-    .corner-tr { top: 0; right: 0; border-width: 2px 2px 0 0; }
-    .corner-bl { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
-    .corner-br { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
-
-    .btn-outline {
-      background-color: transparent;
-      color: #ffffff;
-      border: 2px solid #353D37;
-      padding: 14px 28px;
-      font-family: 'Mona Sans Mono', monospace;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-      font-weight: 600;
-      border-radius: 2px;
-      transition: all 0.2s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
-    @media (min-width: 768px) {
-      .btn-outline { padding: 16px 32px; }
-    }
-    .btn-outline:hover { border-color: #B6BFB8; }
-
-    /* SVG Pathway Animation */
-    @keyframes dash { to { stroke-dashoffset: -1000; } }
-    .path-glow { stroke-dasharray: 10 20; animation: dash 30s linear infinite; }
-
-    /* Preloader Styles */
-    #preloader {
-      position: fixed; inset: 0; z-index: 9999;
-      background: #0d1117; display: flex; flex-direction: column;
-      justify-content: flex-end; padding: 2rem;
-    }
-    @media (min-width: 768px) {
-      #preloader { padding: 4rem; }
-    }
-    .preloader-log { 
-      font-family: 'Mona Sans Mono', monospace; 
-      font-size: 12px; color: #B6BFB8; 
-      margin-bottom: 8px; 
-      opacity: 0; 
-      transform: translateY(10px); 
-    }
-    @media (min-width: 768px) {
-      .preloader-log { font-size: 14px; }
-    }
-    .cursor-blink { animation: blink 1s step-end infinite; }
-    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: #0d1117; border-left: 1px solid #353D37; }
-    ::-webkit-scrollbar-thumb { background: #353D37; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #B6BFB8; }
-    
-    /* Interactive icon hover */
-    .icon-bounce { transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .group:hover .icon-bounce { transform: translateY(-4px) scale(1.1); color: var(--ghGreen4); }
-  </style>
-</head>
-<body class="antialiased overflow-hidden" id="body">
-
-  <!-- 0. TERMINAL PRELOADER -->
-  <div id="preloader">
-    <div id="preloader-content" class="max-w-2xl"></div>
-    <div class="w-3 h-5 bg-white mt-2 cursor-blink" id="preloader-cursor"></div>
-  </div>
-
-  <!-- 1. FIXED FLOATING BACKGROUND (Data Pathways & Dither) -->
-  <div id="fixed-bg">
-    <!-- Dithering Overlay -->
-    <div class="absolute inset-0 bg-dither z-10"></div>
-    
-    <!-- Deep Gradient Fade -->
-    <div class="absolute inset-0 bg-gradient-to-br from-ghGray9/80 via-ghGray9 to-[#050505] z-0"></div>
-
-    <!-- Data Flow SVG -->
-    <div class="absolute inset-0 z-0 opacity-60">
-      <svg class="w-full h-full" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1440 800">
-        <defs>
-          <filter id="glow-heavy" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="20" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
-          <linearGradient id="pathGradPurple" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#121613" stop-opacity="0" />
-            <stop offset="50%" stop-color="#8534F3" stop-opacity="0.8" />
-            <stop offset="100%" stop-color="#121613" stop-opacity="0" />
-          </linearGradient>
-          <linearGradient id="pathGradGreen" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stop-color="#121613" stop-opacity="0" />
-            <stop offset="50%" stop-color="#0FBF3E" stop-opacity="0.8" />
-            <stop offset="100%" stop-color="#121613" stop-opacity="0" />
-          </linearGradient>
-        </defs>
-
-        <!-- Semantic Pathways -->
-        <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <!-- Main Trunk -->
-          <path d="M -100 550 C 300 550, 400 350, 800 350 C 1100 350, 1200 200, 1600 200" stroke="url(#pathGradPurple)" stroke-width="24" filter="url(#glow-heavy)" />
-          <path d="M -100 550 C 300 550, 400 350, 800 350 C 1100 350, 1200 200, 1600 200" stroke="#8534F3" stroke-width="2" class="path-glow" />
-          
-          <!-- Branch 1 (Green) -->
-          <path d="M -100 650 C 200 650, 300 500, 700 500 C 900 500, 1000 650, 1500 650" stroke="url(#pathGradGreen)" stroke-width="16" filter="url(#glow-heavy)" />
-          <path d="M -100 650 C 200 650, 300 500, 700 500 C 900 500, 1000 650, 1500 650" stroke="#0FBF3E" stroke-width="2" opacity="0.5" />
-          
-          <!-- Branch 2 (Purple) -->
-          <path d="M 200 850 C 400 850, 500 600, 900 600 C 1100 600, 1200 450, 1600 450" stroke="url(#pathGradPurple)" stroke-width="20" filter="url(#glow-heavy)" />
-          <path d="M 200 850 C 400 850, 500 600, 900 600 C 1100 600, 1200 450, 1600 450" stroke="#8534F3" stroke-width="1" class="path-glow" style="animation-duration: 20s;" />
-        </g>
-
-        <!-- Tech Readouts -->
-        <g class="font-mono text-[10px]" fill="#B6BFB8" opacity="0.6">
-          <text x="820" y="320" class="hidden md:block">DATA PACK #Z09H8C24</text>
-          <text x="320" y="620">ANSWER #HB7893</text>
-          <text x="1050" y="640" class="hidden md:block">REQUEST #ZX2985</text>
-        </g>
-      </svg>
-    </div>
-  </div>
-
-  <!-- 2. SCROLLING CONTENT WRAPPER -->
-  <div class="relative z-10">
-    
-    <!-- Navbar -->
-    <nav class="fixed top-0 w-full z-50 bg-ghGray9/80 backdrop-blur-md border-b border-ghGray8 transition-transform duration-300" id="navbar">
-      <div class="max-w-[1400px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between">
-        <div class="flex items-center gap-3 md:gap-4">
-          <i data-lucide="github" class="w-6 h-6 md:w-8 md:h-8 text-white"></i>
-          <span class="font-bold text-lg md:text-xl tracking-tight">GitHub Copilot</span>
-          <span class="px-2 py-0.5 border border-ghGray8 rounded text-[9px] md:text-[10px] font-mono text-ghGray4 hidden sm:block">Dev Days 2026</span>
-        </div>
-        <div class="flex items-center gap-6 font-mono text-sm text-ghGray4">
-          <a href="#agenda" class="hover:text-white transition-colors hidden lg:block">AGENDA</a>
-          <a href="#hackathon" class="hover:text-ghGreen4 transition-colors hidden lg:block">HACKATHON</a>
-          <a href="#ideation" class="hover:text-ghCopilotPurple transition-colors hidden lg:block">IDEATION LAB</a>
-          <button class="lg:hidden text-white"><i data-lucide="menu" class="w-6 h-6"></i></button>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Hero Section -->
-    <section class="min-h-[90vh] md:min-h-screen flex flex-col justify-center pt-24 pb-12 px-4 md:px-6">
-      <div class="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center gs-hero">
-        
-        <div class="lg:col-span-8 flex flex-col justify-center opacity-0" id="hero-main">
-          <div class="font-mono text-xs md:text-sm text-ghGreen4 tracking-widest uppercase mb-4 md:mb-6 flex items-center gap-3">
-            <span class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"></span> Bhilai
-          </div>
-          
-          <h1 class="text-display mb-4 md:mb-6">
-            GitHub Copilot <br/>
-            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-ghGray4 to-[#666]">Dev Days</span>
-          </h1>
-
-          <div class="max-w-2xl text-body-xl text-ghGray4 mb-8 md:mb-10 border-accent pl-4 md:pl-6 text-sm md:text-lg">
-            11th April, 2026, 10:00 IST<br/>
-            <span class="text-white">Rungta International Skills University</span>
-          </div>
-
-          <p class="text-body-lg max-w-xl mb-10 md:mb-12 text-sm md:text-base">
-            Connect your data once. GitHub indexes, packages, and distributes it so semantic AI assistance runs where intelligence happens.
-          </p>
-
-          <div class="flex flex-wrap gap-4 md:gap-6 items-center">
-            <!-- Premium Bracket Button -->
-            <button class="bracket-btn" id="get-started-btn">
-              <div class="bracket-corner corner-tl"></div>
-              <div class="bracket-corner corner-tr"></div>
-              <div class="bracket-corner corner-bl"></div>
-              <div class="bracket-corner corner-br"></div>
-              GET STARTED <i data-lucide="arrow-right" class="w-4 h-4 md:w-5 md:h-5"></i>
-            </button>
-            <button class="btn-outline text-xs md:text-sm">
-              VIEW TELEMETRY
-            </button>
-          </div>
+        <!-- Configuration & Custom CSS -->
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['"Mona Sans"', "sans-serif"],
+                            mono: ['"Mona Sans Mono"', "monospace"],
+                        },
+                        colors: {
+                            // Official GitHub 2026 Brand Palette
+                            ghGray9: "#121613",
+                            ghGray8: "#353D37",
+                            ghGray4: "#B6BFB8",
+                            ghGreen4: "#0FBF3E",
+                            ghGreen5: "#088728",
+                            ghCopilotPurple: "#8534F3",
+                            ghSecurityBlue: "#3094FF",
+                        },
+                    },
+                },
+            };
+        </script>
+        <link rel="stylesheet" href="../css/styles.css" />
+    </head>
+    <body class="antialiased overflow-hidden" id="body">
+        <!-- 0. TERMINAL PRELOADER -->
+        <div id="preloader">
+            <div id="preloader-content" class="max-w-2xl"></div>
+            <div
+                class="w-3 h-5 bg-white mt-2 cursor-blink"
+                id="preloader-cursor"
+            ></div>
         </div>
 
-        <!-- Floating Info Card (Microsoft/GitHub Co-Branding) -->
-        <div class="lg:col-span-4 hidden lg:block opacity-0" id="hero-card">
-          <div class="bg-[#121613]/80 backdrop-blur-xl p-8 border-subtle relative rounded-sm shadow-2xl hover:border-ghGray4 transition-colors">
-            <div class="text-body-lg text-white mb-6">
-              Get direct help from <span class="bg-ghGray8 px-1.5 rounded text-sm">Copilot Champions</span> and early builders.
-            </div>
-            
-            <div class="border-t border-ghGray8 pt-6">
-              <span class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest mb-4 block">Official Partners</span>
-              
-              <!-- CO-BRANDING LOCKUP -->
-              <div class="flex items-center gap-4 flex-wrap">
-                <!-- Microsoft SVG -->
-                <svg viewBox="0 0 23 23" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
-                  <path fill="#f35325" d="M0 0h11v11H0z"/><path fill="#81bc06" d="M12 0h11v11H12z"/><path fill="#05a6f0" d="M0 12h11v11H0z"/><path fill="#ffba08" d="M12 12h11v11H12z"/>
+        <!-- 1. FIXED FLOATING BACKGROUND (Data Pathways & Dither) -->
+        <div id="fixed-bg">
+            <!-- Dithering Overlay -->
+            <div class="absolute inset-0 bg-dither z-10"></div>
+
+            <!-- Deep Gradient Fade -->
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-ghGray9/80 via-ghGray9 to-[#050505] z-0"
+            ></div>
+
+            <!-- Data Flow SVG -->
+            <div class="absolute inset-0 z-0 opacity-60">
+                <svg
+                    class="w-full h-full"
+                    preserveAspectRatio="xMidYMid slice"
+                    viewBox="0 0 1440 800"
+                >
+                    <defs>
+                        <filter
+                            id="glow-heavy"
+                            x="-50%"
+                            y="-50%"
+                            width="200%"
+                            height="200%"
+                        >
+                            <feGaussianBlur stdDeviation="20" result="blur" />
+                            <feComposite
+                                in="SourceGraphic"
+                                in2="blur"
+                                operator="over"
+                            />
+                        </filter>
+                        <linearGradient
+                            id="pathGradPurple"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#121613"
+                                stop-opacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stop-color="#8534F3"
+                                stop-opacity="0.8"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#121613"
+                                stop-opacity="0"
+                            />
+                        </linearGradient>
+                        <linearGradient
+                            id="pathGradGreen"
+                            x1="0%"
+                            y1="0%"
+                            x2="100%"
+                            y2="0%"
+                        >
+                            <stop
+                                offset="0%"
+                                stop-color="#121613"
+                                stop-opacity="0"
+                            />
+                            <stop
+                                offset="50%"
+                                stop-color="#0FBF3E"
+                                stop-opacity="0.8"
+                            />
+                            <stop
+                                offset="100%"
+                                stop-color="#121613"
+                                stop-opacity="0"
+                            />
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Semantic Pathways -->
+                    <g
+                        fill="none"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <!-- Main Trunk -->
+                        <path
+                            d="M -100 550 C 300 550, 400 350, 800 350 C 1100 350, 1200 200, 1600 200"
+                            stroke="url(#pathGradPurple)"
+                            stroke-width="24"
+                            filter="url(#glow-heavy)"
+                        />
+                        <path
+                            d="M -100 550 C 300 550, 400 350, 800 350 C 1100 350, 1200 200, 1600 200"
+                            stroke="#8534F3"
+                            stroke-width="2"
+                            class="path-glow"
+                        />
+
+                        <!-- Branch 1 (Green) -->
+                        <path
+                            d="M -100 650 C 200 650, 300 500, 700 500 C 900 500, 1000 650, 1500 650"
+                            stroke="url(#pathGradGreen)"
+                            stroke-width="16"
+                            filter="url(#glow-heavy)"
+                        />
+                        <path
+                            d="M -100 650 C 200 650, 300 500, 700 500 C 900 500, 1000 650, 1500 650"
+                            stroke="#0FBF3E"
+                            stroke-width="2"
+                            opacity="0.5"
+                        />
+
+                        <!-- Branch 2 (Purple) -->
+                        <path
+                            d="M 200 850 C 400 850, 500 600, 900 600 C 1100 600, 1200 450, 1600 450"
+                            stroke="url(#pathGradPurple)"
+                            stroke-width="20"
+                            filter="url(#glow-heavy)"
+                        />
+                        <path
+                            d="M 200 850 C 400 850, 500 600, 900 600 C 1100 600, 1200 450, 1600 450"
+                            stroke="#8534F3"
+                            stroke-width="1"
+                            class="path-glow"
+                            style="animation-duration: 20s"
+                        />
+                    </g>
+
+                    <!-- Tech Readouts -->
+                    <g
+                        class="font-mono text-[10px]"
+                        fill="#B6BFB8"
+                        opacity="0.6"
+                    >
+                        <text x="820" y="320" class="hidden md:block">
+                            DATA PACK #Z09H8C24
+                        </text>
+                        <text x="320" y="620">ANSWER #HB7893</text>
+                        <text x="1050" y="640" class="hidden md:block">
+                            REQUEST #ZX2985
+                        </text>
+                    </g>
                 </svg>
-                <span class="text-ghGray4 font-mono">+</span>
-                <!-- GitHub -->
-                <i data-lucide="github" class="w-7 h-7 text-white"></i>
-              </div>
             </div>
-          </div>
         </div>
 
-      </div>
-    </section>
+        <!-- 2. SCROLLING CONTENT WRAPPER -->
+        <div class="relative z-10">
+            <!-- Navbar -->
+            <nav
+                class="fixed top-0 w-full z-50 bg-ghGray9/80 backdrop-blur-md border-b border-ghGray8 transition-transform duration-300"
+                id="navbar"
+            >
+                <div
+                    class="max-w-[1400px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between"
+                >
+                    <div class="flex items-center gap-3 md:gap-4">
+                        <i
+                            data-lucide="github"
+                            class="w-6 h-6 md:w-8 md:h-8 text-white"
+                        ></i>
+                        <span
+                            class="font-bold text-lg md:text-xl tracking-tight"
+                            >GitHub Copilot</span
+                        >
+                        <span
+                            class="px-2 py-0.5 border border-ghGray8 rounded text-[9px] md:text-[10px] font-mono text-ghGray4 hidden sm:block"
+                            >Dev Days 2026</span
+                        >
+                    </div>
+                    <div
+                        class="flex items-center gap-6 font-mono text-sm text-ghGray4"
+                    >
+                        <a
+                            href="#agenda"
+                            class="hover:text-white transition-colors hidden lg:block"
+                            >AGENDA</a
+                        >
+                        <a
+                            href="#hackathon"
+                            class="hover:text-ghGreen4 transition-colors hidden lg:block"
+                            >HACKATHON</a
+                        >
+                        <a
+                            href="#ideation"
+                            class="hover:text-ghCopilotPurple transition-colors hidden lg:block"
+                            >IDEATION LAB</a
+                        >
+                        <button class="lg:hidden text-white">
+                            <i data-lucide="menu" class="w-6 h-6"></i>
+                        </button>
+                    </div>
+                </div>
+            </nav>
 
-    <!-- Sponsor Bar -->
-    <div class="border-y border-ghGray8 bg-ghGray9/80 backdrop-blur-sm py-6 md:py-8 relative z-20 gs-sponsors opacity-0" id="hero-sponsors">
-      <div class="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-start md:justify-between overflow-x-auto gap-10 md:gap-12 no-scrollbar">
-         
-         <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"><i data-lucide="github" class="w-6 h-6"></i> <span class="font-bold text-lg">GitHub</span></div>
-         
-         <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap">
-           <svg viewBox="0 0 23 23" width="20" height="20" xmlns="http://www.w3.org/2000/svg"><path fill="#f35325" d="M0 0h11v11H0z"/><path fill="#81bc06" d="M12 0h11v11H12z"/><path fill="#05a6f0" d="M0 12h11v11H0z"/><path fill="#ffba08" d="M12 12h11v11H12z"/></svg>
-           <span class="font-bold text-lg">Microsoft</span>
-         </div>
+            <!-- Hero Section -->
+            <section
+                class="min-h-[90vh] md:min-h-screen flex flex-col justify-center pt-24 pb-12 px-4 md:px-6"
+            >
+                <div
+                    class="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center gs-hero"
+                >
+                    <div
+                        class="lg:col-span-8 flex flex-col justify-center opacity-0"
+                        id="hero-main"
+                    >
+                        <div
+                            class="font-mono text-xs md:text-sm text-ghGreen4 tracking-widest uppercase mb-4 md:mb-6 flex items-center gap-3"
+                        >
+                            <span
+                                class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"
+                            ></span>
+                            Bhilai
+                        </div>
 
-         <!-- Updated Azure Logo to closely match reference image f7716c.png -->
-         <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap">
-           <svg viewBox="0 0 24 24" width="24" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
-             <path d="M5.483 21.3H.431L10.363 2.7h3.274z" fill="#0078D4"/>
-             <path d="M13.637 2.7l-4.93 9.382 5.05 8.444h5.051z" fill="#50E6FF"/>
-             <path d="M23.569 21.3l-5.18-8.444-3.03 5.344 3.16 3.1z" fill="#005BA1"/>
-           </svg>
-           <span class="font-bold text-lg">Azure</span>
-         </div>
+                        <h1 class="text-display mb-4 md:mb-6">
+                            GitHub Copilot <br />
+                            <span
+                                class="text-transparent bg-clip-text bg-gradient-to-r from-white via-ghGray4 to-[#666]"
+                                >Dev Days</span
+                            >
+                        </h1>
 
-         <!-- MLH Logo -->
-         <div class="opacity-60 hover:opacity-100 transition-opacity flex flex-col items-center justify-center whitespace-nowrap">
-            <div class="flex items-end gap-1 h-[20px] md:h-[24px]">
-              <svg width="24" height="20" md:width="30" md:height="24" viewBox="0 0 40 32" fill="#E53935" xmlns="http://www.w3.org/2000/svg"><path d="M0 8C0 3.58 3.58 0 8 0H32C36.42 0 40 3.58 40 8V32H28V12H24V32H16V12H12V32H0V8Z"/></svg>
-              <svg width="18" height="20" md:width="24" md:height="24" viewBox="0 0 32 32" fill="#1E52A8" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H12V20H32V32H0V0Z"/></svg>
-              <svg width="24" height="20" md:width="30" md:height="24" viewBox="0 0 40 32" fill="#FBC02D" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H12V10H28V0H40V32H28V22H12V32H0V0Z"/></svg>
+                        <div
+                            class="max-w-2xl text-body-xl text-ghGray4 mb-8 md:mb-10 border-accent pl-4 md:pl-6 text-sm md:text-lg"
+                        >
+                            11th April, 2026, 10:00 IST<br />
+                            <span class="text-white"
+                                >Rungta International Skills University</span
+                            >
+                        </div>
+
+                        <p
+                            class="text-body-lg max-w-xl mb-10 md:mb-12 text-sm md:text-base"
+                        >
+                            Connect your data once. GitHub indexes, packages,
+                            and distributes it so semantic AI assistance runs
+                            where intelligence happens.
+                        </p>
+
+                        <div class="flex flex-wrap gap-4 md:gap-6 items-center">
+                            <!-- Premium Bracket Button -->
+                            <button class="bracket-btn" id="get-started-btn">
+                                <div class="bracket-corner corner-tl"></div>
+                                <div class="bracket-corner corner-tr"></div>
+                                <div class="bracket-corner corner-bl"></div>
+                                <div class="bracket-corner corner-br"></div>
+                                GET STARTED
+                                <i
+                                    data-lucide="arrow-right"
+                                    class="w-4 h-4 md:w-5 md:h-5"
+                                ></i>
+                            </button>
+                            <button class="btn-outline text-xs md:text-sm">
+                                VIEW TELEMETRY
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Floating Info Card (Microsoft/GitHub Co-Branding) -->
+                    <div
+                        class="lg:col-span-4 hidden lg:block opacity-0"
+                        id="hero-card"
+                    >
+                        <div
+                            class="bg-[#121613]/80 backdrop-blur-xl p-8 border-subtle relative rounded-sm shadow-2xl hover:border-ghGray4 transition-colors"
+                        >
+                            <div class="text-body-lg text-white mb-6">
+                                Get direct help from
+                                <span class="bg-ghGray8 px-1.5 rounded text-sm"
+                                    >Copilot Champions</span
+                                >
+                                and early builders.
+                            </div>
+
+                            <div class="border-t border-ghGray8 pt-6">
+                                <span
+                                    class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest mb-4 block"
+                                    >Official Partners</span
+                                >
+
+                                <!-- CO-BRANDING LOCKUP -->
+                                <div class="flex items-center gap-4 flex-wrap">
+                                    <!-- Microsoft SVG -->
+                                    <svg
+                                        viewBox="0 0 23 23"
+                                        width="24"
+                                        height="24"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            fill="#f35325"
+                                            d="M0 0h11v11H0z"
+                                        />
+                                        <path
+                                            fill="#81bc06"
+                                            d="M12 0h11v11H12z"
+                                        />
+                                        <path
+                                            fill="#05a6f0"
+                                            d="M0 12h11v11H0z"
+                                        />
+                                        <path
+                                            fill="#ffba08"
+                                            d="M12 12h11v11H12z"
+                                        />
+                                    </svg>
+                                    <span class="text-ghGray4 font-mono"
+                                        >+</span
+                                    >
+                                    <!-- GitHub -->
+                                    <i
+                                        data-lucide="github"
+                                        class="w-7 h-7 text-white"
+                                    ></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sponsor Bar -->
+            <div
+                class="border-y border-ghGray8 bg-ghGray9/80 backdrop-blur-sm py-6 md:py-8 relative z-20 gs-sponsors opacity-0"
+                id="hero-sponsors"
+            >
+                <div
+                    class="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-start md:justify-between overflow-x-auto gap-10 md:gap-12 no-scrollbar"
+                >
+                    <div
+                        class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
+                    >
+                        <i data-lucide="github" class="w-6 h-6"></i>
+                        <span class="font-bold text-lg">GitHub</span>
+                    </div>
+
+                    <div
+                        class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
+                    >
+                        <svg
+                            viewBox="0 0 23 23"
+                            width="20"
+                            height="20"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path fill="#f35325" d="M0 0h11v11H0z" />
+                            <path fill="#81bc06" d="M12 0h11v11H12z" />
+                            <path fill="#05a6f0" d="M0 12h11v11H0z" />
+                            <path fill="#ffba08" d="M12 12h11v11H12z" />
+                        </svg>
+                        <span class="font-bold text-lg">Microsoft</span>
+                    </div>
+
+                    <!-- Updated Azure Logo to closely match reference image f7716c.png -->
+                    <div
+                        class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
+                    >
+                        <svg
+                            viewBox="0 0 24 24"
+                            width="24"
+                            height="24"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                d="M5.483 21.3H.431L10.363 2.7h3.274z"
+                                fill="#0078D4"
+                            />
+                            <path
+                                d="M13.637 2.7l-4.93 9.382 5.05 8.444h5.051z"
+                                fill="#50E6FF"
+                            />
+                            <path
+                                d="M23.569 21.3l-5.18-8.444-3.03 5.344 3.16 3.1z"
+                                fill="#005BA1"
+                            />
+                        </svg>
+                        <span class="font-bold text-lg">Azure</span>
+                    </div>
+
+                    <!-- MLH Logo -->
+                    <div
+                        class="opacity-60 hover:opacity-100 transition-opacity flex flex-col items-center justify-center whitespace-nowrap"
+                    >
+                        <div class="flex items-end gap-1 h-[20px] md:h-[24px]">
+                            <svg
+                                width="24"
+                                height="20"
+                                md:width="30"
+                                md:height="24"
+                                viewBox="0 0 40 32"
+                                fill="#E53935"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M0 8C0 3.58 3.58 0 8 0H32C36.42 0 40 3.58 40 8V32H28V12H24V32H16V12H12V32H0V8Z"
+                                />
+                            </svg>
+                            <svg
+                                width="18"
+                                height="20"
+                                md:width="24"
+                                md:height="24"
+                                viewBox="0 0 32 32"
+                                fill="#1E52A8"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path d="M0 0H12V20H32V32H0V0Z" />
+                            </svg>
+                            <svg
+                                width="24"
+                                height="20"
+                                md:width="30"
+                                md:height="24"
+                                viewBox="0 0 40 32"
+                                fill="#FBC02D"
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
+                                <path
+                                    d="M0 0H12V10H28V0H40V32H28V22H12V32H0V0Z"
+                                />
+                            </svg>
+                        </div>
+                        <span
+                            class="font-mono text-[5px] md:text-[6px] tracking-[0.2em] font-bold mt-1 uppercase text-white"
+                            >Major League Hacking</span
+                        >
+                    </div>
+                </div>
             </div>
-            <span class="font-mono text-[5px] md:text-[6px] tracking-[0.2em] font-bold mt-1 uppercase text-white">Major League Hacking</span>
-         </div>
-      </div>
-    </div>
 
-    <!-- Agenda Section -->
-    <section id="agenda" class="py-20 md:py-32 px-4 md:px-6">
-      <div class="max-w-[1400px] mx-auto gs-agenda">
-        
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16">
-          <div class="lg:col-span-8">
-            <span class="font-mono text-xs text-ghGray4 uppercase tracking-widest block mb-4">Timeline / Schedule</span>
-            <h2 class="text-h1 mb-4 md:mb-6">Execution Timeline</h2>
-            <p class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base">A meticulously structured sequence of operations designed to elevate your workflow from standard to semantic.</p>
-          </div>
+            <!-- Agenda Section -->
+            <section id="agenda" class="py-20 md:py-32 px-4 md:px-6">
+                <div class="max-w-[1400px] mx-auto gs-agenda">
+                    <div
+                        class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16"
+                    >
+                        <div class="lg:col-span-8">
+                            <span
+                                class="font-mono text-xs text-ghGray4 uppercase tracking-widest block mb-4"
+                                >Timeline / Schedule</span
+                            >
+                            <h2 class="text-h1 mb-4 md:mb-6">
+                                Execution Timeline
+                            </h2>
+                            <p
+                                class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base"
+                            >
+                                A meticulously structured sequence of operations
+                                designed to elevate your workflow from standard
+                                to semantic.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div
+                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
+                        id="agenda-grid"
+                    >
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- Hackathon Section (Matched exactly to f7c3a6.jpg) -->
+            <section
+                id="hackathon"
+                class="py-24 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8 relative overflow-hidden"
+            >
+                <!-- Background Contrib Graph -->
+                <div
+                    class="absolute inset-0 bg-contrib-graph opacity-[0.15] z-0"
+                ></div>
+
+                <div
+                    class="max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center gs-hackathon"
+                >
+                    <!-- Left Content -->
+                    <div>
+                        <!-- "Launching April 13th" Badge -->
+                        <div
+                            class="border border-ghGreen4 text-ghGreen4 text-[10px] md:text-xs uppercase px-2 py-1 md:px-3 md:py-1.5 rounded-sm inline-flex items-center gap-2 font-mono mb-6 tracking-widest bg-ghGreen4/5 backdrop-blur-sm"
+                        >
+                            <span
+                                class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-ghGreen4 animate-pulse shadow-[0_0_8px_rgba(15,191,62,0.8)]"
+                            ></span>
+                            LAUNCHING APRIL 13TH
+                        </div>
+
+                        <!-- Headline -->
+                        <h2 class="text-h1 mb-6 text-white">
+                            The Official <br />
+                            <span class="text-ghGray4">MLH Hackathon</span>
+                        </h2>
+
+                        <!-- Description -->
+                        <p
+                            class="text-body-lg mb-8 md:mb-10 max-w-lg border-accent pl-4 text-sm md:text-base text-ghGray4"
+                        >
+                            Post-Dev Days, put your newly acquired semantic
+                            search and Copilot skills to the test. Join
+                            developers globally to build, break, and innovate.
+                        </p>
+
+                        <!-- Checkmark List -->
+                        <ul
+                            class="space-y-4 mb-10 md:mb-12 font-mono text-xs md:text-sm text-ghGray4"
+                        >
+                            <li class="flex items-center gap-3">
+                                <i
+                                    data-lucide="check-circle-2"
+                                    class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"
+                                ></i>
+                                Build AI-first applications
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i
+                                    data-lucide="check-circle-2"
+                                    class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"
+                                ></i>
+                                Access Copilot Agent Mode
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i
+                                    data-lucide="check-circle-2"
+                                    class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"
+                                ></i>
+                                Win swag & global MLH points
+                            </li>
+                        </ul>
+
+                        <!-- Bracket Button -->
+                        <button
+                            class="bracket-btn"
+                            id="hackathon-register-btn"
+                            style="
+                                padding: 12px 24px;
+                                font-size: 12px;
+                                background: transparent;
+                            "
+                        >
+                            <div class="bracket-corner corner-tl"></div>
+                            <div class="bracket-corner corner-tr"></div>
+                            <div class="bracket-corner corner-bl"></div>
+                            <div class="bracket-corner corner-br"></div>
+                            REGISTER NOW
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <!-- Right Visual: Copilot Output Terminal over Interactive Grid -->
+                    <div
+                        class="relative h-[300px] md:h-[400px] flex items-center justify-center"
+                    >
+                        <!-- Interactive Contribution Graph Base -->
+                        <div
+                            class="grid grid-cols-5 md:grid-cols-6 gap-2 rotate-[-5deg] scale-100 md:scale-110 opacity-60 z-0"
+                            id="interactive-grid"
+                        >
+                            <!-- Cells generated via JS to allow clicking/interactions -->
+                        </div>
+
+                        <!-- Copilot Terminal (Matching screenshot) -->
+                        <div
+                            class="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
+                        >
+                            <div
+                                class="bg-[#0d1117] border border-[#30363d] p-5 md:p-8 rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-[90%] md:w-[450px]"
+                            >
+                                <div
+                                    class="flex items-center gap-3 mb-4 border-b border-borderDefault pb-4"
+                                >
+                                    <i
+                                        data-lucide="terminal"
+                                        class="w-4 h-4 md:w-5 md:h-5 text-ghCopilotPurple"
+                                    ></i>
+                                    <span
+                                        class="font-mono text-[10px] md:text-xs text-white tracking-widest"
+                                        >Copilot Output</span
+                                    >
+                                </div>
+                                <div
+                                    class="font-mono text-[10px] md:text-xs text-ghGray4 leading-[2.5]"
+                                    id="terminal-typewriter"
+                                >
+                                    <!-- Typing animation injected here -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Ideation Lab (Gemini Integration) - Copilot Theme -->
+            <section id="ideation" class="py-24 md:py-32 px-4 md:px-6">
+                <div class="max-w-[1000px] mx-auto gs-ideation">
+                    <div class="text-center mb-12 md:mb-16">
+                        <span
+                            class="font-mono text-[10px] md:text-xs text-ghCopilotPurple uppercase tracking-widest block mb-3 md:mb-4"
+                            >Interactive Demo</span
+                        >
+                        <h2 class="text-h2 md:text-h1 mb-4">
+                            Agentic Ideation Core
+                        </h2>
+                        <p
+                            class="text-body-lg max-w-2xl mx-auto text-sm md:text-base"
+                        >
+                            Input operational constraints to generate semantic
+                            project architectures powered by advanced LLMs.
+                        </p>
+                    </div>
+
+                    <div
+                        class="bg-[#121613]/90 backdrop-blur-xl border border-ghGray8 shadow-2xl rounded-sm"
+                    >
+                        <div
+                            class="bg-[#050505] border-b border-ghGray8 px-4 md:px-6 py-4 flex items-center gap-3"
+                        >
+                            <i
+                                data-lucide="cpu"
+                                class="w-4 h-4 text-ghCopilotPurple"
+                            ></i>
+                            <span
+                                class="text-[10px] md:text-xs font-mono text-white tracking-widest"
+                                >SYS.ARCHITECT.MODULE</span
+                            >
+                        </div>
+
+                        <div class="p-6 md:p-8 font-mono">
+                            <div
+                                class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8"
+                            >
+                                <div class="flex flex-col gap-2">
+                                    <label
+                                        class="text-[10px] text-ghGray4 uppercase tracking-widest"
+                                        >VAR_STACK =</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="input-stack"
+                                        placeholder="e.g. React, Node.js, Firebase"
+                                        class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full"
+                                    />
+                                </div>
+                                <div class="flex flex-col gap-2">
+                                    <label
+                                        class="text-[10px] text-ghGray4 uppercase tracking-widest"
+                                        >VAR_THEME =</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="input-theme"
+                                        placeholder="e.g. Fintech, Healthcare, DevTools"
+                                        class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full"
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                id="btn-generate"
+                                class="w-full bg-[#050505] border border-ghGray8 hover:border-ghCopilotPurple text-white py-4 text-xs md:text-sm flex items-center justify-center gap-3 transition-colors rounded-sm mb-8 group"
+                            >
+                                <i
+                                    data-lucide="zap"
+                                    class="w-4 h-4 text-ghCopilotPurple group-hover:scale-110 transition-transform"
+                                    id="icon-idle"
+                                ></i>
+                                <i
+                                    data-lucide="loader-2"
+                                    class="w-4 h-4 text-ghCopilotPurple animate-spin hidden"
+                                    id="icon-loading"
+                                ></i>
+                                <span id="btn-text" class="tracking-widest"
+                                    >GENERATE ARCHITECTURE</span
+                                >
+                            </button>
+
+                            <!-- Output Terminal -->
+                            <div
+                                class="bg-[#050505] border-accent-purple p-4 md:p-6 min-h-[200px] md:min-h-[250px] relative text-xs md:text-sm overflow-x-auto"
+                            >
+                                <div
+                                    id="output-error"
+                                    class="text-[#ff7b72] whitespace-pre-wrap hidden"
+                                ></div>
+                                <div
+                                    id="output-idle"
+                                    class="text-ghGray4 opacity-50"
+                                >
+                                    &gt; Awaiting execution parameters...
+                                </div>
+                                <div
+                                    id="output-result"
+                                    class="text-white leading-relaxed whitespace-pre-wrap hidden"
+                                ></div>
+                                <span
+                                    id="output-cursor"
+                                    class="inline-block w-2 h-4 bg-white ml-1 translate-y-1 cursor-blink hidden"
+                                ></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer -->
+            <footer
+                class="bg-[#050505] py-8 md:py-12 px-4 md:px-6 border-t border-ghGray8 text-ghGray4 font-mono text-[10px] md:text-xs"
+            >
+                <div
+                    class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left"
+                >
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <i
+                            data-lucide="github"
+                            class="w-6 h-6 text-white hover:text-ghGreen4 transition-colors cursor-pointer"
+                        ></i>
+                        <span>&copy; 2026 GitHub, Inc. Dev Days Bhilai</span>
+                    </div>
+                    <div
+                        class="flex flex-wrap justify-center md:justify-end gap-6 md:gap-8 uppercase tracking-widest"
+                    >
+                        <a href="#" class="hover:text-white transition-colors"
+                            >Privacy</a
+                        >
+                        <a href="#" class="hover:text-white transition-colors"
+                            >Terms</a
+                        >
+                        <a
+                            href="#"
+                            class="hover:text-ghGreen4 transition-colors"
+                            >MLH Standards</a
+                        >
+                    </div>
+                </div>
+            </footer>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="agenda-grid">
-          <!-- Populated by JS -->
-        </div>
+        <!-- 3. REGISTRATION MODAL (Popup) -->
+        <div
+            id="reg-modal"
+            class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0"
+        >
+            <div
+                class="absolute inset-0 bg-[#0d1117]/90 backdrop-blur-xl"
+                id="modal-bg"
+            ></div>
 
-      </div>
-    </section>
+            <div
+                class="relative z-10 w-full max-w-5xl px-4 md:px-6 opacity-0 max-h-screen overflow-y-auto"
+                id="modal-content"
+            >
+                <div
+                    class="flex justify-between items-center mb-6 md:mb-8 pt-8 md:pt-0"
+                >
+                    <div
+                        class="font-mono text-xs md:text-sm text-ghGray4 uppercase tracking-widest flex items-center gap-2"
+                    >
+                        <i
+                            data-lucide="terminal"
+                            class="w-4 h-4 text-white"
+                        ></i>
+                        Initialize Registration
+                    </div>
+                    <button
+                        id="close-modal"
+                        class="text-ghGray4 hover:text-white transition-colors p-2 rounded-full hover:bg-ghGray8/50"
+                    >
+                        <i data-lucide="x" class="w-6 h-6 md:w-8 md:h-8"></i>
+                    </button>
+                </div>
 
-    <!-- Hackathon Section (Matched exactly to f7c3a6.jpg) -->
-    <section id="hackathon" class="py-24 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8 relative overflow-hidden">
-      <!-- Background Contrib Graph -->
-      <div class="absolute inset-0 bg-contrib-graph opacity-[0.15] z-0"></div>
+                <div
+                    class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0"
+                >
+                    <!-- Path 1: Dev Days -->
+                    <a
+                        href="#"
+                        class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghGreen4 p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(15,191,62,0.15)]"
+                    >
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-ghGreen4 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+                        ></div>
+                        <div
+                            class="flex justify-between items-start mb-8 md:mb-12"
+                        >
+                            <div
+                                class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30 group-hover:scale-110 transition-transform"
+                            >
+                                <i
+                                    data-lucide="ticket"
+                                    class="w-6 h-6 md:w-8 md:h-8 text-ghGreen4"
+                                ></i>
+                            </div>
+                            <i
+                                data-lucide="arrow-up-right"
+                                class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"
+                            ></i>
+                        </div>
+                        <h3
+                            class="text-2xl md:text-3xl font-bold text-white mb-3"
+                        >
+                            Dev Days Ticket
+                        </h3>
+                        <p
+                            class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed"
+                        >
+                            Secure your spot for the in-person event at Rungta
+                            International Skills University. Learn AI-first
+                            development natively.
+                        </p>
+                        <div
+                            class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm"
+                        >
+                            SECURE TICKET
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    </a>
 
-      <div class="max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center gs-hackathon">
-        
-        <!-- Left Content -->
-        <div>
-          <!-- "Launching April 13th" Badge -->
-          <div class="border border-ghGreen4 text-ghGreen4 text-[10px] md:text-xs uppercase px-2 py-1 md:px-3 md:py-1.5 rounded-sm inline-flex items-center gap-2 font-mono mb-6 tracking-widest bg-ghGreen4/5 backdrop-blur-sm">
-            <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-ghGreen4 animate-pulse shadow-[0_0_8px_rgba(15,191,62,0.8)]"></span> LAUNCHING APRIL 13TH
-          </div>
-          
-          <!-- Headline -->
-          <h2 class="text-h1 mb-6 text-white">
-            The Official <br/>
-            <span class="text-ghGray4">MLH Hackathon</span>
-          </h2>
-          
-          <!-- Description -->
-          <p class="text-body-lg mb-8 md:mb-10 max-w-lg border-accent pl-4 text-sm md:text-base text-ghGray4">
-            Post-Dev Days, put your newly acquired semantic search and Copilot skills to the test. Join developers globally to build, break, and innovate.
-          </p>
-
-          <!-- Checkmark List -->
-          <ul class="space-y-4 mb-10 md:mb-12 font-mono text-xs md:text-sm text-ghGray4">
-            <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i> Build AI-first applications</li>
-            <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i> Access Copilot Agent Mode</li>
-            <li class="flex items-center gap-3"><i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i> Win swag & global MLH points</li>
-          </ul>
-
-          <!-- Bracket Button -->
-          <button class="bracket-btn" id="hackathon-register-btn" style="padding: 12px 24px; font-size: 12px; background: transparent;">
-            <div class="bracket-corner corner-tl"></div><div class="bracket-corner corner-tr"></div>
-            <div class="bracket-corner corner-bl"></div><div class="bracket-corner corner-br"></div>
-            REGISTER NOW <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Right Visual: Copilot Output Terminal over Interactive Grid -->
-        <div class="relative h-[300px] md:h-[400px] flex items-center justify-center">
-           
-           <!-- Interactive Contribution Graph Base -->
-           <div class="grid grid-cols-5 md:grid-cols-6 gap-2 rotate-[-5deg] scale-100 md:scale-110 opacity-60 z-0" id="interactive-grid">
-             <!-- Cells generated via JS to allow clicking/interactions -->
-           </div>
-           
-           <!-- Copilot Terminal (Matching screenshot) -->
-           <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
-             <div class="bg-[#0d1117] border border-[#30363d] p-5 md:p-8 rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-[90%] md:w-[450px]">
-               <div class="flex items-center gap-3 mb-4 border-b border-borderDefault pb-4">
-                 <i data-lucide="terminal" class="w-4 h-4 md:w-5 md:h-5 text-ghCopilotPurple"></i>
-                 <span class="font-mono text-[10px] md:text-xs text-white tracking-widest">Copilot Output</span>
-               </div>
-               <div class="font-mono text-[10px] md:text-xs text-ghGray4 leading-[2.5]" id="terminal-typewriter">
-                 <!-- Typing animation injected here -->
-               </div>
-             </div>
-           </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Ideation Lab (Gemini Integration) - Copilot Theme -->
-    <section id="ideation" class="py-24 md:py-32 px-4 md:px-6">
-      <div class="max-w-[1000px] mx-auto gs-ideation">
-        
-        <div class="text-center mb-12 md:mb-16">
-          <span class="font-mono text-[10px] md:text-xs text-ghCopilotPurple uppercase tracking-widest block mb-3 md:mb-4">Interactive Demo</span>
-          <h2 class="text-h2 md:text-h1 mb-4">Agentic Ideation Core</h2>
-          <p class="text-body-lg max-w-2xl mx-auto text-sm md:text-base">Input operational constraints to generate semantic project architectures powered by advanced LLMs.</p>
-        </div>
-
-        <div class="bg-[#121613]/90 backdrop-blur-xl border border-ghGray8 shadow-2xl rounded-sm">
-          
-          <div class="bg-[#050505] border-b border-ghGray8 px-4 md:px-6 py-4 flex items-center gap-3">
-            <i data-lucide="cpu" class="w-4 h-4 text-ghCopilotPurple"></i>
-            <span class="text-[10px] md:text-xs font-mono text-white tracking-widest">SYS.ARCHITECT.MODULE</span>
-          </div>
-
-          <div class="p-6 md:p-8 font-mono">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8">
-              <div class="flex flex-col gap-2">
-                <label class="text-[10px] text-ghGray4 uppercase tracking-widest">VAR_STACK =</label>
-                <input type="text" id="input-stack" placeholder="e.g. React, Node.js, Firebase" class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full" />
-              </div>
-              <div class="flex flex-col gap-2">
-                <label class="text-[10px] text-ghGray4 uppercase tracking-widest">VAR_THEME =</label>
-                <input type="text" id="input-theme" placeholder="e.g. Fintech, Healthcare, DevTools" class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full" />
-              </div>
+                    <!-- Path 2: Hackathon -->
+                    <a
+                        href="#"
+                        class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghCopilotPurple p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(133,52,243,0.15)]"
+                    >
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-ghCopilotPurple scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
+                        ></div>
+                        <div
+                            class="flex justify-between items-start mb-8 md:mb-12"
+                        >
+                            <div
+                                class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghCopilotPurple/10 flex items-center justify-center border border-ghCopilotPurple/30 group-hover:scale-110 transition-transform"
+                            >
+                                <i
+                                    data-lucide="code-2"
+                                    class="w-6 h-6 md:w-8 md:h-8 text-ghCopilotPurple"
+                                ></i>
+                            </div>
+                            <i
+                                data-lucide="arrow-up-right"
+                                class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"
+                            ></i>
+                        </div>
+                        <h3
+                            class="text-2xl md:text-3xl font-bold text-white mb-3"
+                        >
+                            MLH Hackathon
+                        </h3>
+                        <p
+                            class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed"
+                        >
+                            Post-Dev Days challenge starting April 13. Build,
+                            break, and innovate with GitHub Copilot globally.
+                        </p>
+                        <div
+                            class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm"
+                        >
+                            REGISTER TO HACK
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </div>
+                    </a>
+                </div>
             </div>
-
-            <button id="btn-generate" class="w-full bg-[#050505] border border-ghGray8 hover:border-ghCopilotPurple text-white py-4 text-xs md:text-sm flex items-center justify-center gap-3 transition-colors rounded-sm mb-8 group">
-              <i data-lucide="zap" class="w-4 h-4 text-ghCopilotPurple group-hover:scale-110 transition-transform" id="icon-idle"></i>
-              <i data-lucide="loader-2" class="w-4 h-4 text-ghCopilotPurple animate-spin hidden" id="icon-loading"></i>
-              <span id="btn-text" class="tracking-widest">GENERATE ARCHITECTURE</span>
-            </button>
-
-            <!-- Output Terminal -->
-            <div class="bg-[#050505] border-accent-purple p-4 md:p-6 min-h-[200px] md:min-h-[250px] relative text-xs md:text-sm overflow-x-auto">
-              <div id="output-error" class="text-[#ff7b72] whitespace-pre-wrap hidden"></div>
-              <div id="output-idle" class="text-ghGray4 opacity-50">&gt; Awaiting execution parameters...</div>
-              <div id="output-result" class="text-white leading-relaxed whitespace-pre-wrap hidden"></div>
-              <span id="output-cursor" class="inline-block w-2 h-4 bg-white ml-1 translate-y-1 cursor-blink hidden"></span>
-            </div>
-          </div>
         </div>
 
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <footer class="bg-[#050505] py-8 md:py-12 px-4 md:px-6 border-t border-ghGray8 text-ghGray4 font-mono text-[10px] md:text-xs">
-      <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
-        <div class="flex flex-col md:flex-row items-center gap-4">
-           <i data-lucide="github" class="w-6 h-6 text-white hover:text-ghGreen4 transition-colors cursor-pointer"></i> 
-           <span>&copy; 2026 GitHub, Inc. Dev Days Bhilai</span>
-        </div>
-        <div class="flex flex-wrap justify-center md:justify-end gap-6 md:gap-8 uppercase tracking-widest">
-          <a href="#" class="hover:text-white transition-colors">Privacy</a>
-          <a href="#" class="hover:text-white transition-colors">Terms</a>
-          <a href="#" class="hover:text-ghGreen4 transition-colors">MLH Standards</a>
-        </div>
-      </div>
-    </footer>
-
-  </div>
-
-  <!-- 3. REGISTRATION MODAL (Popup) -->
-  <div id="reg-modal" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0">
-    <div class="absolute inset-0 bg-[#0d1117]/90 backdrop-blur-xl" id="modal-bg"></div>
-    
-    <div class="relative z-10 w-full max-w-5xl px-4 md:px-6 opacity-0 max-h-screen overflow-y-auto" id="modal-content">
-      <div class="flex justify-between items-center mb-6 md:mb-8 pt-8 md:pt-0">
-        <div class="font-mono text-xs md:text-sm text-ghGray4 uppercase tracking-widest flex items-center gap-2">
-          <i data-lucide="terminal" class="w-4 h-4 text-white"></i> Initialize Registration
-        </div>
-        <button id="close-modal" class="text-ghGray4 hover:text-white transition-colors p-2 rounded-full hover:bg-ghGray8/50">
-          <i data-lucide="x" class="w-6 h-6 md:w-8 md:h-8"></i>
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0">
-        <!-- Path 1: Dev Days -->
-        <a href="#" class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghGreen4 p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(15,191,62,0.15)]">
-          <div class="absolute top-0 left-0 w-full h-1 bg-ghGreen4 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          <div class="flex justify-between items-start mb-8 md:mb-12">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30 group-hover:scale-110 transition-transform">
-              <i data-lucide="ticket" class="w-6 h-6 md:w-8 md:h-8 text-ghGreen4"></i>
-            </div>
-            <i data-lucide="arrow-up-right" class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"></i>
-          </div>
-          <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Dev Days Ticket</h3>
-          <p class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed">Secure your spot for the in-person event at Rungta International Skills University. Learn AI-first development natively.</p>
-          <div class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm">
-            SECURE TICKET <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </div>
-        </a>
-
-        <!-- Path 2: Hackathon -->
-        <a href="#" class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghCopilotPurple p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(133,52,243,0.15)]">
-          <div class="absolute top-0 left-0 w-full h-1 bg-ghCopilotPurple scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
-          <div class="flex justify-between items-start mb-8 md:mb-12">
-            <div class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghCopilotPurple/10 flex items-center justify-center border border-ghCopilotPurple/30 group-hover:scale-110 transition-transform">
-              <i data-lucide="code-2" class="w-6 h-6 md:w-8 md:h-8 text-ghCopilotPurple"></i>
-            </div>
-            <i data-lucide="arrow-up-right" class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"></i>
-          </div>
-          <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">MLH Hackathon</h3>
-          <p class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed">Post-Dev Days challenge starting April 13. Build, break, and innovate with GitHub Copilot globally.</p>
-          <div class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm">
-            REGISTER TO HACK <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Application Logic -->
-  <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
-    gsap.registerPlugin(ScrollTrigger);
-
-    // --- PRELOADER LOGIC ---
-    const bootSequence = [
-      "> Initializing GitHub Copilot telemetry...",
-      "> Establishing semantic index parameters...",
-      "> Verifying MLH secure payloads...",
-      "> Authenticating data pathways...",
-      "> Connection verified. Environment ready."
-    ];
-
-    const preloader = document.getElementById('preloader');
-    const preloaderContent = document.getElementById('preloader-content');
-    
-    let delay = 0;
-    bootSequence.forEach((text) => {
-      setTimeout(() => {
-        const el = document.createElement('div');
-        el.className = 'preloader-log';
-        if(text.includes('verified')) {
-          el.innerHTML = `<span class="text-ghGreen4 drop-shadow-[0_0_8px_rgba(15,191,62,0.8)]">${text}</span>`;
-        } else {
-          el.innerText = text;
-        }
-        preloaderContent.appendChild(el);
-        gsap.to(el, { opacity: 1, y: 0, duration: 0.3 });
-      }, delay);
-      delay += 400 + Math.random() * 400; // Randomize typing delays
-    });
-
-    // End preloader and start hero animation
-    setTimeout(() => {
-      gsap.to(preloader, {
-        opacity: 0, 
-        duration: 0.8, 
-        ease: "power2.inOut",
-        onComplete: () => {
-          preloader.style.display = 'none';
-          document.getElementById('body').classList.remove('overflow-hidden');
-          initHeroAnimations();
-          startTerminalTypewriter();
-        }
-      });
-    }, delay + 500);
-
-    function initHeroAnimations() {
-      const tl = gsap.timeline();
-      tl.to("#hero-main", { y: -30, opacity: 1, duration: 1, ease: "power3.out" })
-        .to("#hero-card", { x: -30, opacity: 1, duration: 1, ease: "power3.out" }, "-=0.6")
-        .to("#hero-sponsors", { y: -20, opacity: 1, duration: 0.8, ease: "power3.out" }, "-=0.5");
-    }
-
-    // --- MODAL LOGIC (GSAP Animations) ---
-    const modal = document.getElementById('reg-modal');
-    const modalContent = document.getElementById('modal-content');
-    const getStartedBtn = document.getElementById('get-started-btn');
-    const hackathonBtn = document.getElementById('hackathon-register-btn');
-    const closeModalBtn = document.getElementById('close-modal');
-
-    function openModal() {
-      modal.classList.remove('pointer-events-none');
-      gsap.to(modal, { opacity: 1, duration: 0.3, ease: "power2.out" });
-      gsap.fromTo(modalContent, 
-        { scale: 0.9, opacity: 0, y: 20 },
-        { scale: 1, opacity: 1, y: 0, duration: 0.6, ease: "back.out(1.5)", delay: 0.1 }
-      );
-      document.body.style.overflow = 'hidden';
-    }
-
-    getStartedBtn.addEventListener('click', openModal);
-    hackathonBtn.addEventListener('click', openModal);
-
-    closeModalBtn.addEventListener('click', () => {
-      gsap.to(modalContent, { scale: 0.95, opacity: 0, y: 10, duration: 0.3, ease: "power2.in" });
-      gsap.to(modal, { opacity: 0, duration: 0.3, delay: 0.2, onComplete: () => {
-         modal.classList.add('pointer-events-none');
-         document.body.style.overflow = 'auto';
-      }});
-    });
-
-    // --- RENDER AGENDA ---
-    const agendaData = [
-      { time: "09:15 AM", title: "Welcome & Registration", desc: "Attendees check in, grab their kits, and settle in. Quick housekeeping.", icon: "users" },
-      { time: "10:15 AM", title: "Opening Session", desc: "Core introductory session covering what GitHub Copilot is, and live demos.", icon: "terminal" },
-      { time: "11:00 AM", title: "Community Session", desc: "A developer or community leader shares their hands-on experience building.", icon: "github" },
-      { time: "11:45 AM", title: "Technical Deep Dive", desc: "Deep dive into advanced capabilities: custom instructions, MCP integration.", icon: "cpu" },
-      { time: "01:00 PM", title: "Lunch Break", desc: "Networking over lunch. A great opportunity to connect with fellow developers.", icon: "coffee" },
-      { time: "02:00 PM", title: "Hands-On Workshop", desc: "Guided coding workshop where attendees build a real project. Choose your stack.", icon: "code-2" },
-      { time: "03:30 PM", title: "Open Lab / Q&A", desc: "Attendees continue experimenting with workshops of their choice. 1:1 support.", icon: "zap" },
-      { time: "04:15 PM", title: "Closing", desc: "Wrap-up, key takeaways, community shoutouts, swag distribution.", icon: "arrow-right" },
-    ];
-
-    const agendaGrid = document.getElementById('agenda-grid');
-    agendaData.forEach((item, index) => {
-      const html = `
-        <div class="group bg-[#121613]/80 backdrop-blur-md p-6 border-subtle border-t-[4px] border-t-transparent hover:border-t-ghGreen4 transition-colors duration-300 flex flex-col h-full gs-agenda-card cursor-pointer">
-          <div class="flex items-center justify-between mb-6">
-            <span class="font-mono text-[10px] text-ghGray4 tracking-widest">${item.time}</span>
-            <i data-lucide="${item.icon}" class="w-4 h-4 text-ghGray4 icon-bounce"></i>
-          </div>
-          <h3 class="text-body-xl text-white mb-3 group-hover:text-ghGreen4 transition-colors">${item.title}</h3>
-          <p class="text-xs md:text-sm text-ghGray4 leading-relaxed mt-auto">${item.desc}</p>
-        </div>
-      `;
-      agendaGrid.insertAdjacentHTML('beforeend', html);
-    });
-    lucide.createIcons();
-
-    // --- INTERACTIVE CONTRIBUTION GRAPH (Hackathon Section) ---
-    const gridContainer = document.getElementById('interactive-grid');
-    const levels = ['', 'lvl-1', 'lvl-2', 'lvl-3', 'lvl-4', 'purple'];
-    
-    // Generate 30 cells
-    for(let i=0; i<30; i++) {
-      const cell = document.createElement('div');
-      // Assign random initial levels to some cells
-      if(Math.random() > 0.5) {
-        const randomLvl = levels[Math.floor(Math.random() * levels.length)];
-        if(randomLvl) cell.classList.add(randomLvl);
-      }
-      cell.classList.add('contrib-cell');
-      
-      // Interaction
-      cell.addEventListener('click', function() {
-        // Cycle through levels on click
-        let currentClass = '';
-        levels.forEach(lvl => { if(lvl && this.classList.contains(lvl)) currentClass = lvl; });
-        
-        if(currentClass) this.classList.remove(currentClass);
-        
-        let nextIndex = levels.indexOf(currentClass) + 1;
-        if(nextIndex >= levels.length) nextIndex = 0;
-        
-        const nextClass = levels[nextIndex];
-        if(nextClass) {
-          this.classList.add(nextClass);
-          // Add pulse effect for purple (copilot)
-          if(nextClass === 'purple') this.classList.add('animate-pulse');
-          else this.classList.remove('animate-pulse');
-        } else {
-          this.classList.remove('animate-pulse');
-        }
-      });
-      gridContainer.appendChild(cell);
-    }
-
-    // --- TERMINAL TYPEWRITER EFFECT (Hackathon Section) ---
-    function startTerminalTypewriter() {
-      const terminalEl = document.getElementById('terminal-typewriter');
-      const lines = [
-        `> Loading dependencies... <span class="text-ghGreen4">[OK]</span>`,
-        `> Injecting semantic logic... <span class="text-ghGreen4">[OK]</span>`,
-        `> Ready to build.`
-      ];
-      
-      let lineIndex = 0;
-      terminalEl.innerHTML = ''; // clear
-
-      function typeLine() {
-        if(lineIndex < lines.length) {
-          const div = document.createElement('div');
-          div.innerHTML = lines[lineIndex];
-          div.style.opacity = 0;
-          terminalEl.appendChild(div);
-          
-          gsap.to(div, { opacity: 1, duration: 0.2, onComplete: () => {
-            lineIndex++;
-            setTimeout(typeLine, 800);
-          }});
-        }
-      }
-      typeLine();
-    }
-
-
-    // --- SCROLL ANIMATIONS (GSAP) ---
-    let lastScroll = 0;
-    window.addEventListener('scroll', () => {
-      const nav = document.getElementById('navbar');
-      const currentScroll = window.pageYOffset;
-      if (currentScroll > 50 && currentScroll > lastScroll) {
-        nav.style.transform = 'translateY(-100%)';
-      } else {
-        nav.style.transform = 'translateY(0)';
-      }
-      lastScroll = currentScroll;
-    });
-
-    gsap.from(".gs-agenda-card", {
-      scrollTrigger: { trigger: "#agenda", start: "top 80%" },
-      y: 40, opacity: 0, duration: 0.8, stagger: 0.1, ease: "power3.out"
-    });
-
-    gsap.from(".gs-hackathon > div", {
-      scrollTrigger: { trigger: "#hackathon", start: "top 80%" },
-      y: 40, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power3.out"
-    });
-
-    gsap.from(".gs-ideation > div", {
-      scrollTrigger: { trigger: "#ideation", start: "top 80%" },
-      y: 40, opacity: 0, duration: 0.8, stagger: 0.2, ease: "power3.out"
-    });
-
-    // --- GEMINI API INTEGRATION ---
-    const fetchWithRetry = async (url, options, maxRetries = 5) => {
-      let delay = 1000;
-      for (let i = 0; i < maxRetries; i++) {
-        try {
-          const res = await fetch(url, options);
-          if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-          return await res.json();
-        } catch (e) {
-          if (i === maxRetries - 1) throw e;
-          await new Promise(resolve => setTimeout(resolve, delay));
-          delay *= 2;
-        }
-      }
-    };
-
-    document.getElementById('btn-generate').addEventListener('click', async () => {
-      const stack = document.getElementById('input-stack').value;
-      const theme = document.getElementById('input-theme').value;
-      
-      const elErr = document.getElementById('output-error');
-      const elIdle = document.getElementById('output-idle');
-      const elRes = document.getElementById('output-result');
-      const elCur = document.getElementById('output-cursor');
-      const iconIdle = document.getElementById('icon-idle');
-      const iconLoad = document.getElementById('icon-loading');
-      const btnText = document.getElementById('btn-text');
-      const btnGroup = document.getElementById('btn-generate');
-
-      elErr.classList.add('hidden');
-      elIdle.classList.add('hidden');
-      elRes.classList.add('hidden');
-      elCur.classList.add('hidden');
-
-      if (!stack.trim() || !theme.trim()) {
-        elErr.textContent = '> SYS_ERR: Missing required parameters [stack, theme].';
-        elErr.classList.remove('hidden');
-        return;
-      }
-
-      btnGroup.style.pointerEvents = 'none';
-      iconIdle.classList.add('hidden');
-      iconLoad.classList.remove('hidden');
-      btnText.textContent = 'COMPILING SCHEMATIC...';
-      
-      elRes.textContent = '> Transmitting payload to cognitive core...\n> Awaiting architecture schematic...\n';
-      elRes.classList.remove('hidden');
-      elCur.classList.remove('hidden');
-
-      const apiKey = "";
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-      
-      const prompt = `Act as an AI system architect and MLH hackathon mentor. Generate a highly technical, feasible hackathon project idea.
-      Tech Stack: '${stack}'
-      Domain/Theme: '${theme}'
-      
-      Output format must be plain text mimicking a raw terminal output. Do NOT use markdown formatting.
-      Structure strictly as follows:
-      
-      [CODENAME] <creative, tech-sounding name>
-      [PITCH] <1-2 sentences explaining the core value>
-      [ARCHITECTURE]
-      > <Technical feature 1>
-      > <Technical feature 2>
-      > <Technical feature 3>
-      
-      Keep it under 150 words. Be highly specific to the provided tech stack.`;
-
-      const payload = { contents: [{ parts: [{ text: prompt }] }] };
-
-      try {
-        const data = await fetchWithRetry(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-        if (text) {
-          elRes.textContent = `> CONNECTION ESTABLISHED\n> RECEIVING SCHEMATIC...\n\n${text}`;
-        } else {
-          throw new Error("Invalid response format");
-        }
-      } catch (err) {
-        elErr.textContent = `> SYS_ERR: Connection to cognitive core severed. Retry sequence recommended.`;
-        elErr.classList.remove('hidden');
-        elRes.classList.add('hidden');
-      } finally {
-        btnGroup.style.pointerEvents = 'auto';
-        iconLoad.classList.add('hidden');
-        iconIdle.classList.remove('hidden');
-        btnText.textContent = 'GENERATE ARCHITECTURE';
-        elCur.classList.remove('hidden');
-      }
-    });
-  </script>
-</body>
+        <!-- Application Logic -->
+        <script src="../js/script.js"></script>
+    </body>
 </html>

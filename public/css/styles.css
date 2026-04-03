@@ -1,0 +1,333 @@
+/* GitHub Mona Sans Font Implementation */
+@font-face {
+    font-family: "Mona Sans";
+    src: url("https://hub.githubassets.com/assets/Mona-Sans.woff2")
+        format("woff2");
+    font-weight: 200 900;
+    font-stretch: 75 125;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Mona Sans Mono";
+    src: url("https://hub.githubassets.com/assets/Mona-Sans-Mono.woff2")
+        format("woff2");
+    font-weight: 200 900;
+    font-display: swap;
+}
+
+body {
+    background-color: #0d1117;
+    color: #ffffff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fixed Floating Background - Semantic Search Visual */
+#fixed-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: #0d1117;
+    overflow: hidden;
+}
+
+/* GitHub 2026 Dithering Texture Overlay */
+.bg-dither {
+    background-image: radial-gradient(
+        rgba(255, 255, 255, 0.05) 1px,
+        transparent 1px
+    );
+    background-size: 4px 4px;
+    opacity: 0.8;
+}
+
+/* Contribution Graph Pattern */
+.bg-contrib-graph {
+    background-image:
+        linear-gradient(
+            to right,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px
+        );
+    background-size: 40px 40px;
+}
+
+.contrib-cell {
+    width: 23px;
+    height: 23px;
+    border-radius: 4px;
+    background-color: #161b22;
+    transition:
+        background-color 0.3s ease,
+        transform 0.2s ease;
+    cursor: pointer;
+}
+
+.contrib-cell:hover {
+    transform: scale(1.15);
+    box-shadow: 0 0 10px rgba(15, 191, 62, 0.4);
+}
+
+.contrib-cell.lvl-1 {
+    background-color: #0e4429;
+}
+
+.contrib-cell.lvl-2 {
+    background-color: #006d32;
+}
+
+.contrib-cell.lvl-3 {
+    background-color: #26a641;
+}
+
+.contrib-cell.lvl-4 {
+    background-color: #39d353;
+}
+
+.contrib-cell.purple {
+    background-color: #8534f3;
+}
+
+/* Typography Classes (Based on Guidelines) */
+.text-display {
+    font-size: clamp(2.5rem, 8vw, 6.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    font-weight: 700;
+}
+
+.text-h1 {
+    font-size: clamp(2.2rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    font-weight: 700;
+}
+
+.text-h2 {
+    font-size: clamp(1.8rem, 3.5vw, 2.375rem);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    font-weight: 600;
+}
+
+.text-body-xl {
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    line-height: 1.5;
+    font-weight: 500;
+}
+
+.text-body-lg {
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: #b6bfb8;
+}
+
+/* Layout Details */
+.border-default {
+    border: 2px solid #353d37;
+}
+
+.border-subtle {
+    border: 1px solid #353d37;
+}
+
+.border-accent {
+    border-left: 4px solid #0fbf3e;
+}
+
+.border-accent-purple {
+    border-left: 4px solid #8534f3;
+}
+
+/* --- PREMIUM BRACKET BUTTON --- */
+.bracket-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 32px;
+    font-family: "Mona Sans Mono", monospace;
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(4px);
+    transition: all 0.3s ease;
+}
+
+@media (min-width: 768px) {
+    .bracket-btn {
+        padding: 18px 40px;
+        font-size: 15px;
+    }
+}
+
+.bracket-btn:hover {
+    background: rgba(255, 255, 255, 0.08);
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+}
+
+.bracket-corner {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-color: rgba(255, 255, 255, 0.7);
+    border-style: solid;
+    transition: all 0.3s ease;
+}
+
+.bracket-btn:hover .bracket-corner {
+    border-color: #ffffff;
+    width: 14px;
+    height: 14px;
+    box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.2);
+}
+
+.corner-tl {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+}
+
+.corner-tr {
+    top: 0;
+    right: 0;
+    border-width: 2px 2px 0 0;
+}
+
+.corner-bl {
+    bottom: 0;
+    left: 0;
+    border-width: 0 0 2px 2px;
+}
+
+.corner-br {
+    bottom: 0;
+    right: 0;
+    border-width: 0 2px 2px 0;
+}
+
+.btn-outline {
+    background-color: transparent;
+    color: #ffffff;
+    border: 2px solid #353d37;
+    padding: 14px 28px;
+    font-family: "Mona Sans Mono", monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+@media (min-width: 768px) {
+    .btn-outline {
+        padding: 16px 32px;
+    }
+}
+
+.btn-outline:hover {
+    border-color: #b6bfb8;
+}
+
+/* SVG Pathway Animation */
+@keyframes dash {
+    to {
+        stroke-dashoffset: -1000;
+    }
+}
+
+.path-glow {
+    stroke-dasharray: 10 20;
+    animation: dash 30s linear infinite;
+}
+
+/* Preloader Styles */
+#preloader {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #0d1117;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 2rem;
+}
+
+@media (min-width: 768px) {
+    #preloader {
+        padding: 4rem;
+    }
+}
+
+.preloader-log {
+    font-family: "Mona Sans Mono", monospace;
+    font-size: 12px;
+    color: #b6bfb8;
+    margin-bottom: 8px;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+@media (min-width: 768px) {
+    .preloader-log {
+        font-size: 14px;
+    }
+}
+
+.cursor-blink {
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #0d1117;
+    border-left: 1px solid #353d37;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #353d37;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b6bfb8;
+}
+
+/* Interactive icon hover */
+.icon-bounce {
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.group:hover .icon-bounce {
+    transform: translateY(-4px) scale(1.1);
+    color: var(--ghGreen4);
+}

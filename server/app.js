@@ -17,9 +17,9 @@ app.use(
     }),
 );
 
-app.use(urlencoded({ extended: true }));
+app.use(urlencoded({ extended: true, limit: "10kb" }));
 
-app.use(express.json({limit: "10kb"}));
+app.use(express.json({ limit: "10kb" }));
 
 app.use(express.static("public"));
 
@@ -27,10 +27,20 @@ app.use(cookieParser());
 
 app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public", "pages", "home.html"));
-})
+});
 
-app.use((req, res) => {
-    res.sendFile(path.join(__dirname, "..", "public", "pages", "404.html"));
-})
+// app.use((req, res) => {
+//     res.sendFile(path.join(__dirname, "..", "public", "pages", "404.html"));
+// });
 
-export default app;;
+// gemini response route
+import { responseRouter } from "./routes/response.route.js";
+
+app.use("/api/v1/chatbot", responseRouter);
+
+// health check route
+import { healthCheck } from "./controllers/health.controller.js";
+
+app.use("/api/v1/check", healthCheck);
+
+export default app;

@@ -308,7 +308,9 @@ function closeAgendaModal() {
 
 closeAgendaModalBtn.addEventListener("click", closeAgendaModal);
 // Close on backdrop click
-document.getElementById("agenda-modal-bg").addEventListener("click", closeAgendaModal);
+document
+    .getElementById("agenda-modal-bg")
+    .addEventListener("click", closeAgendaModal);
 
 // --- INTERACTIVE CONTRIBUTION GRAPH (Hackathon Section) ---
 const gridContainer = document.getElementById("interactive-grid");
@@ -473,44 +475,30 @@ document.getElementById("btn-generate").addEventListener("click", async () => {
     elRes.classList.remove("hidden");
     elCur.classList.remove("hidden");
 
-    const apiKey = "";
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`;
-
-    const prompt = `Act as an AI system architect and MLH hackathon mentor. Generate a highly technical, feasible hackathon project idea.
-      Tech Stack: '${stack}'
-      Domain/Theme: '${theme}'
-      
-      Output format must be plain text mimicking a raw terminal output. Do NOT use markdown formatting.
-      Structure strictly as follows:
-      
-      [CODENAME] <creative, tech-sounding name>
-      [PITCH] <1-2 sentences explaining the core value>
-      [ARCHITECTURE]
-      > <Technical feature 1>
-      > <Technical feature 2>
-      > <Technical feature 3>
-      
-      Keep it under 150 words. Be highly specific to the provided tech stack.`;
-
-    const payload = {
-        contents: [{ parts: [{ text: prompt }] }],
-    };
-
     try {
-        const data = await fetchWithRetry(url, {
+        const result = await fetchWithRetry("api/v1/chatbot/response", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
+            body: JSON.stringify({
+                varStack: stack,
+                varTheme: theme,
+            }),
         });
 
-        const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!result.success) {
+            throw new Error(
+                result.message || "API returned unsuccessful response",
+            );
+        }
+
+        const text = result.data.candidates?.[0]?.content?.parts?.[0]?.text;
         if (text) {
             elRes.textContent = `> CONNECTION ESTABLISHED\n> RECEIVING SCHEMATIC...\n\n${text}`;
         } else {
             throw new Error("Invalid response format");
         }
     } catch (err) {
-        elErr.textContent = `> SYS_ERR: Connection to cognitive core severed. Retry sequence recommended.`;
+        elErr.textContent = `> SYS_ERR: ${err.message || "Connection to cognitive core severed. Retry sequence recommended."}`;
         elErr.classList.remove("hidden");
         elRes.classList.add("hidden");
     } finally {

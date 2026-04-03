@@ -128,66 +128,187 @@ const agendaData = [
         title: "Welcome & Registration",
         desc: "Attendees check in, grab their kits, and settle in. Quick housekeeping.",
         icon: "users",
+        detail: "Kick off your GitHub Copilot Dev Days experience! Arrive at Rungta International Skills University, check in at the registration desk, and collect your official event kit — including swag, badges, and session guides. Our volunteers will help you navigate the venue and get settled before the opening session begins. This is a great time to network with fellow developers, grab a coffee, and prepare for a day packed with cutting-edge AI-first development learning.",
+        highlights: [
+            "Collect your official Dev Days event kit & swag",
+            "Network with fellow developers and community members",
+            "Get familiar with the venue and session layout",
+        ],
     },
     {
         time: "10:15 AM",
         title: "Opening Session",
         desc: "Core introductory session covering what GitHub Copilot is, and live demos.",
         icon: "terminal",
+        detail: "The Opening Session sets the stage for the entire event. Learn what GitHub Copilot is, how it transforms developer workflows, and see it in action through live demonstrations. This session covers the fundamentals of AI-assisted development — from code completions and chat-based workflows to the latest Agent Mode capabilities. Whether you're new to Copilot or an experienced user, this session ensures everyone starts on the same page with a solid understanding of the platform's power.",
+        highlights: [
+            "Introduction to GitHub Copilot and AI-pair programming",
+            "Live demo of Copilot features: code completion, chat, and agent mode",
+            "Overview of the day's learning roadmap and objectives",
+        ],
     },
     {
         time: "11:00 AM",
         title: "Community Session",
         desc: "A developer or community leader shares their hands-on experience building.",
         icon: "github",
+        detail: "Hear directly from a developer or community leader who has been building real-world projects with GitHub Copilot. This session features authentic stories of how AI-assisted development has accelerated their workflows, solved complex problems, and transformed the way they write code. Expect practical insights, lessons learned, tips and tricks — all from someone who has been in the trenches shipping production code with Copilot by their side.",
+        highlights: [
+            "Real-world experience from an active Copilot developer",
+            "Practical tips and workflow optimizations",
+            "Interactive Q&A with the community speaker",
+        ],
     },
     {
         time: "11:45 AM",
         title: "Technical Deep Dive",
         desc: "Deep dive into advanced capabilities: custom instructions, MCP integration.",
         icon: "cpu",
+        detail: "Go beyond the basics in this advanced technical session. Explore GitHub Copilot's most powerful features including custom instructions for personalized AI behavior, Model Context Protocol (MCP) integration for connecting external tools and services, and multi-file editing with Agent Mode. This session is designed for developers who want to push the boundaries of what's possible with AI-assisted development and leverage Copilot as a true development partner — not just an autocomplete tool.",
+        highlights: [
+            "Custom instructions for tailored Copilot behavior",
+            "MCP (Model Context Protocol) integration deep dive",
+            "Agent Mode: multi-file editing and autonomous workflows",
+        ],
     },
     {
         time: "01:00 PM",
         title: "Lunch Break",
         desc: "Networking over lunch. A great opportunity to connect with fellow developers.",
         icon: "coffee",
+        detail: "Take a well-deserved break! Enjoy lunch while connecting with fellow developers, speakers, and Copilot Champions. This is an excellent opportunity for organic networking — discuss what you've learned so far, share project ideas for the upcoming hackathon, or simply enjoy conversations with like-minded tech enthusiasts. Food and refreshments will be provided at the venue.",
+        highlights: [
+            "Complimentary lunch and refreshments provided",
+            "Network with speakers, mentors, and fellow developers",
+            "Form teams and brainstorm ideas for the hackathon",
+        ],
     },
     {
         time: "02:00 PM",
         title: "Hands-On Workshop",
         desc: "Guided coding workshop where attendees build a real project. Choose your stack.",
         icon: "code-2",
+        detail: "This is where theory meets practice. In this guided hands-on workshop, you'll build a real project from scratch using GitHub Copilot as your AI pair programmer. Choose your preferred tech stack — whether it's web development with React/Next.js, backend with Python/Node.js, or full-stack applications. Expert mentors will be available to guide you through each step, helping you leverage Copilot's code generation, debugging, and refactoring capabilities in a real development workflow.",
+        highlights: [
+            "Build a real project from scratch with Copilot assistance",
+            "Choose your preferred tech stack and framework",
+            "1:1 mentorship from Copilot Champions and GitHub experts",
+        ],
     },
     {
         time: "03:30 PM",
         title: "Open Lab / Q&A",
         desc: "Attendees continue experimenting with workshops of their choice. 1:1 support.",
         icon: "zap",
+        detail: "Continue your learning journey in this open-format lab session. Work on your workshop projects, experiment with different Copilot features, or start prototyping your hackathon idea. Copilot Champions and mentors are available for 1:1 support — bring your toughest coding challenges and watch how AI-assisted development can help solve them. This session is intentionally unstructured to give you the freedom to explore what interests you most.",
+        highlights: [
+            "Open format — explore at your own pace",
+            "1:1 support from Copilot Champions and mentors",
+            "Start prototyping your MLH hackathon project",
+        ],
     },
     {
         time: "04:15 PM",
         title: "Closing",
         desc: "Wrap-up, key takeaways, community shoutouts, swag distribution.",
         icon: "arrow-right",
+        detail: "We wrap up an incredible day of learning and building! The closing ceremony includes a recap of key takeaways, recognition of standout participants, community shoutouts, and distribution of exclusive GitHub swag and prizes. We'll also share how to get involved with the post-event MLH Hackathon starting April 13th — so you can put your newly acquired Copilot skills to the ultimate test on a global stage.",
+        highlights: [
+            "Recap of the day's key learnings and takeaways",
+            "Exclusive GitHub swag and prize distribution",
+            "Information about the MLH Hackathon (April 13th)",
+        ],
     },
 ];
 
 const agendaGrid = document.getElementById("agenda-grid");
 agendaData.forEach((item, index) => {
-    const html = `
-        <div class="group bg-[#121613]/80 backdrop-blur-md p-6 border-subtle border-t-[4px] border-t-transparent hover:border-t-ghGreen4 transition-colors duration-300 flex flex-col h-full gs-agenda-card cursor-pointer">
+    const card = document.createElement("div");
+    card.className =
+        "group bg-[#121613]/80 backdrop-blur-md p-6 border-subtle border-t-[4px] border-t-transparent hover:border-t-ghGreen4 transition-colors duration-300 flex flex-col h-full gs-agenda-card cursor-pointer";
+    card.innerHTML = `
           <div class="flex items-center justify-between mb-6">
             <span class="font-mono text-[10px] text-ghGray4 tracking-widest">${item.time}</span>
             <i data-lucide="${item.icon}" class="w-4 h-4 text-ghGray4 icon-bounce"></i>
           </div>
           <h3 class="text-body-xl text-white mb-3 group-hover:text-ghGreen4 transition-colors">${item.title}</h3>
           <p class="text-xs md:text-sm text-ghGray4 leading-relaxed mt-auto">${item.desc}</p>
-        </div>
-      `;
-    agendaGrid.insertAdjacentHTML("beforeend", html);
+        `;
+    card.addEventListener("click", () => openAgendaModal(item));
+    agendaGrid.appendChild(card);
 });
 lucide.createIcons();
+
+// --- AGENDA DETAIL MODAL LOGIC ---
+const agendaModal = document.getElementById("agenda-modal");
+const agendaModalContent = document.getElementById("agenda-modal-content");
+const closeAgendaModalBtn = document.getElementById("close-agenda-modal");
+
+function openAgendaModal(item) {
+    // Populate modal content
+    document.getElementById("agenda-modal-title").textContent = item.title;
+    document.getElementById("agenda-modal-time").textContent = item.time;
+    document.getElementById("agenda-modal-desc").textContent = item.detail;
+
+    // Update icon
+    const iconEl = document.getElementById("agenda-modal-icon-el");
+    iconEl.setAttribute("data-lucide", item.icon);
+    lucide.createIcons();
+
+    // Populate highlights
+    const highlightsEl = document.getElementById("agenda-modal-highlights");
+    highlightsEl.innerHTML = item.highlights
+        .map(
+            (h) => `
+        <div class="flex items-start gap-3 font-mono text-xs md:text-sm text-ghGray4">
+            <i data-lucide="check-circle-2" class="w-4 h-4 text-ghGreen4 mt-0.5 flex-shrink-0"></i>
+            <span>${h}</span>
+        </div>
+    `,
+        )
+        .join("");
+    lucide.createIcons();
+
+    // Animate open
+    agendaModal.classList.remove("pointer-events-none");
+    gsap.to(agendaModal, { opacity: 1, duration: 0.3, ease: "power2.out" });
+    gsap.fromTo(
+        agendaModalContent,
+        { scale: 0.9, opacity: 0, y: 20 },
+        {
+            scale: 1,
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "back.out(1.5)",
+            delay: 0.1,
+        },
+    );
+    document.body.style.overflow = "hidden";
+}
+
+function closeAgendaModal() {
+    gsap.to(agendaModalContent, {
+        scale: 0.95,
+        opacity: 0,
+        y: 10,
+        duration: 0.3,
+        ease: "power2.in",
+    });
+    gsap.to(agendaModal, {
+        opacity: 0,
+        duration: 0.3,
+        delay: 0.2,
+        onComplete: () => {
+            agendaModal.classList.add("pointer-events-none");
+            document.body.style.overflow = "auto";
+        },
+    });
+}
+
+closeAgendaModalBtn.addEventListener("click", closeAgendaModal);
+// Close on backdrop click
+document.getElementById("agenda-modal-bg").addEventListener("click", closeAgendaModal);
 
 // --- INTERACTIVE CONTRIBUTION GRAPH (Hackathon Section) ---
 const gridContainer = document.getElementById("interactive-grid");

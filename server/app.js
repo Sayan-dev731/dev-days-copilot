@@ -43,4 +43,10 @@ import { healthCheck } from "./controllers/health.controller.js";
 
 app.use("/api/v1/check", healthCheck);
 
+app.all(/(.*)/, (req, res) => {
+    res.status(404).sendFile(
+        path.join(__dirname, "..", "public", "pages", "404.html"),
+    );
+});
+
 export default app;

@@ -3,7 +3,12 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>GitHub Copilot Dev Days - Bhilai</title>
+        <link rel="icon" type="image/png" href="../images/github.png" />
+        <title>GitHub Copilot Dev Days & Hack in Dev Days — Bhilai 2026</title>
+        <meta
+            name="description"
+            content="Join GitHub Copilot Dev Days and Hack in Dev Days — a 12-hour MLH hackathon in Bhilai. Prizes worth ₹20,000+, GitHub Copilot Pro vouchers, and exclusive swag."
+        />
 
         <!-- Tailwind CSS -->
         <script src="https://cdn.tailwindcss.com"></script>
@@ -25,7 +30,6 @@
                             mono: ['"Mona Sans Mono"', "monospace"],
                         },
                         colors: {
-                            // Official GitHub 2026 Brand Palette
                             ghGray9: "#121613",
                             ghGray8: "#353D37",
                             ghGray4: "#B6BFB8",
@@ -50,17 +54,12 @@
             ></div>
         </div>
 
-        <!-- 1. FIXED FLOATING BACKGROUND (Data Pathways & Dither) -->
+        <!-- 1. FIXED FLOATING BACKGROUND -->
         <div id="fixed-bg">
-            <!-- Dithering Overlay -->
             <div class="absolute inset-0 bg-dither z-10"></div>
-
-            <!-- Deep Gradient Fade -->
             <div
                 class="absolute inset-0 bg-gradient-to-br from-ghGray9/80 via-ghGray9 to-[#050505] z-0"
             ></div>
-
-            <!-- Data Flow SVG -->
             <div class="absolute inset-0 z-0 opacity-60">
                 <svg
                     class="w-full h-full"
@@ -89,21 +88,9 @@
                             x2="100%"
                             y2="0%"
                         >
-                            <stop
-                                offset="0%"
-                                stop-color="#121613"
-                                stop-opacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stop-color="#8534F3"
-                                stop-opacity="0.8"
-                            />
-                            <stop
-                                offset="100%"
-                                stop-color="#121613"
-                                stop-opacity="0"
-                            />
+                            <stop offset="0%" stop-color="#121613" stop-opacity="0" />
+                            <stop offset="50%" stop-color="#8534F3" stop-opacity="0.8" />
+                            <stop offset="100%" stop-color="#121613" stop-opacity="0" />
                         </linearGradient>
                         <linearGradient
                             id="pathGradGreen"
@@ -112,31 +99,12 @@
                             x2="100%"
                             y2="0%"
                         >
-                            <stop
-                                offset="0%"
-                                stop-color="#121613"
-                                stop-opacity="0"
-                            />
-                            <stop
-                                offset="50%"
-                                stop-color="#0FBF3E"
-                                stop-opacity="0.8"
-                            />
-                            <stop
-                                offset="100%"
-                                stop-color="#121613"
-                                stop-opacity="0"
-                            />
+                            <stop offset="0%" stop-color="#121613" stop-opacity="0" />
+                            <stop offset="50%" stop-color="#0FBF3E" stop-opacity="0.8" />
+                            <stop offset="100%" stop-color="#121613" stop-opacity="0" />
                         </linearGradient>
                     </defs>
-
-                    <!-- Semantic Pathways -->
-                    <g
-                        fill="none"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                    >
-                        <!-- Main Trunk -->
+                    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
                         <path
                             d="M -100 550 C 300 550, 400 350, 800 350 C 1100 350, 1200 200, 1600 200"
                             stroke="url(#pathGradPurple)"
@@ -149,8 +117,6 @@
                             stroke-width="2"
                             class="path-glow"
                         />
-
-                        <!-- Branch 1 (Green) -->
                         <path
                             d="M -100 650 C 200 650, 300 500, 700 500 C 900 500, 1000 650, 1500 650"
                             stroke="url(#pathGradGreen)"
@@ -163,8 +129,6 @@
                             stroke-width="2"
                             opacity="0.5"
                         />
-
-                        <!-- Branch 2 (Purple) -->
                         <path
                             d="M 200 850 C 400 850, 500 600, 900 600 C 1100 600, 1200 450, 1600 450"
                             stroke="url(#pathGradPurple)"
@@ -179,20 +143,10 @@
                             style="animation-duration: 20s"
                         />
                     </g>
-
-                    <!-- Tech Readouts -->
-                    <g
-                        class="font-mono text-[10px]"
-                        fill="#B6BFB8"
-                        opacity="0.6"
-                    >
-                        <text x="820" y="320" class="hidden md:block">
-                            DATA PACK #Z09H8C24
-                        </text>
+                    <g class="font-mono text-[10px]" fill="#B6BFB8" opacity="0.6">
+                        <text x="820" y="320" class="hidden md:block">DATA PACK #Z09H8C24</text>
                         <text x="320" y="620">ANSWER #HB7893</text>
-                        <text x="1050" y="640" class="hidden md:block">
-                            REQUEST #ZX2985
-                        </text>
+                        <text x="1050" y="640" class="hidden md:block">REQUEST #ZX2985</text>
                     </g>
                 </svg>
             </div>
@@ -209,37 +163,19 @@
                     class="max-w-[1400px] mx-auto px-4 md:px-6 h-16 md:h-20 flex items-center justify-between"
                 >
                     <div class="flex items-center gap-3 md:gap-4">
-                        <i
-                            data-lucide="github"
-                            class="w-6 h-6 md:w-8 md:h-8 text-white"
-                        ></i>
-                        <span
-                            class="font-bold text-lg md:text-xl tracking-tight"
-                            >GitHub Copilot</span
-                        >
-                        <span
-                            class="px-2 py-0.5 border border-ghGray8 rounded text-[9px] md:text-[10px] font-mono text-ghGray4 hidden sm:block"
-                            >Dev Days 2026</span
-                        >
+                        <svg viewBox="0 0 16 16" width="32" height="32" fill="white" xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 md:w-8 md:h-8">
+                            <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                        </svg>
+                        <span class="font-bold text-lg md:text-xl tracking-tight">GitHub Copilot</span>
+                        <span class="px-2 py-0.5 border border-ghGray8 rounded text-[9px] md:text-[10px] font-mono text-ghGray4 hidden sm:block">Dev Days 2026</span>
                     </div>
-                    <div
-                        class="flex items-center gap-6 font-mono text-sm text-ghGray4"
-                    >
-                        <a
-                            href="#agenda"
-                            class="hover:text-white transition-colors hidden lg:block"
-                            >AGENDA</a
-                        >
-                        <a
-                            href="#hackathon"
-                            class="hover:text-ghGreen4 transition-colors hidden lg:block"
-                            >HACKATHON</a
-                        >
-                        <a
-                            href="#ideation"
-                            class="hover:text-ghCopilotPurple transition-colors hidden lg:block"
-                            >IDEATION LAB</a
-                        >
+                    <div class="flex items-center gap-6 font-mono text-sm text-ghGray4">
+                        <a href="#about" class="hover:text-white transition-colors hidden lg:block">ABOUT</a>
+                        <a href="#agenda" class="hover:text-white transition-colors hidden lg:block">AGENDA</a>
+                        <a href="#hackathon" class="hover:text-ghGreen4 transition-colors hidden lg:block">HACKATHON</a>
+                        <a href="#prizes" class="hover:text-ghGreen4 transition-colors hidden lg:block">PRIZES</a>
+                        <a href="#registration" class="hover:text-ghCopilotPurple transition-colors hidden lg:block">REGISTER</a>
+                        <a href="#ideation" class="hover:text-ghCopilotPurple transition-colors hidden lg:block">IDEATION</a>
                         <button class="lg:hidden text-white">
                             <i data-lucide="menu" class="w-6 h-6"></i>
                         </button>
@@ -247,126 +183,66 @@
                 </div>
             </nav>
 
-            <!-- Hero Section -->
-            <section
-                class="min-h-[90vh] md:min-h-screen flex flex-col justify-center pt-24 pb-12 px-4 md:px-6"
-            >
-                <div
-                    class="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center gs-hero"
-                >
-                    <div
-                        class="lg:col-span-8 flex flex-col justify-center opacity-0"
-                        id="hero-main"
-                    >
-                        <div
-                            class="font-mono text-xs md:text-sm text-ghGreen4 tracking-widest uppercase mb-4 md:mb-6 flex items-center gap-3"
-                        >
-                            <span
-                                class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"
-                            ></span>
-                            Bhilai
+            <!-- ===== HERO SECTION ===== -->
+            <section class="min-h-[90vh] md:min-h-screen flex flex-col justify-center pt-24 pb-12 px-4 md:px-6">
+                <div class="max-w-[1400px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center gs-hero">
+                    <div class="lg:col-span-8 flex flex-col justify-center opacity-0" id="hero-main">
+                        <div class="font-mono text-xs md:text-sm text-ghGreen4 tracking-widest uppercase mb-4 md:mb-6 flex items-center gap-3">
+                            <span class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"></span>
+                            Bhilai &middot; 18th April 2026
                         </div>
 
                         <h1 class="text-display mb-4 md:mb-6">
                             GitHub Copilot <br />
-                            <span
-                                class="text-transparent bg-clip-text bg-gradient-to-r from-white via-ghGray4 to-[#666]"
-                                >Dev Days</span
-                            >
+                            <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-ghGray4 to-[#666]">Dev Days</span>
                         </h1>
 
-                        <div
-                            class="max-w-2xl text-body-xl text-ghGray4 mb-8 md:mb-10 border-accent pl-4 md:pl-6 text-sm md:text-lg"
-                        >
-                            11th April, 2026, 10:00 IST<br />
-                            <span class="text-white"
-                                >Rungta International Skills University</span
-                            >
+                        <div class="max-w-2xl text-body-xl text-ghGray4 mb-8 md:mb-10 border-accent pl-4 md:pl-6 text-sm md:text-lg">
+                            Rungta International Skills University, Bhilai<br />
+                            <span class="text-white">Dev Days + 12-Hour MLH Hackathon</span>
                         </div>
 
-                        <p
-                            class="text-body-lg max-w-xl mb-10 md:mb-12 text-sm md:text-base"
-                        >
-                            Connect your data once. GitHub indexes, packages,
-                            and distributes it so semantic AI assistance runs
-                            where intelligence happens.
+                        <p class="text-body-lg max-w-xl mb-10 md:mb-12 text-sm md:text-base">
+                            Dive into the world of GitHub Copilot at this in-person event.
+                            Explore AI-first development, connect with fellow coders,
+                            and compete in a 12-hour hackathon powered by Google Gemini.
+                            Prizes worth ₹20,000+.
                         </p>
 
                         <div class="flex flex-wrap gap-4 md:gap-6 items-center">
-                            <!-- Premium Bracket Button -->
                             <button class="bracket-btn" id="get-started-btn">
                                 <div class="bracket-corner corner-tl"></div>
                                 <div class="bracket-corner corner-tr"></div>
                                 <div class="bracket-corner corner-bl"></div>
                                 <div class="bracket-corner corner-br"></div>
                                 GET STARTED
-                                <i
-                                    data-lucide="arrow-right"
-                                    class="w-4 h-4 md:w-5 md:h-5"
-                                ></i>
+                                <i data-lucide="arrow-right" class="w-4 h-4 md:w-5 md:h-5"></i>
                             </button>
-                            <a href="#agenda" class="btn-outline text-xs md:text-sm">
-                                VIEW TELEMETRY
-                            </a>
+                            <a href="#agenda" class="btn-outline text-xs md:text-sm">VIEW SCHEDULE</a>
                         </div>
                     </div>
 
-                    <!-- Floating Info Card (Microsoft/GitHub Co-Branding) -->
-                    <div
-                        class="lg:col-span-4 hidden lg:block opacity-0"
-                        id="hero-card"
-                    >
-                        <div
-                            class="bg-[#121613]/80 backdrop-blur-xl p-8 border-subtle relative rounded-sm shadow-2xl hover:border-ghGray4 transition-colors"
-                        >
+                    <!-- Floating Info Card -->
+                    <div class="lg:col-span-4 hidden lg:block opacity-0" id="hero-card">
+                        <div class="bg-[#121613]/80 backdrop-blur-xl p-8 border-subtle relative rounded-sm shadow-2xl hover:border-ghGray4 transition-colors">
                             <div class="text-body-lg text-white mb-6">
                                 Get direct help from
-                                <span class="bg-ghGray8 px-1.5 rounded text-sm"
-                                    >Copilot Champions</span
-                                >
-                                and early builders.
+                                <span class="bg-ghGray8 px-1.5 rounded text-sm">Copilot Champions</span>
+                                and early builders. Teams of 2–4.
                             </div>
-
                             <div class="border-t border-ghGray8 pt-6">
-                                <span
-                                    class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest mb-4 block"
-                                    >Official Partners</span
-                                >
-
-                                <!-- CO-BRANDING LOCKUP -->
+                                <span class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest mb-4 block">Official Partners</span>
                                 <div class="flex items-center gap-4 flex-wrap">
-                                    <!-- Microsoft SVG -->
-                                    <svg
-                                        viewBox="0 0 23 23"
-                                        width="24"
-                                        height="24"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                        <path
-                                            fill="#f35325"
-                                            d="M0 0h11v11H0z"
-                                        />
-                                        <path
-                                            fill="#81bc06"
-                                            d="M12 0h11v11H12z"
-                                        />
-                                        <path
-                                            fill="#05a6f0"
-                                            d="M0 12h11v11H0z"
-                                        />
-                                        <path
-                                            fill="#ffba08"
-                                            d="M12 12h11v11H12z"
-                                        />
+                                    <svg viewBox="0 0 23 23" width="24" height="24" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill="#f35325" d="M0 0h11v11H0z" />
+                                        <path fill="#81bc06" d="M12 0h11v11H12z" />
+                                        <path fill="#05a6f0" d="M0 12h11v11H0z" />
+                                        <path fill="#ffba08" d="M12 12h11v11H12z" />
                                     </svg>
-                                    <span class="text-ghGray4 font-mono"
-                                        >+</span
-                                    >
-                                    <!-- GitHub -->
-                                    <i
-                                        data-lucide="github"
-                                        class="w-7 h-7 text-white"
-                                    ></i>
+                                    <span class="text-ghGray4 font-mono">+</span>
+                                    <i data-lucide="github" class="w-7 h-7 text-white"></i>
+                                    <span class="text-ghGray4 font-mono">+</span>
+                                    <img src="https://static.mlh.io/brand-assets/logo/official/mlh-logo-white.svg" alt="MLH" class="h-[20px]" />
                                 </div>
                             </div>
                         </div>
@@ -375,39 +251,16 @@
             </section>
 
             <!-- Sponsor Bar -->
-            <div
-                class="border-y border-ghGray8 bg-ghGray9/80 backdrop-blur-sm py-6 md:py-8 relative z-20 gs-sponsors opacity-0"
-                id="hero-sponsors"
-            >
-                <div
-                    class="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-start md:justify-between overflow-x-auto gap-10 md:gap-12 no-scrollbar"
-                >
-                    <!-- GitHub Official Invertocat Logo -->
-                    <div
-                        class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
-                    >
-                        <svg
-                            viewBox="0 0 16 16"
-                            width="24"
-                            height="24"
-                            fill="white"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+            <div class="border-y border-ghGray8 bg-ghGray9/80 backdrop-blur-sm py-6 md:py-8 relative z-20 gs-sponsors opacity-0" id="hero-sponsors">
+                <div class="max-w-[1400px] mx-auto px-4 md:px-6 flex items-center justify-start md:justify-between overflow-x-auto gap-10 md:gap-12 no-scrollbar">
+                    <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap">
+                        <svg viewBox="0 0 16 16" width="24" height="24" fill="white" xmlns="http://www.w3.org/2000/svg">
                             <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
                         </svg>
                         <span class="font-bold text-lg">GitHub</span>
                     </div>
-
-                    <!-- Microsoft Logo -->
-                    <div
-                        class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
-                    >
-                        <svg
-                            viewBox="0 0 23 23"
-                            width="20"
-                            height="20"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
+                    <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap">
+                        <svg viewBox="0 0 23 23" width="20" height="20" xmlns="http://www.w3.org/2000/svg">
                             <path fill="#f35325" d="M0 0h11v11H0z" />
                             <path fill="#81bc06" d="M12 0h11v11H12z" />
                             <path fill="#05a6f0" d="M0 12h11v11H0z" />
@@ -415,162 +268,251 @@
                         </svg>
                         <span class="font-bold text-lg">Microsoft</span>
                     </div>
-
-                    <!-- Official Azure Logo -->
-                    <div
-                        class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap"
-                    >
-                        <svg
-                            viewBox="0 0 96 96"
-                            width="24"
-                            height="24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <defs>
-                                <linearGradient id="azure-grad" x1="58.97" y1="9.37" x2="26.96" y2="100.77" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0" stop-color="#114A8B"/>
-                                    <stop offset="1" stop-color="#0669BC"/>
-                                </linearGradient>
-                                <linearGradient id="azure-grad2" x1="60.01" y1="49.48" x2="52.58" y2="52.07" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0" stop-opacity=".3"/>
-                                    <stop offset=".07" stop-opacity=".2"/>
-                                    <stop offset="1" stop-opacity="0"/>
-                                </linearGradient>
-                                <linearGradient id="azure-grad3" x1="46.1" y1="7.63" x2="72.88" y2="97.04" gradientUnits="userSpaceOnUse">
-                                    <stop offset="0" stop-color="#3CCBF4"/>
-                                    <stop offset="1" stop-color="#2892DF"/>
-                                </linearGradient>
-                            </defs>
-                            <path d="M33.34 6.54h26.04L34.1 88.98a5.12 5.12 0 01-4.82 3.46H9.72a5.12 5.12 0 01-4.84-6.78L28.52 10a5.12 5.12 0 014.82-3.46z" fill="url(#azure-grad)"/>
-                            <path d="M71.17 60.26H29.88a2.15 2.15 0 00-1.47 3.72l26.6 24.84a5.17 5.17 0 003.53 1.39h22.4z" fill="url(#azure-grad2)"/>
-                            <path d="M33.34 6.54a5.07 5.07 0 00-4.87 3.57L4.93 85.56a5.12 5.12 0 004.84 6.88h20.55a5.33 5.33 0 004.35-3.42l5.05-14.1 17.71 16.53a5.2 5.2 0 003.26 1h22.52L62.2 60.26H36.37l22.7-53.72z" fill="url(#azure-grad3)"/>
-                        </svg>
-                        <span class="font-bold text-lg">Azure</span>
+                    <div class="opacity-60 hover:opacity-100 transition-opacity flex items-center justify-center whitespace-nowrap">
+                        <img src="https://static.mlh.io/brand-assets/logo/official/mlh-logo-white.svg" alt="Major League Hacking" class="h-[20px] md:h-[28px]" />
                     </div>
-
-                    <!-- Official MLH Logo -->
-                    <div
-                        class="opacity-60 hover:opacity-100 transition-opacity flex items-center justify-center whitespace-nowrap"
-                    >
-                        <img
-                            src="https://static.mlh.io/brand-assets/logo/official/mlh-logo-white.svg"
-                            alt="Major League Hacking"
-                            class="h-[20px] md:h-[28px]"
-                        />
+                    <div class="flex items-center gap-2 opacity-60 hover:opacity-100 transition-opacity whitespace-nowrap">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        <span class="font-bold text-lg">Google Gemini</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Agenda Section -->
-            <section id="agenda" class="py-20 md:py-32 px-4 md:px-6">
-                <div class="max-w-[1400px] mx-auto gs-agenda">
-                    <div
-                        class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16"
-                    >
+            <!-- ===== EVENT DESCRIPTION SECTION ===== -->
+            <section id="about" class="py-20 md:py-32 px-4 md:px-6">
+                <div class="max-w-[1400px] mx-auto gs-about">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16">
                         <div class="lg:col-span-8">
-                            <span
-                                class="font-mono text-xs text-ghGray4 uppercase tracking-widest block mb-4"
-                                >Timeline / Schedule</span
-                            >
-                            <h2 class="text-h1 mb-4 md:mb-6">
-                                Execution Timeline
-                            </h2>
-                            <p
-                                class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base"
-                            >
-                                A meticulously structured sequence of operations
-                                designed to elevate your workflow from standard
-                                to semantic.
+                            <span class="font-mono text-xs text-ghGreen4 uppercase tracking-widest block mb-4">// Event Description</span>
+                            <h2 class="text-h1 mb-4 md:mb-6">Two Events, <br/><span class="text-ghGray4">One Incredible Day</span></h2>
+                            <p class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base">
+                                GitHub Copilot Dev Days + Hack in Dev Days — from AI-first learning
+                                to a 12-hour hackathon competition, all at Rungta International Skills University.
                             </p>
                         </div>
                     </div>
 
-                    <div
-                        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"
-                        id="agenda-grid"
-                    >
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                        <!-- Dev Days Card -->
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-8 md:p-10 border-subtle border-l-[4px] border-l-ghGreen4 hover:border-l-ghGreen5 transition-all duration-300 gs-about-card">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30">
+                                    <i data-lucide="terminal" class="w-5 h-5 text-ghGreen4"></i>
+                                </div>
+                                <span class="font-mono text-[10px] text-ghGreen4 uppercase tracking-widest">Track 01</span>
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-ghGreen4 transition-colors">Dev Days</h3>
+                            <p class="text-ghGray4 text-sm md:text-base leading-relaxed mb-6">
+                                Get ready to dive into the world of GitHub Copilot at this awesome in-person event
+                                in Bhilai! Whether you're a seasoned dev or just curious, join us to explore how
+                                Copilot can supercharge your coding. Connect with fellow coders, learn cool tips,
+                                and boost your programming game in a fun, casual setting. Don't miss out on this
+                                chance to see what GitHub Copilot can do live and in person!
+                            </p>
+                            <div class="flex items-center gap-3 font-mono text-xs text-ghGreen4 uppercase tracking-widest group-hover:gap-5 transition-all">
+                                <span>Learn More</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                            </div>
+                        </div>
+
+                        <!-- Hack in Dev Days Card -->
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-8 md:p-10 border-subtle border-l-[4px] border-l-ghCopilotPurple hover:border-l-[#6b21f8] transition-all duration-300 gs-about-card">
+                            <div class="flex items-center gap-3 mb-6">
+                                <div class="w-10 h-10 rounded bg-ghCopilotPurple/10 flex items-center justify-center border border-ghCopilotPurple/30">
+                                    <i data-lucide="code-2" class="w-5 h-5 text-ghCopilotPurple"></i>
+                                </div>
+                                <span class="font-mono text-[10px] text-ghCopilotPurple uppercase tracking-widest">Track 02</span>
+                            </div>
+                            <h3 class="text-2xl md:text-3xl font-bold text-white mb-4 group-hover:text-ghCopilotPurple transition-colors">HACK in Dev Days</h3>
+                            <p class="text-ghGray4 text-sm md:text-base leading-relaxed mb-6">
+                                Hack in GitHub Dev Days is a 12-hour mini hackathon under MLH Hack Days,
+                                powered by Google Gemini. It brings developers, designers, and innovators
+                                together to build creative solutions in a fast-paced setting. Participants go through
+                                multiple hacking sessions with mentor support, along with breaks for meals and
+                                networking. The event ends with project presentations, judging, and a closing ceremony.
+                            </p>
+                            <div class="flex flex-wrap gap-4 items-center">
+                                <span class="px-3 py-1 border border-ghGray8 rounded text-[10px] font-mono text-ghGray4">Teams of 2–4</span>
+                                <span class="px-3 py-1 border border-ghGray8 rounded text-[10px] font-mono text-ghGray4">12 Hours</span>
+                                <span class="px-3 py-1 border border-ghGray8 rounded text-[10px] font-mono text-ghGray4">MLH Hack Days</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== REGISTRATION PROCESS SECTION ===== -->
+            <section id="registration" class="py-20 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8 relative overflow-hidden">
+                <div class="absolute inset-0 bg-contrib-graph opacity-[0.08] z-0"></div>
+                <div class="max-w-[1400px] mx-auto relative z-10 gs-registration">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16">
+                        <div class="lg:col-span-8">
+                            <span class="font-mono text-xs text-ghCopilotPurple uppercase tracking-widest block mb-4">// Registration Process & Guidelines</span>
+                            <h2 class="text-h1 mb-4 md:mb-6">3 Steps to <br/><span class="text-ghGray4">Secure Your Spot</span></h2>
+                            <p class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base">
+                                Registration is mandatory on all three platforms. 
+                                Use the <span class="text-white font-semibold">same email</span> across each. 
+                                Deadline: <span class="text-ghGreen4 font-semibold">April 14th</span>.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Registration Steps -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-12 md:mb-16">
+                        <!-- Step 1: MLH -->
+                        <a href="https://events.mlh.io/events/13994-hack-in-github-dev-days" target="_blank"
+                           class="group bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-t-[4px] border-t-transparent hover:border-t-ghGreen4 transition-all duration-300 flex flex-col gs-reg-step">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-full bg-ghGreen4/10 flex items-center justify-center border-2 border-ghGreen4/40 font-bold text-ghGreen4 text-xl group-hover:bg-ghGreen4 group-hover:text-white transition-all">1</div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-ghGray4 group-hover:text-ghGreen4 transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-ghGreen4 transition-colors">MLH (Major League Hacking)</h3>
+                            <p class="text-ghGray4 text-xs md:text-sm leading-relaxed mb-4">Complete your entry on the official MLH event page</p>
+                            <span class="mt-auto font-mono text-xs text-ghGreen4 tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">REGISTER ON MLH <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </a>
+
+                        <!-- Step 2: GitHub Copilot -->
+                        <a href="https://www.eventbrite.com/e/github-copilot-dev-days-bhilai-tickets-1985443259235" target="_blank"
+                           class="group bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-t-[4px] border-t-transparent hover:border-t-ghGreen4 transition-all duration-300 flex flex-col gs-reg-step">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-full bg-ghGreen4/10 flex items-center justify-center border-2 border-ghGreen4/40 font-bold text-ghGreen4 text-xl group-hover:bg-ghGreen4 group-hover:text-white transition-all">2</div>
+                                <i data-lucide="external-link" class="w-4 h-4 text-ghGray4 group-hover:text-ghGreen4 transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-ghGreen4 transition-colors">GitHub Copilot (Eventbrite)</h3>
+                            <p class="text-ghGray4 text-xs md:text-sm leading-relaxed mb-4">Complete your entry on the official GitHub Copilot page</p>
+                            <span class="mt-auto font-mono text-xs text-ghGreen4 tracking-widest flex items-center gap-2 group-hover:gap-4 transition-all">REGISTER ON EVENTBRITE <i data-lucide="arrow-right" class="w-3 h-3"></i></span>
+                        </a>
+
+                        <!-- Step 3: Devfolio -->
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-t-[4px] border-t-transparent hover:border-t-ghCopilotPurple transition-all duration-300 flex flex-col gs-reg-step">
+                            <div class="flex items-center justify-between mb-6">
+                                <div class="w-12 h-12 rounded-full bg-ghCopilotPurple/10 flex items-center justify-center border-2 border-ghCopilotPurple/40 font-bold text-ghCopilotPurple text-xl group-hover:bg-ghCopilotPurple group-hover:text-white transition-all">3</div>
+                                <i data-lucide="clock" class="w-4 h-4 text-ghGray4 group-hover:text-ghCopilotPurple transition-colors"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-white mb-2 group-hover:text-ghCopilotPurple transition-colors">Devfolio</h3>
+                            <p class="text-ghGray4 text-xs md:text-sm leading-relaxed mb-4">Final registration stage — portal accepts entries starting April 10th</p>
+                            <span class="mt-auto font-mono text-xs text-ghCopilotPurple tracking-widest flex items-center gap-2">COMING SOON <i data-lucide="clock" class="w-3 h-3"></i></span>
+                        </div>
+                    </div>
+
+                    <!-- Track Selection + Essential Protocols -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                        <!-- Track Selection -->
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle gs-reg-info">
+                            <div class="flex items-center gap-3 mb-6">
+                                <i data-lucide="git-branch" class="w-5 h-5 text-ghGreen4"></i>
+                                <span class="font-mono text-[10px] text-ghGreen4 uppercase tracking-widest">Track Selection</span>
+                            </div>
+                            <p class="text-ghGray4 text-sm mb-4">During registration, select one of the following tracks:</p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3 p-3 bg-[#050505] border border-ghGray8 rounded-sm">
+                                    <i data-lucide="lightbulb" class="w-4 h-4 text-ghGreen4 flex-shrink-0"></i>
+                                    <span class="text-white text-sm font-semibold">Open Innovation</span>
+                                    <span class="text-ghGray4 text-xs ml-auto">Build anything</span>
+                                </div>
+                                <div class="flex items-center gap-3 p-3 bg-[#050505] border border-ghGray8 rounded-sm">
+                                    <i data-lucide="sparkles" class="w-4 h-4 text-ghCopilotPurple flex-shrink-0"></i>
+                                    <span class="text-white text-sm font-semibold">Google Gemini</span>
+                                    <span class="text-ghGray4 text-xs ml-auto">Special prize</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Essential Protocols -->
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[3px] border-l-[#ffba08]/60 gs-reg-info">
+                            <div class="flex items-center gap-3 mb-6">
+                                <i data-lucide="alert-triangle" class="w-5 h-5 text-[#ffba08]"></i>
+                                <span class="font-mono text-[10px] text-[#ffba08] uppercase tracking-widest">Essential Protocols</span>
+                            </div>
+                            <ul class="space-y-3 text-ghGray4 text-sm">
+                                <li class="flex items-start gap-3">
+                                    <span class="text-[#ffba08] mt-0.5">•</span>
+                                    <span>Register on <strong class="text-white">all three</strong> platforms: MLH, GitHub Copilot, Devfolio</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-[#ffba08] mt-0.5">•</span>
+                                    <span>Use the <strong class="text-white">same email</strong> across all platforms — critical for data sync</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-[#ffba08] mt-0.5">•</span>
+                                    <span>Incomplete registrations will <strong class="text-white">not be processed</strong> and may lead to disqualification</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-[#ffba08] mt-0.5">•</span>
+                                    <span>Stay active on all platforms for vital updates and announcements</span>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <span class="text-[#ffba08] mt-0.5">•</span>
+                                    <span>Selection confirmations sent to your <strong class="text-white">registered email</strong></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== AGENDA / TIMELINE SECTION ===== -->
+            <section id="agenda" class="py-20 md:py-32 px-4 md:px-6">
+                <div class="max-w-[1400px] mx-auto gs-agenda">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16">
+                        <div class="lg:col-span-8">
+                            <span class="font-mono text-xs text-ghGray4 uppercase tracking-widest block mb-4">// Event Timeline</span>
+                            <h2 class="text-h1 mb-4 md:mb-6">Execution Timeline</h2>
+                            <p class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base">
+                                From early-morning breakfast & registration to the winner announcement —
+                                every hour is scheduled. Click any card for details.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4" id="agenda-grid">
                         <!-- Populated by JS -->
                     </div>
                 </div>
             </section>
 
-            <!-- Hackathon Section (Matched exactly to f7c3a6.jpg) -->
-            <section
-                id="hackathon"
-                class="py-24 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8 relative overflow-hidden"
-            >
-                <!-- Background Contrib Graph -->
-                <div
-                    class="absolute inset-0 bg-contrib-graph opacity-[0.15] z-0"
-                ></div>
-
-                <div
-                    class="max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center gs-hackathon"
-                >
+            <!-- ===== HACKATHON SECTION ===== -->
+            <section id="hackathon" class="py-24 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8 relative overflow-hidden">
+                <div class="absolute inset-0 bg-contrib-graph opacity-[0.15] z-0"></div>
+                <div class="max-w-[1400px] mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-16 items-center gs-hackathon">
                     <!-- Left Content -->
                     <div>
-                        <!-- "Launching April 13th" Badge -->
-                        <div
-                            class="border border-ghGreen4 text-ghGreen4 text-[10px] md:text-xs uppercase px-2 py-1 md:px-3 md:py-1.5 rounded-sm inline-flex items-center gap-2 font-mono mb-6 tracking-widest bg-ghGreen4/5 backdrop-blur-sm"
-                        >
-                            <span
-                                class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-ghGreen4 animate-pulse shadow-[0_0_8px_rgba(15,191,62,0.8)]"
-                            ></span>
-                            LAUNCHING APRIL 13TH
+                        <div class="border border-ghGreen4 text-ghGreen4 text-[10px] md:text-xs uppercase px-2 py-1 md:px-3 md:py-1.5 rounded-sm inline-flex items-center gap-2 font-mono mb-6 tracking-widest bg-ghGreen4/5 backdrop-blur-sm">
+                            <span class="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-ghGreen4 animate-pulse shadow-[0_0_8px_rgba(15,191,62,0.8)]"></span>
+                            12-HOUR MLH HACKATHON
                         </div>
 
-                        <!-- Headline -->
                         <h2 class="text-h1 mb-6 text-white">
-                            The Official <br />
-                            <span class="text-ghGray4">MLH Hackathon</span>
+                            Hack in <br />
+                            <span class="text-ghGray4">GitHub Dev Days</span>
                         </h2>
 
-                        <!-- Description -->
-                        <p
-                            class="text-body-lg mb-8 md:mb-10 max-w-lg border-accent pl-4 text-sm md:text-base text-ghGray4"
-                        >
-                            Post-Dev Days, put your newly acquired semantic
-                            search and Copilot skills to the test. Join
-                            developers globally to build, break, and innovate.
+                        <p class="text-body-lg mb-8 md:mb-10 max-w-lg border-accent pl-4 text-sm md:text-base text-ghGray4">
+                            A 12-hour mini hackathon under MLH Hack Days, powered by Google Gemini.
+                            Teams of 2–4 build creative solutions with mentor support. Multiple hacking
+                            sessions, project presentations, judging, and prizes worth ₹20,000+.
                         </p>
 
-                        <!-- Checkmark List -->
-                        <ul
-                            class="space-y-4 mb-10 md:mb-12 font-mono text-xs md:text-sm text-ghGray4"
-                        >
+                        <ul class="space-y-4 mb-10 md:mb-12 font-mono text-xs md:text-sm text-ghGray4">
                             <li class="flex items-center gap-3">
-                                <i
-                                    data-lucide="check-circle-2"
-                                    class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"
-                                ></i>
-                                Build AI-first applications
+                                <i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i>
+                                Open Innovation & Google Gemini tracks
                             </li>
                             <li class="flex items-center gap-3">
-                                <i
-                                    data-lucide="check-circle-2"
-                                    class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"
-                                ></i>
-                                Access Copilot Agent Mode
+                                <i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i>
+                                Mentor support + Copilot Champions access
                             </li>
                             <li class="flex items-center gap-3">
-                                <i
-                                    data-lucide="check-circle-2"
-                                    class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"
-                                ></i>
-                                Win swag & global MLH points
+                                <i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i>
+                                Breakfast, lunch, snacks & dinner included
+                            </li>
+                            <li class="flex items-center gap-3">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 md:w-5 md:h-5 text-ghGreen4"></i>
+                                Prizes, swag, certificates & Copilot Pro vouchers
                             </li>
                         </ul>
 
-                        <!-- Bracket Button -->
-                        <button
-                            class="bracket-btn"
-                            id="hackathon-register-btn"
-                            style="
-                                padding: 12px 24px;
-                                font-size: 12px;
-                                background: transparent;
-                            "
-                        >
+                        <button class="bracket-btn" id="hackathon-register-btn" style="padding: 12px 24px; font-size: 12px; background: transparent;">
                             <div class="bracket-corner corner-tl"></div>
                             <div class="bracket-corner corner-tr"></div>
                             <div class="bracket-corner corner-bl"></div>
@@ -580,399 +522,390 @@
                         </button>
                     </div>
 
-                    <!-- Right Visual: Copilot Output Terminal over Interactive Grid -->
-                    <div
-                        class="relative h-[300px] md:h-[400px] flex items-center justify-center"
-                    >
-                        <!-- Interactive Contribution Graph Base -->
-                        <div
-                            class="grid grid-cols-5 md:grid-cols-6 gap-2 rotate-[-5deg] scale-100 md:scale-110 opacity-60 z-0"
-                            id="interactive-grid"
-                        >
-                            <!-- Cells generated via JS to allow clicking/interactions -->
-                        </div>
-
-                        <!-- Copilot Terminal (Matching screenshot) -->
-                        <div
-                            class="absolute inset-0 flex items-center justify-center pointer-events-none z-10"
-                        >
-                            <div
-                                class="bg-[#0d1117] border border-[#30363d] p-5 md:p-8 rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-[90%] md:w-[450px]"
-                            >
-                                <div
-                                    class="flex items-center gap-3 mb-4 border-b border-borderDefault pb-4"
-                                >
-                                    <i
-                                        data-lucide="terminal"
-                                        class="w-4 h-4 md:w-5 md:h-5 text-ghCopilotPurple"
-                                    ></i>
-                                    <span
-                                        class="font-mono text-[10px] md:text-xs text-white tracking-widest"
-                                        >Copilot Output</span
-                                    >
+                    <!-- Right Visual -->
+                    <div class="relative h-[300px] md:h-[400px] flex items-center justify-center">
+                        <div class="grid grid-cols-5 md:grid-cols-6 gap-2 rotate-[-5deg] scale-100 md:scale-110 opacity-60 z-0" id="interactive-grid"></div>
+                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
+                            <div class="bg-[#0d1117] border border-[#30363d] p-5 md:p-8 rounded-sm shadow-[0_20px_50px_rgba(0,0,0,0.5)] w-[90%] md:w-[450px]">
+                                <div class="flex items-center gap-3 mb-4 border-b border-borderDefault pb-4">
+                                    <i data-lucide="terminal" class="w-4 h-4 md:w-5 md:h-5 text-ghCopilotPurple"></i>
+                                    <span class="font-mono text-[10px] md:text-xs text-white tracking-widest">Copilot Output</span>
                                 </div>
-                                <div
-                                    class="font-mono text-[10px] md:text-xs text-ghGray4 leading-[2.5]"
-                                    id="terminal-typewriter"
-                                >
-                                    <!-- Typing animation injected here -->
-                                </div>
+                                <div class="font-mono text-[10px] md:text-xs text-ghGray4 leading-[2.5]" id="terminal-typewriter"></div>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Ideation Lab (Gemini Integration) - Copilot Theme -->
+            <!-- ===== PRIZES & GOODIES SECTION ===== -->
+            <section id="prizes" class="py-20 md:py-32 px-4 md:px-6">
+                <div class="max-w-[1400px] mx-auto gs-prizes">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16">
+                        <div class="lg:col-span-8">
+                            <span class="font-mono text-xs text-ghGreen4 uppercase tracking-widest block mb-4">// Prizes & Goodies</span>
+                            <h2 class="text-h1 mb-4 md:mb-6">Compete for <span class="text-ghGreen4">₹20,000+</span></h2>
+                            <p class="text-body-lg max-w-2xl border-accent pl-4 text-sm md:text-base">
+                                Top-performing teams win cash prizes, goodies, and recognition.
+                                Plus a special track prize for the Best Use of Google Gemini.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Prize Cards -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16 md:mb-20">
+                        <!-- 1st Prize -->
+                        <div class="group bg-gradient-to-b from-[#ffd700]/[0.06] to-[#121613]/80 backdrop-blur-md p-6 md:p-8 border border-[#ffd700]/25 rounded-sm text-center flex flex-col items-center gap-3 transition-all duration-300 hover:translate-y-[-6px] hover:shadow-[0_8px_32px_rgba(255,215,0,0.15)] gs-prize-card relative overflow-hidden">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#ffd700] to-[#ffaa00]"></div>
+                            <div class="text-5xl leading-none mb-2">🥇</div>
+                            <div class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest">1st Place</div>
+                            <div class="text-3xl font-extrabold text-[#ffd700]">₹10,000</div>
+                            <div class="text-xs text-ghGray4">+ Goodies & Swag</div>
+                        </div>
+                        <!-- 2nd Prize -->
+                        <div class="group bg-gradient-to-b from-[#c0c0c0]/[0.04] to-[#121613]/80 backdrop-blur-md p-6 md:p-8 border border-[#c0c0c0]/20 rounded-sm text-center flex flex-col items-center gap-3 transition-all duration-300 hover:translate-y-[-6px] hover:shadow-[0_8px_32px_rgba(192,192,192,0.1)] gs-prize-card relative overflow-hidden">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#c0c0c0] to-[#e8e8e8]"></div>
+                            <div class="text-5xl leading-none mb-2">🥈</div>
+                            <div class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest">2nd Place</div>
+                            <div class="text-3xl font-extrabold text-[#e0e0e0]">₹6,000</div>
+                            <div class="text-xs text-ghGray4">+ Goodies & Swag</div>
+                        </div>
+                        <!-- 3rd Prize -->
+                        <div class="group bg-gradient-to-b from-[#cd7f32]/[0.04] to-[#121613]/80 backdrop-blur-md p-6 md:p-8 border border-[#cd7f32]/20 rounded-sm text-center flex flex-col items-center gap-3 transition-all duration-300 hover:translate-y-[-6px] hover:shadow-[0_8px_32px_rgba(205,127,50,0.1)] gs-prize-card relative overflow-hidden">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#cd7f32] to-[#e8a050]"></div>
+                            <div class="text-5xl leading-none mb-2">🥉</div>
+                            <div class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest">3rd Place</div>
+                            <div class="text-3xl font-extrabold text-[#e8a050]">₹4,000</div>
+                            <div class="text-xs text-ghGray4">+ Goodies & Swag</div>
+                        </div>
+                        <!-- Special Prize -->
+                        <div class="group bg-gradient-to-b from-ghCopilotPurple/[0.06] to-[#121613]/80 backdrop-blur-md p-6 md:p-8 border border-ghCopilotPurple/25 rounded-sm text-center flex flex-col items-center gap-3 transition-all duration-300 hover:translate-y-[-6px] hover:shadow-[0_8px_32px_rgba(133,52,243,0.15)] gs-prize-card relative overflow-hidden">
+                            <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-ghCopilotPurple to-[#d946ef]"></div>
+                            <div class="text-5xl leading-none mb-2">✨</div>
+                            <div class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest">Special Prize</div>
+                            <div class="text-xl font-extrabold bg-gradient-to-r from-ghCopilotPurple to-[#d946ef] bg-clip-text text-transparent">Best Gemini Use</div>
+                            <div class="text-xs text-ghGray4">Exclusive Rewards</div>
+                        </div>
+                    </div>
+
+                    <!-- Perks & Goodies -->
+                    <div class="mb-8">
+                        <span class="font-mono text-xs text-ghGray4 uppercase tracking-widest block mb-6">// Perks for All Participants</span>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle gs-perk-card">
+                            <i data-lucide="badge-check" class="w-6 h-6 text-ghGreen4 mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Copilot Pro Vouchers</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Access to GitHub Copilot Pro — the most advanced AI coding assistant — for all participants.</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle gs-perk-card">
+                            <i data-lucide="sticker" class="w-6 h-6 text-ghCopilotPurple mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Stickers & Swag</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Exclusive MLH stickers, Gemini stickers, GitHub goodies, and Dev Days merchandise for all.</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle gs-perk-card">
+                            <i data-lucide="scroll-text" class="w-6 h-6 text-ghSecurityBlue mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Certificates</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Participation certificates for everyone. Appreciation certificates for outstanding contributions.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== JUDGING CRITERIA SECTION ===== -->
+            <section id="judging" class="py-20 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8">
+                <div class="max-w-[1400px] mx-auto gs-judging">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16">
+                        <div class="lg:col-span-8">
+                            <span class="font-mono text-xs text-ghGreen4 uppercase tracking-widest block mb-4">// Judging Criteria</span>
+                            <h2 class="text-h1 mb-4 md:mb-6">How Projects <br/><span class="text-ghGray4">Are Evaluated</span></h2>
+                        </div>
+                    </div>
+
+                    <!-- Evaluation Criteria -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-12 md:mb-16">
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle hover:border-ghGreen4/50 transition-colors gs-judging-card">
+                            <i data-lucide="lightbulb" class="w-5 h-5 text-ghGreen4 mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Innovation & Idea</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Originality, creativity, uniqueness of the solution</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle hover:border-ghGreen4/50 transition-colors gs-judging-card">
+                            <i data-lucide="github" class="w-5 h-5 text-ghGreen4 mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">GitHub Repository</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Commits, collaboration, README quality, proper usage</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle hover:border-ghGreen4/50 transition-colors gs-judging-card">
+                            <i data-lucide="cpu" class="w-5 h-5 text-ghCopilotPurple mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Technical Execution</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Complexity, tech stack choices, code quality</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle hover:border-ghGreen4/50 transition-colors gs-judging-card">
+                            <i data-lucide="target" class="w-5 h-5 text-ghCopilotPurple mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Problem Relevance</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Real-world impact, clarity of problem statement</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle hover:border-ghGreen4/50 transition-colors gs-judging-card">
+                            <i data-lucide="check-circle-2" class="w-5 h-5 text-ghSecurityBlue mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Functionality</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Working prototype, features implemented</p>
+                        </div>
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 border-subtle hover:border-ghGreen4/50 transition-colors gs-judging-card">
+                            <i data-lucide="presentation" class="w-5 h-5 text-ghSecurityBlue mb-4"></i>
+                            <h4 class="text-white font-bold mb-2">Presentation</h4>
+                            <p class="text-ghGray4 text-xs md:text-sm">Demo clarity, explanation quality, Q&A handling</p>
+                        </div>
+                    </div>
+
+                    <!-- Rounds & Elimination -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Judging Rounds -->
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[3px] border-l-ghGreen4 gs-judging-info">
+                            <div class="flex items-center gap-3 mb-5">
+                                <i data-lucide="layers" class="w-5 h-5 text-ghGreen4"></i>
+                                <span class="font-mono text-[10px] text-ghGreen4 uppercase tracking-widest">Judging Rounds</span>
+                            </div>
+                            <div class="space-y-4 text-sm">
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-ghGreen4/10 flex items-center justify-center text-ghGreen4 font-bold text-xs flex-shrink-0 border border-ghGreen4/30">1</span>
+                                    <div>
+                                        <span class="text-white font-semibold block">Execution Phase</span>
+                                        <span class="text-ghGray4 text-xs">~50% project complete, GitHub activity checked</span>
+                                    </div>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <span class="w-6 h-6 rounded-full bg-ghGreen4/10 flex items-center justify-center text-ghGreen4 font-bold text-xs flex-shrink-0 border border-ghGreen4/30">2</span>
+                                    <div>
+                                        <span class="text-white font-semibold block">Final Evaluation</span>
+                                        <span class="text-ghGray4 text-xs">MVP ready + final presentation</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Elimination Criteria -->
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[3px] border-l-[#ff7b72] gs-judging-info">
+                            <div class="flex items-center gap-3 mb-5">
+                                <i data-lucide="shield-alert" class="w-5 h-5 text-[#ff7b72]"></i>
+                                <span class="font-mono text-[10px] text-[#ff7b72] uppercase tracking-widest">Elimination Criteria</span>
+                            </div>
+                            <ul class="space-y-2 text-ghGray4 text-xs md:text-sm">
+                                <li class="flex items-center gap-2"><i data-lucide="x" class="w-3 h-3 text-[#ff7b72] flex-shrink-0"></i>No GitHub repository submission</li>
+                                <li class="flex items-center gap-2"><i data-lucide="x" class="w-3 h-3 text-[#ff7b72] flex-shrink-0"></i>Incomplete or non-working project</li>
+                                <li class="flex items-center gap-2"><i data-lucide="x" class="w-3 h-3 text-[#ff7b72] flex-shrink-0"></i>Plagiarism or copied work</li>
+                                <li class="flex items-center gap-2"><i data-lucide="x" class="w-3 h-3 text-[#ff7b72] flex-shrink-0"></i>Team member absent during evaluation</li>
+                                <li class="flex items-center gap-2"><i data-lucide="x" class="w-3 h-3 text-[#ff7b72] flex-shrink-0"></i>No portal registration</li>
+                                <li class="flex items-center gap-2"><i data-lucide="x" class="w-3 h-3 text-[#ff7b72] flex-shrink-0"></i>No new members after registration</li>
+                            </ul>
+                        </div>
+
+                        <!-- Bonus Points -->
+                        <div class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[3px] border-l-ghCopilotPurple gs-judging-info">
+                            <div class="flex items-center gap-3 mb-5">
+                                <i data-lucide="star" class="w-5 h-5 text-ghCopilotPurple"></i>
+                                <span class="font-mono text-[10px] text-ghCopilotPurple uppercase tracking-widest">Bonus Consideration</span>
+                            </div>
+                            <ul class="space-y-2 text-ghGray4 text-xs md:text-sm">
+                                <li class="flex items-center gap-2"><i data-lucide="plus" class="w-3 h-3 text-ghCopilotPurple flex-shrink-0"></i>Best use of GitHub</li>
+                                <li class="flex items-center gap-2"><i data-lucide="plus" class="w-3 h-3 text-ghCopilotPurple flex-shrink-0"></i>Use of AI tools (Gemini, etc.)</li>
+                                <li class="flex items-center gap-2"><i data-lucide="plus" class="w-3 h-3 text-ghCopilotPurple flex-shrink-0"></i>Good UI/UX design</li>
+                                <li class="flex items-center gap-2"><i data-lucide="plus" class="w-3 h-3 text-ghCopilotPurple flex-shrink-0"></i>Extra innovation</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== IDEATION LAB (Gemini Integration) ===== -->
             <section id="ideation" class="py-24 md:py-32 px-4 md:px-6">
                 <div class="max-w-[1000px] mx-auto gs-ideation">
                     <div class="text-center mb-12 md:mb-16">
-                        <span
-                            class="font-mono text-[10px] md:text-xs text-ghCopilotPurple uppercase tracking-widest block mb-3 md:mb-4"
-                            >Interactive Demo</span
-                        >
-                        <h2 class="text-h2 md:text-h1 mb-4">
-                            Agentic Ideation Core
-                        </h2>
-                        <p
-                            class="text-body-lg max-w-2xl mx-auto text-sm md:text-base"
-                        >
-                            Input operational constraints to generate semantic
-                            project architectures powered by advanced LLMs.
+                        <span class="font-mono text-[10px] md:text-xs text-ghCopilotPurple uppercase tracking-widest block mb-3 md:mb-4">Interactive Demo</span>
+                        <h2 class="text-h2 md:text-h1 mb-4">Agentic Ideation Core</h2>
+                        <p class="text-body-lg max-w-2xl mx-auto text-sm md:text-base">
+                            Input your tech stack and project theme to generate
+                            semantic project architectures powered by Google Gemini.
                         </p>
                     </div>
 
-                    <div
-                        class="bg-[#121613]/90 backdrop-blur-xl border border-ghGray8 shadow-2xl rounded-sm"
-                    >
-                        <div
-                            class="bg-[#050505] border-b border-ghGray8 px-4 md:px-6 py-4 flex items-center gap-3"
-                        >
-                            <i
-                                data-lucide="cpu"
-                                class="w-4 h-4 text-ghCopilotPurple"
-                            ></i>
-                            <span
-                                class="text-[10px] md:text-xs font-mono text-white tracking-widest"
-                                >SYS.ARCHITECT.MODULE</span
-                            >
+                    <div class="bg-[#121613]/90 backdrop-blur-xl border border-ghGray8 shadow-2xl rounded-sm">
+                        <div class="bg-[#050505] border-b border-ghGray8 px-4 md:px-6 py-4 flex items-center gap-3">
+                            <i data-lucide="cpu" class="w-4 h-4 text-ghCopilotPurple"></i>
+                            <span class="text-[10px] md:text-xs font-mono text-white tracking-widest">SYS.ARCHITECT.MODULE</span>
                         </div>
-
                         <div class="p-6 md:p-8 font-mono">
-                            <div
-                                class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8"
-                            >
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 mb-8">
                                 <div class="flex flex-col gap-2">
-                                    <label
-                                        class="text-[10px] text-ghGray4 uppercase tracking-widest"
-                                        >VAR_STACK =</label
-                                    >
-                                    <input
-                                        type="text"
-                                        id="input-stack"
-                                        placeholder="e.g. React, Node.js, Firebase"
-                                        class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full"
-                                    />
+                                    <label class="text-[10px] text-ghGray4 uppercase tracking-widest">VAR_STACK =</label>
+                                    <input type="text" id="input-stack" placeholder="e.g. React, Node.js, Firebase" class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full" />
                                 </div>
                                 <div class="flex flex-col gap-2">
-                                    <label
-                                        class="text-[10px] text-ghGray4 uppercase tracking-widest"
-                                        >VAR_THEME =</label
-                                    >
-                                    <input
-                                        type="text"
-                                        id="input-theme"
-                                        placeholder="e.g. Fintech, Healthcare, DevTools"
-                                        class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full"
-                                    />
+                                    <label class="text-[10px] text-ghGray4 uppercase tracking-widest">VAR_THEME =</label>
+                                    <input type="text" id="input-theme" placeholder="e.g. Fintech, Healthcare, DevTools" class="bg-[#050505] border border-ghGray8 text-white text-sm p-4 focus:outline-none focus:border-ghCopilotPurple transition-colors rounded-sm w-full" />
                                 </div>
                             </div>
-
-                            <button
-                                id="btn-generate"
-                                class="w-full bg-[#050505] border border-ghGray8 hover:border-ghCopilotPurple text-white py-4 text-xs md:text-sm flex items-center justify-center gap-3 transition-colors rounded-sm mb-8 group"
-                            >
-                                <i
-                                    data-lucide="zap"
-                                    class="w-4 h-4 text-ghCopilotPurple group-hover:scale-110 transition-transform"
-                                    id="icon-idle"
-                                ></i>
-                                <i
-                                    data-lucide="loader-2"
-                                    class="w-4 h-4 text-ghCopilotPurple animate-spin hidden"
-                                    id="icon-loading"
-                                ></i>
-                                <span id="btn-text" class="tracking-widest"
-                                    >GENERATE ARCHITECTURE</span
-                                >
+                            <button id="btn-generate" class="w-full bg-[#050505] border border-ghGray8 hover:border-ghCopilotPurple text-white py-4 text-xs md:text-sm flex items-center justify-center gap-3 transition-colors rounded-sm mb-8 group">
+                                <i data-lucide="zap" class="w-4 h-4 text-ghCopilotPurple group-hover:scale-110 transition-transform" id="icon-idle"></i>
+                                <i data-lucide="loader-2" class="w-4 h-4 text-ghCopilotPurple animate-spin hidden" id="icon-loading"></i>
+                                <span id="btn-text" class="tracking-widest">GENERATE ARCHITECTURE</span>
                             </button>
-
-                            <!-- Output Terminal -->
-                            <div
-                                class="bg-[#050505] border-accent-purple p-4 md:p-6 min-h-[200px] md:min-h-[250px] relative text-xs md:text-sm overflow-x-auto"
-                            >
-                                <div
-                                    id="output-error"
-                                    class="text-[#ff7b72] whitespace-pre-wrap hidden"
-                                ></div>
-                                <div
-                                    id="output-idle"
-                                    class="text-ghGray4 opacity-50"
-                                >
-                                    &gt; Awaiting execution parameters...
-                                </div>
-                                <div
-                                    id="output-result"
-                                    class="text-white leading-relaxed whitespace-pre-wrap hidden"
-                                ></div>
-                                <span
-                                    id="output-cursor"
-                                    class="inline-block w-2 h-4 bg-white ml-1 translate-y-1 cursor-blink hidden"
-                                ></span>
+                            <div class="bg-[#050505] border-accent-purple p-4 md:p-6 min-h-[200px] md:min-h-[250px] relative text-xs md:text-sm overflow-x-auto">
+                                <div id="output-error" class="text-[#ff7b72] whitespace-pre-wrap hidden"></div>
+                                <div id="output-idle" class="text-ghGray4 opacity-50">&gt; Awaiting execution parameters...</div>
+                                <div id="output-result" class="text-white leading-relaxed whitespace-pre-wrap hidden"></div>
+                                <span id="output-cursor" class="inline-block w-2 h-4 bg-white ml-1 translate-y-1 cursor-blink hidden"></span>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Footer -->
-            <footer
-                class="bg-[#050505] py-8 md:py-12 px-4 md:px-6 border-t border-ghGray8 text-ghGray4 font-mono text-[10px] md:text-xs"
-            >
-                <div
-                    class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left"
-                >
-                    <div class="flex flex-col md:flex-row items-center gap-4">
-                        <i
-                            data-lucide="github"
-                            class="w-6 h-6 text-white hover:text-ghGreen4 transition-colors cursor-pointer"
-                        ></i>
-                        <span>&copy; 2026 GitHub, Inc. Dev Days Bhilai</span>
+            <!-- ===== HELP & CONTACT US SECTION ===== -->
+            <section id="contact" class="py-20 md:py-32 px-4 md:px-6 bg-[#090b0e] border-y border-ghGray8">
+                <div class="max-w-[1400px] mx-auto gs-contact">
+                    <div class="text-center mb-12 md:mb-16">
+                        <span class="font-mono text-xs text-ghGray4 uppercase tracking-widest block mb-4">// Help & Contact Us</span>
+                        <h2 class="text-h2 md:text-h1 mb-4">Need Help? <span class="text-ghGreen4">Reach Out</span></h2>
+                        <p class="text-body-lg max-w-2xl mx-auto text-sm md:text-base">
+                            For any queries, support, or assistance regarding the hackathon, feel free to reach out.
+                        </p>
                     </div>
-                    <div
-                        class="flex flex-wrap justify-center md:justify-end gap-6 md:gap-8 uppercase tracking-widest"
-                    >
-                        <a href="#" class="hover:text-white transition-colors"
-                            >Privacy</a
-                        >
-                        <a href="#" class="hover:text-white transition-colors"
-                            >Terms</a
-                        >
-                        <a
-                            href="#"
-                            class="hover:text-ghGreen4 transition-colors"
-                            >MLH Standards</a
-                        >
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-8">
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-5 border-subtle hover:border-ghGreen4/40 transition-all duration-300 flex items-center gap-4 gs-contact-card">
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-ghGreen4 to-ghCopilotPurple flex items-center justify-center font-bold text-sm text-white flex-shrink-0">SK</div>
+                            <div class="min-w-0">
+                                <div class="text-white font-semibold text-sm truncate">Sayan Karmakar</div>
+                                <a href="tel:7848948443" class="text-ghGray4 text-xs hover:text-ghGreen4 transition-colors">📱 7848948443</a>
+                            </div>
+                        </div>
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-5 border-subtle hover:border-ghGreen4/40 transition-all duration-300 flex items-center gap-4 gs-contact-card">
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-ghGreen4 to-ghCopilotPurple flex items-center justify-center font-bold text-sm text-white flex-shrink-0">RS</div>
+                            <div class="min-w-0">
+                                <div class="text-white font-semibold text-sm truncate">Ronit Shekar</div>
+                                <a href="tel:7857838745" class="text-ghGray4 text-xs hover:text-ghGreen4 transition-colors">📱 7857838745</a>
+                            </div>
+                        </div>
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-5 border-subtle hover:border-ghGreen4/40 transition-all duration-300 flex items-center gap-4 gs-contact-card">
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-ghGreen4 to-ghCopilotPurple flex items-center justify-center font-bold text-sm text-white flex-shrink-0">ST</div>
+                            <div class="min-w-0">
+                                <div class="text-white font-semibold text-sm truncate">Shraddha Tiwari</div>
+                                <a href="tel:9302787061" class="text-ghGray4 text-xs hover:text-ghGreen4 transition-colors">📱 9302787061</a>
+                            </div>
+                        </div>
+                        <div class="group bg-[#121613]/80 backdrop-blur-md p-5 border-subtle hover:border-ghGreen4/40 transition-all duration-300 flex items-center gap-4 gs-contact-card">
+                            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-ghGreen4 to-ghCopilotPurple flex items-center justify-center font-bold text-sm text-white flex-shrink-0">KM</div>
+                            <div class="min-w-0">
+                                <div class="text-white font-semibold text-sm truncate">Khushi Mahato</div>
+                                <a href="tel:7858805562" class="text-ghGray4 text-xs hover:text-ghGreen4 transition-colors">📱 7858805562</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest flex items-center justify-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"></span>
+                            Stay connected through the official portals for the latest updates and announcements
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== FOOTER ===== -->
+            <footer class="bg-[#050505] py-8 md:py-12 px-4 md:px-6 border-t border-ghGray8 text-ghGray4 font-mono text-[10px] md:text-xs">
+                <div class="max-w-[1400px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+                    <div class="flex flex-col md:flex-row items-center gap-4">
+                        <i data-lucide="github" class="w-6 h-6 text-white hover:text-ghGreen4 transition-colors cursor-pointer"></i>
+                        <span>&copy; 2026 GitHub, Inc. Dev Days & Hack in Dev Days — Bhilai</span>
+                    </div>
+                    <div class="flex flex-wrap justify-center md:justify-end gap-6 md:gap-8 uppercase tracking-widest">
+                        <a href="#" class="hover:text-white transition-colors">Privacy</a>
+                        <a href="#" class="hover:text-white transition-colors">Terms</a>
+                        <a href="https://github.com/MLH/mlh-policies/blob/main/code-of-conduct.md" class="hover:text-ghGreen4 transition-colors">MLH Code of Conduct</a>
                     </div>
                 </div>
             </footer>
         </div>
 
         <!-- 3. REGISTRATION MODAL (Popup) -->
-        <div
-            id="reg-modal"
-            class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0"
-        >
-            <div
-                class="absolute inset-0 bg-[#0d1117]/90 backdrop-blur-xl"
-                id="modal-bg"
-            ></div>
-
-            <div
-                class="relative z-10 w-full max-w-5xl px-4 md:px-6 opacity-0 max-h-screen overflow-y-auto"
-                id="modal-content"
-            >
-                <div
-                    class="flex justify-between items-center mb-6 md:mb-8 pt-8 md:pt-0"
-                >
-                    <div
-                        class="font-mono text-xs md:text-sm text-ghGray4 uppercase tracking-widest flex items-center gap-2"
-                    >
-                        <i
-                            data-lucide="terminal"
-                            class="w-4 h-4 text-white"
-                        ></i>
+        <div id="reg-modal" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0">
+            <div class="absolute inset-0 bg-[#0d1117]/90 backdrop-blur-xl" id="modal-bg"></div>
+            <div class="relative z-10 w-full max-w-5xl px-4 md:px-6 opacity-0 max-h-screen overflow-y-auto" id="modal-content">
+                <div class="flex justify-between items-center mb-6 md:mb-8 pt-8 md:pt-0">
+                    <div class="font-mono text-xs md:text-sm text-ghGray4 uppercase tracking-widest flex items-center gap-2">
+                        <i data-lucide="terminal" class="w-4 h-4 text-white"></i>
                         Initialize Registration
                     </div>
-                    <button
-                        id="close-modal"
-                        class="text-ghGray4 hover:text-white transition-colors p-2 rounded-full hover:bg-ghGray8/50"
-                    >
+                    <button id="close-modal" class="text-ghGray4 hover:text-white transition-colors p-2 rounded-full hover:bg-ghGray8/50">
                         <i data-lucide="x" class="w-6 h-6 md:w-8 md:h-8"></i>
                     </button>
                 </div>
-
-                <div
-                    class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0"
-                >
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0">
                     <!-- Path 1: Dev Days -->
-                    <a
-                        href="https://www.eventbrite.com/e/github-copilot-dev-days-bhilai-tickets-1985443259235"
-                        class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghGreen4 p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(15,191,62,0.15)]"
-                    >
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-ghGreen4 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
-                        ></div>
-                        <div
-                            class="flex justify-between items-start mb-8 md:mb-12"
-                        >
-                            <div
-                                class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30 group-hover:scale-110 transition-transform"
-                            >
-                                <i
-                                    data-lucide="ticket"
-                                    class="w-6 h-6 md:w-8 md:h-8 text-ghGreen4"
-                                ></i>
+                    <a href="https://www.eventbrite.com/e/github-copilot-dev-days-bhilai-tickets-1985443259235" class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghGreen4 p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(15,191,62,0.15)]">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-ghGreen4 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                        <div class="flex justify-between items-start mb-8 md:mb-12">
+                            <div class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30 group-hover:scale-110 transition-transform">
+                                <i data-lucide="ticket" class="w-6 h-6 md:w-8 md:h-8 text-ghGreen4"></i>
                             </div>
-                            <i
-                                data-lucide="arrow-up-right"
-                                class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"
-                            ></i>
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"></i>
                         </div>
-                        <h3
-                            class="text-2xl md:text-3xl font-bold text-white mb-3"
-                        >
-                            Dev Days Ticket
-                        </h3>
-                        <p
-                            class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed"
-                        >
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">Dev Days Ticket</h3>
+                        <p class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed">
                             Secure your spot for the in-person event at Rungta
                             International Skills University. Learn AI-first
-                            development natively.
+                            development with GitHub Copilot.
                         </p>
-                        <div
-                            class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm"
-                        >
-                            SECURE TICKET
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <div class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm">
+                            SECURE TICKET <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </div>
                     </a>
-
                     <!-- Path 2: Hackathon -->
-                    <a
-                        href="#"
-                        class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghCopilotPurple p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(133,52,243,0.15)]"
-                    >
-                        <div
-                            class="absolute top-0 left-0 w-full h-1 bg-ghCopilotPurple scale-x-0 group-hover:scale-x-100 transition-transform origin-left"
-                        ></div>
-                        <div
-                            class="flex justify-between items-start mb-8 md:mb-12"
-                        >
-                            <div
-                                class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghCopilotPurple/10 flex items-center justify-center border border-ghCopilotPurple/30 group-hover:scale-110 transition-transform"
-                            >
-                                <i
-                                    data-lucide="code-2"
-                                    class="w-6 h-6 md:w-8 md:h-8 text-ghCopilotPurple"
-                                ></i>
+                    <a href="https://events.mlh.io/events/13994-hack-in-github-dev-days" class="group block relative bg-[#121613]/90 border border-ghGray8 hover:border-ghCopilotPurple p-6 md:p-10 transition-all duration-300 rounded-sm shadow-2xl hover:shadow-[0_0_30px_rgba(133,52,243,0.15)]">
+                        <div class="absolute top-0 left-0 w-full h-1 bg-ghCopilotPurple scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                        <div class="flex justify-between items-start mb-8 md:mb-12">
+                            <div class="w-12 h-12 md:w-16 md:h-16 rounded bg-ghCopilotPurple/10 flex items-center justify-center border border-ghCopilotPurple/30 group-hover:scale-110 transition-transform">
+                                <i data-lucide="code-2" class="w-6 h-6 md:w-8 md:h-8 text-ghCopilotPurple"></i>
                             </div>
-                            <i
-                                data-lucide="arrow-up-right"
-                                class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"
-                            ></i>
+                            <i data-lucide="arrow-up-right" class="w-5 h-5 md:w-6 md:h-6 text-ghGray4 group-hover:text-white transition-colors group-hover:translate-x-1 group-hover:-translate-y-1"></i>
                         </div>
-                        <h3
-                            class="text-2xl md:text-3xl font-bold text-white mb-3"
-                        >
-                            MLH Hackathon
-                        </h3>
-                        <p
-                            class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed"
-                        >
-                            Post-Dev Days challenge starting April 13. Build,
-                            break, and innovate with GitHub Copilot globally.
+                        <h3 class="text-2xl md:text-3xl font-bold text-white mb-3">MLH Hackathon</h3>
+                        <p class="text-ghGray4 text-xs md:text-sm font-mono mb-6 md:mb-8 leading-relaxed">
+                            Register for the 12-hour Hack in Dev Days hackathon.
+                            Teams of 2–4, powered by Google Gemini. Prizes worth ₹20,000+.
                         </p>
-                        <div
-                            class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm"
-                        >
-                            REGISTER TO HACK
-                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        <div class="text-white font-mono font-semibold flex items-center gap-2 group-hover:gap-4 transition-all tracking-widest text-xs md:text-sm">
+                            REGISTER TO HACK <i data-lucide="arrow-right" class="w-4 h-4"></i>
                         </div>
                     </a>
                 </div>
             </div>
         </div>
 
-        <!-- 4. AGENDA DETAIL MODAL (Popup) -->
-        <div
-            id="agenda-modal"
-            class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0"
-        >
-            <div
-                class="absolute inset-0 bg-[#0d1117]/90 backdrop-blur-xl"
-                id="agenda-modal-bg"
-            ></div>
-
-            <div
-                class="relative z-10 w-full max-w-2xl px-4 md:px-6 opacity-0"
-                id="agenda-modal-content"
-            >
-                <div
-                    class="bg-[#121613]/95 backdrop-blur-xl border border-ghGray8 rounded-sm shadow-2xl overflow-hidden"
-                >
-                    <!-- Modal Header -->
-                    <div
-                        class="bg-[#050505] border-b border-ghGray8 px-6 md:px-8 py-5 flex items-center justify-between"
-                    >
+        <!-- 4. AGENDA DETAIL MODAL -->
+        <div id="agenda-modal" class="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none opacity-0">
+            <div class="absolute inset-0 bg-[#0d1117]/90 backdrop-blur-xl" id="agenda-modal-bg"></div>
+            <div class="relative z-10 w-full max-w-2xl px-4 md:px-6 opacity-0" id="agenda-modal-content">
+                <div class="bg-[#121613]/95 backdrop-blur-xl border border-ghGray8 rounded-sm shadow-2xl overflow-hidden">
+                    <div class="bg-[#050505] border-b border-ghGray8 px-6 md:px-8 py-5 flex items-center justify-between">
                         <div class="flex items-center gap-3">
-                            <div
-                                id="agenda-modal-icon"
-                                class="w-10 h-10 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30"
-                            >
-                                <i
-                                    data-lucide="calendar"
-                                    class="w-5 h-5 text-ghGreen4"
-                                    id="agenda-modal-icon-el"
-                                ></i>
+                            <div id="agenda-modal-icon" class="w-10 h-10 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30">
+                                <i data-lucide="calendar" class="w-5 h-5 text-ghGreen4" id="agenda-modal-icon-el"></i>
                             </div>
                             <div>
-                                <div
-                                    class="font-mono text-[10px] text-ghGreen4 uppercase tracking-widest mb-1"
-                                    id="agenda-modal-time"
-                                ></div>
-                                <h3
-                                    class="text-white font-bold text-lg md:text-xl"
-                                    id="agenda-modal-title"
-                                ></h3>
+                                <div class="font-mono text-[10px] text-ghGreen4 uppercase tracking-widest mb-1" id="agenda-modal-time"></div>
+                                <h3 class="text-white font-bold text-lg md:text-xl" id="agenda-modal-title"></h3>
                             </div>
                         </div>
-                        <button
-                            id="close-agenda-modal"
-                            class="text-ghGray4 hover:text-white transition-colors p-2 rounded-full hover:bg-ghGray8/50"
-                        >
-                            <i
-                                data-lucide="x"
-                                class="w-6 h-6 md:w-7 md:h-7"
-                            ></i>
+                        <button id="close-agenda-modal" class="text-ghGray4 hover:text-white transition-colors p-2 rounded-full hover:bg-ghGray8/50">
+                            <i data-lucide="x" class="w-6 h-6 md:w-7 md:h-7"></i>
                         </button>
                     </div>
-
-                    <!-- Modal Body -->
                     <div class="px-6 md:px-8 py-6 md:py-8">
-                        <p
-                            class="text-ghGray4 text-sm md:text-base leading-relaxed mb-6"
-                            id="agenda-modal-desc"
-                        ></p>
-
-                        <!-- Key Points -->
-                        <div
-                            id="agenda-modal-highlights"
-                            class="space-y-3 mb-6"
-                        ></div>
-
-                        <!-- Footer Tag -->
-                        <div
-                            class="flex items-center gap-2 pt-4 border-t border-ghGray8"
-                        >
-                            <span
-                                class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"
-                            ></span>
-                            <span
-                                class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest"
-                                >GitHub Copilot Dev Days — Bhilai</span
-                            >
+                        <p class="text-ghGray4 text-sm md:text-base leading-relaxed mb-6" id="agenda-modal-desc"></p>
+                        <div id="agenda-modal-highlights" class="space-y-3 mb-6"></div>
+                        <div class="flex items-center gap-2 pt-4 border-t border-ghGray8">
+                            <span class="w-2 h-2 rounded-full bg-ghGreen4 animate-pulse"></span>
+                            <span class="font-mono text-[10px] text-ghGray4 uppercase tracking-widest">GitHub Copilot Dev Days & Hack in Dev Days — Bhilai</span>
                         </div>
                     </div>
                 </div>

@@ -27,7 +27,7 @@ bootSequence.forEach((text) => {
         preloaderContent.appendChild(el);
         gsap.to(el, { opacity: 1, y: 0, duration: 0.3 });
     }, delay);
-    delay += 400 + Math.random() * 400; // Randomize typing delays
+    delay += 400 + Math.random() * 400;
 });
 
 // End preloader and start hero animation
@@ -40,7 +40,10 @@ setTimeout(() => {
             preloader.style.display = "none";
             document.getElementById("body").classList.remove("overflow-hidden");
             initHeroAnimations();
+            initScrollAnimations();
             startTerminalTypewriter();
+            // Recalculate all ScrollTrigger positions now that layout is visible
+            setTimeout(() => ScrollTrigger.refresh(), 200);
         },
     });
 }, delay + 500);
@@ -121,102 +124,128 @@ closeModalBtn.addEventListener("click", () => {
     });
 });
 
-// --- RENDER AGENDA ---
+// --- RENDER AGENDA --- (Handbook timeline data)
 const agendaData = [
     {
-        time: "09:15 AM",
-        title: "Welcome & Registration",
-        desc: "Attendees check in, grab their kits, and settle in. Quick housekeeping.",
-        icon: "users",
-        detail: "Kick off your GitHub Copilot Dev Days experience! Arrive at Rungta International Skills University, check in at the registration desk, and collect your official event kit — including swag, badges, and session guides. Our volunteers will help you navigate the venue and get settled before the opening session begins. This is a great time to network with fellow developers, grab a coffee, and prepare for a day packed with cutting-edge AI-first development learning.",
+        time: "7:00 – 8:00 AM",
+        title: "Breakfast & Registration",
+        desc: "Arrive, check in, collect your event kit, and fuel up for the day ahead.",
+        icon: "coffee",
+        detail: "Kick off your GitHub Copilot Dev Days & Hack in Dev Days experience! Arrive at Rungta International Skills University, check in at the registration desk, and collect your official event kit — including swag, badges, and session guides. Enjoy breakfast while networking with fellow developers. Our volunteers will help you navigate the venue and form teams if you haven't already.",
         highlights: [
             "Collect your official Dev Days event kit & swag",
-            "Network with fellow developers and community members",
-            "Get familiar with the venue and session layout",
+            "Enjoy breakfast and meet your fellow hackers",
+            "Finalize team formation (2–4 members)",
         ],
     },
     {
-        time: "10:15 AM",
-        title: "Opening Session",
-        desc: "Core introductory session covering what GitHub Copilot is, and live demos.",
+        time: "8:00 – 8:45 AM",
+        title: "Dev Days Session Start",
+        desc: "Opening session covering GitHub Copilot, live demos, and Agent Mode capabilities.",
         icon: "terminal",
-        detail: "The Opening Session sets the stage for the entire event. Learn what GitHub Copilot is, how it transforms developer workflows, and see it in action through live demonstrations. This session covers the fundamentals of AI-assisted development — from code completions and chat-based workflows to the latest Agent Mode capabilities. Whether you're new to Copilot or an experienced user, this session ensures everyone starts on the same page with a solid understanding of the platform's power.",
+        detail: "The Opening Session sets the stage for the entire event. Learn what GitHub Copilot is, how it transforms developer workflows, and see it in action through live demonstrations. This session covers AI-assisted development from code completions to chat-based workflows and the latest Agent Mode capabilities. Custom instructions & MCP integration are also covered.",
         highlights: [
             "Introduction to GitHub Copilot and AI-pair programming",
-            "Live demo of Copilot features: code completion, chat, and agent mode",
-            "Overview of the day's learning roadmap and objectives",
+            "Live demo of Copilot features: completion, chat, agent mode",
+            "Custom Instructions & MCP integration overview",
         ],
     },
     {
-        time: "11:00 AM",
+        time: "8:45 – 10:00 AM",
         title: "Community Session",
-        desc: "A developer or community leader shares their hands-on experience building.",
-        icon: "github",
-        detail: "Hear directly from a developer or community leader who has been building real-world projects with GitHub Copilot. This session features authentic stories of how AI-assisted development has accelerated their workflows, solved complex problems, and transformed the way they write code. Expect practical insights, lessons learned, tips and tricks — all from someone who has been in the trenches shipping production code with Copilot by their side.",
+        desc: "Hear from developers and community leaders building real-world projects with Copilot.",
+        icon: "users",
+        detail: "Hear directly from developers and community leaders who have been building real-world projects with GitHub Copilot. This session features authentic stories of how AI-assisted development has accelerated workflows, solved complex problems, and transformed how teams write code. Expect practical insights, lessons learned, and tips you can apply immediately.",
         highlights: [
-            "Real-world experience from an active Copilot developer",
+            "Real-world Copilot developer experiences",
             "Practical tips and workflow optimizations",
-            "Interactive Q&A with the community speaker",
+            "Interactive Q&A with community speakers",
         ],
     },
     {
-        time: "11:45 AM",
-        title: "Technical Deep Dive",
-        desc: "Deep dive into advanced capabilities: custom instructions, MCP integration.",
-        icon: "cpu",
-        detail: "Go beyond the basics in this advanced technical session. Explore GitHub Copilot's most powerful features including custom instructions for personalized AI behavior, Model Context Protocol (MCP) integration for connecting external tools and services, and multi-file editing with Agent Mode. This session is designed for developers who want to push the boundaries of what's possible with AI-assisted development and leverage Copilot as a true development partner — not just an autocomplete tool.",
-        highlights: [
-            "Custom instructions for tailored Copilot behavior",
-            "MCP (Model Context Protocol) integration deep dive",
-            "Agent Mode: multi-file editing and autonomous workflows",
-        ],
-    },
-    {
-        time: "01:00 PM",
-        title: "Lunch Break",
-        desc: "Networking over lunch. A great opportunity to connect with fellow developers.",
-        icon: "coffee",
-        detail: "Take a well-deserved break! Enjoy lunch while connecting with fellow developers, speakers, and Copilot Champions. This is an excellent opportunity for organic networking — discuss what you've learned so far, share project ideas for the upcoming hackathon, or simply enjoy conversations with like-minded tech enthusiasts. Food and refreshments will be provided at the venue.",
-        highlights: [
-            "Complimentary lunch and refreshments provided",
-            "Network with speakers, mentors, and fellow developers",
-            "Form teams and brainstorm ideas for the hackathon",
-        ],
-    },
-    {
-        time: "02:00 PM",
-        title: "Hands-On Workshop",
-        desc: "Guided coding workshop where attendees build a real project. Choose your stack.",
+        time: "10:00 AM – 12:00 PM",
+        title: "Hacking Session 1",
+        desc: "First hacking session begins. Start building your project with your team.",
         icon: "code-2",
-        detail: "This is where theory meets practice. In this guided hands-on workshop, you'll build a real project from scratch using GitHub Copilot as your AI pair programmer. Choose your preferred tech stack — whether it's web development with React/Next.js, backend with Python/Node.js, or full-stack applications. Expert mentors will be available to guide you through each step, helping you leverage Copilot's code generation, debugging, and refactoring capabilities in a real development workflow.",
+        detail: "The hackathon begins! Teams start building their projects in this first 2-hour hacking session. Choose your track — Open Innovation or Google Gemini — and start coding. Mentors are available for guidance. Use GitHub Copilot, Google Gemini, and any other tools to bring your idea to life.",
         highlights: [
-            "Build a real project from scratch with Copilot assistance",
-            "Choose your preferred tech stack and framework",
-            "1:1 mentorship from Copilot Champions and GitHub experts",
+            "Start building your hackathon project",
+            "Choose: Open Innovation or Google Gemini track",
+            "Mentors available for technical guidance",
         ],
     },
     {
-        time: "03:30 PM",
-        title: "Open Lab / Q&A",
-        desc: "Attendees continue experimenting with workshops of their choice. 1:1 support.",
+        time: "12:00 – 1:00 PM",
+        title: "Lunch",
+        desc: "Refuel with a complimentary lunch. Network and brainstorm with other teams.",
+        icon: "utensils",
+        detail: "Take a break and enjoy a complimentary lunch! This is a great time to network with other teams, discuss approaches, get feedback from mentors, and recharge before the afternoon hacking sessions. Food and refreshments provided at the venue.",
+        highlights: [
+            "Complimentary lunch and refreshments",
+            "Network with other teams and mentors",
+            "Brainstorm and iterate on your project",
+        ],
+    },
+    {
+        time: "1:00 – 4:00 PM",
+        title: "Mentoring + Hacking Session 2",
+        desc: "Continue building with dedicated mentor support. 1:1 guidance available.",
         icon: "zap",
-        detail: "Continue your learning journey in this open-format lab session. Work on your workshop projects, experiment with different Copilot features, or start prototyping your hackathon idea. Copilot Champions and mentors are available for 1:1 support — bring your toughest coding challenges and watch how AI-assisted development can help solve them. This session is intentionally unstructured to give you the freedom to explore what interests you most.",
+        detail: "The longest and most intensive hacking session. Continue building your project with dedicated mentor support. Copilot Champions and industry experts are available for 1:1 sessions. This is where most of the heavy lifting happens — push your project towards a working MVP.",
         highlights: [
-            "Open format — explore at your own pace",
-            "1:1 support from Copilot Champions and mentors",
-            "Start prototyping your MLH hackathon project",
+            "3 hours of focused building time",
+            "1:1 mentorship from Copilot Champions",
+            "Push towards a working MVP",
         ],
     },
     {
-        time: "04:15 PM",
-        title: "Closing",
-        desc: "Wrap-up, key takeaways, community shoutouts, swag distribution.",
-        icon: "arrow-right",
-        detail: "We wrap up an incredible day of learning and building! The closing ceremony includes a recap of key takeaways, recognition of standout participants, community shoutouts, and distribution of exclusive GitHub swag and prizes. We'll also share how to get involved with the post-event MLH Hackathon starting April 13th — so you can put your newly acquired Copilot skills to the ultimate test on a global stage.",
+        time: "4:00 – 4:30 PM",
+        title: "Snack Break",
+        desc: "Quick recharge with snacks before the final hacking sprint.",
+        icon: "cookie",
+        detail: "A quick break to recharge before the final sprint. Grab some snacks, stretch your legs, and prepare for the judging rounds ahead. Use this time to review your project status and plan your final push.",
         highlights: [
-            "Recap of the day's key learnings and takeaways",
-            "Exclusive GitHub swag and prize distribution",
-            "Information about the MLH Hackathon (April 13th)",
+            "Snacks and refreshments",
+            "Review project status",
+            "Plan your final sprint and demo",
+        ],
+    },
+    {
+        time: "4:30 – 8:00 PM",
+        title: "Judging + Hacking Session 3",
+        desc: "Final hacking sprint. Round 1 & Round 2 judging. Prepare your demo.",
+        icon: "trophy",
+        detail: "The final and most critical session. Continue hacking while judges conduct two rounds of evaluation. Round 1 checks ~50% project completion and GitHub activity. Round 2 is the final evaluation — your MVP must be ready with a final presentation and demo. Make every minute count!",
+        highlights: [
+            "Round 1: Execution phase (~50% complete, GitHub activity checked)",
+            "Round 2: Final evaluation (MVP ready + presentation)",
+            "Final code freeze and demo preparation",
+        ],
+    },
+    {
+        time: "8:00 – 9:00 PM",
+        title: "Dinner",
+        desc: "Wind down with dinner while judges deliberate on the final results.",
+        icon: "utensils",
+        detail: "Enjoy dinner while the judges finalize their evaluations. This is a great time to reflect on what you built, share experiences with other teams, and celebrate the effort — regardless of the outcome. The winners will be announced shortly!",
+        highlights: [
+            "Complimentary dinner provided",
+            "Judges deliberate on final results",
+            "Celebrate your hackathon journey",
+        ],
+    },
+    {
+        time: "9:00 – 9:30 PM",
+        title: "Winner Announcement & Closing",
+        desc: "Prizes, certificates, GitHub Copilot Pro vouchers, and swag distribution.",
+        icon: "award",
+        detail: "The grand finale! Winners are announced: 1st Prize (₹10,000 + Goodies), 2nd Prize (₹6,000 + Goodies), 3rd Prize (₹4,000 + Goodies), and the special Best Use of Google Gemini prize. All participants receive certificates, stickers, and GitHub Copilot Pro vouchers. What a day!",
+        highlights: [
+            "🥇 1st Prize: ₹10,000 + Goodies",
+            "🥈 2nd Prize: ₹6,000 + Goodies",
+            "🥉 3rd Prize: ₹4,000 + Goodies",
+            "✨ Special: Best Use of Google Gemini",
+            "Certificates & GitHub Copilot Pro vouchers for all",
         ],
     },
 ];
@@ -312,37 +341,47 @@ document
     .getElementById("agenda-modal-bg")
     .addEventListener("click", closeAgendaModal);
 
+// Close modals on Escape
+document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+        closeAgendaModal();
+        // Close reg modal too
+        gsap.to(modalContent, {
+            scale: 0.95, opacity: 0, y: 10, duration: 0.3, ease: "power2.in",
+        });
+        gsap.to(modal, {
+            opacity: 0, duration: 0.3, delay: 0.2,
+            onComplete: () => {
+                modal.classList.add("pointer-events-none");
+                document.body.style.overflow = "auto";
+            },
+        });
+    }
+});
+
 // --- INTERACTIVE CONTRIBUTION GRAPH (Hackathon Section) ---
 const gridContainer = document.getElementById("interactive-grid");
 const levels = ["", "lvl-1", "lvl-2", "lvl-3", "lvl-4", "purple"];
 
-// Generate 30 cells
 for (let i = 0; i < 30; i++) {
     const cell = document.createElement("div");
-    // Assign random initial levels to some cells
     if (Math.random() > 0.5) {
         const randomLvl = levels[Math.floor(Math.random() * levels.length)];
         if (randomLvl) cell.classList.add(randomLvl);
     }
     cell.classList.add("contrib-cell");
 
-    // Interaction
     cell.addEventListener("click", function () {
-        // Cycle through levels on click
         let currentClass = "";
         levels.forEach((lvl) => {
             if (lvl && this.classList.contains(lvl)) currentClass = lvl;
         });
-
         if (currentClass) this.classList.remove(currentClass);
-
         let nextIndex = levels.indexOf(currentClass) + 1;
         if (nextIndex >= levels.length) nextIndex = 0;
-
         const nextClass = levels[nextIndex];
         if (nextClass) {
             this.classList.add(nextClass);
-            // Add pulse effect for purple (copilot)
             if (nextClass === "purple") this.classList.add("animate-pulse");
             else this.classList.remove("animate-pulse");
         } else {
@@ -352,7 +391,7 @@ for (let i = 0; i < 30; i++) {
     gridContainer.appendChild(cell);
 }
 
-// --- TERMINAL TYPEWRITER EFFECT (Hackathon Section) ---
+// --- TERMINAL TYPEWRITER EFFECT ---
 function startTerminalTypewriter() {
     const terminalEl = document.getElementById("terminal-typewriter");
     const lines = [
@@ -362,7 +401,7 @@ function startTerminalTypewriter() {
     ];
 
     let lineIndex = 0;
-    terminalEl.innerHTML = ""; // clear
+    terminalEl.innerHTML = "";
 
     function typeLine() {
         if (lineIndex < lines.length) {
@@ -397,32 +436,114 @@ window.addEventListener("scroll", () => {
     lastScroll = currentScroll;
 });
 
+function initScrollAnimations() {
+    // About section
+    gsap.from(".gs-about-card", {
+        scrollTrigger: { trigger: "#about", start: "top 80%" },
+        y: 40,
+        scale: 0.95,
+        duration: 0.8,
+        stagger: 0.2,
+        ease: "power3.out",
+    });
+
+// Registration section
+gsap.from(".gs-reg-step", {
+    scrollTrigger: { trigger: "#registration", start: "top 80%" },
+    y: 40,
+    scale: 0.95,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: "power3.out",
+});
+
+gsap.from(".gs-reg-info", {
+    scrollTrigger: { trigger: "#registration", start: "top 60%" },
+    y: 30,
+    scale: 0.95,
+    duration: 0.8,
+    stagger: 0.2,
+    ease: "power3.out",
+});
+
+// Agenda section
 gsap.from(".gs-agenda-card", {
     scrollTrigger: { trigger: "#agenda", start: "top 80%" },
     y: 40,
-    opacity: 0,
+    scale: 0.95,
     duration: 0.8,
     stagger: 0.1,
     ease: "power3.out",
 });
 
+// Hackathon section
 gsap.from(".gs-hackathon > div", {
     scrollTrigger: { trigger: "#hackathon", start: "top 80%" },
     y: 40,
-    opacity: 0,
+    scale: 0.95,
     duration: 0.8,
     stagger: 0.2,
     ease: "power3.out",
 });
 
+// Prizes section
+gsap.from(".gs-prize-card", {
+    scrollTrigger: { trigger: "#prizes", start: "top 80%" },
+    y: 60,
+    scale: 0.9,
+    duration: 0.8,
+    stagger: 0.12,
+    ease: "back.out(1.2)",
+});
+
+gsap.from(".gs-perk-card", {
+    scrollTrigger: { trigger: "#prizes", start: "top 60%" },
+    y: 30,
+    scale: 0.95,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: "power3.out",
+});
+
+// Judging section
+gsap.from(".gs-judging-card", {
+    scrollTrigger: { trigger: "#judging", start: "top 80%" },
+    y: 40,
+    scale: 0.95,
+    duration: 0.7,
+    stagger: 0.1,
+    ease: "power3.out",
+});
+
+gsap.from(".gs-judging-info", {
+    scrollTrigger: { trigger: "#judging", start: "top 60%" },
+    y: 30,
+    scale: 0.95,
+    duration: 0.8,
+    stagger: 0.15,
+    ease: "power3.out",
+});
+
+// Ideation section
 gsap.from(".gs-ideation > div", {
     scrollTrigger: { trigger: "#ideation", start: "top 80%" },
     y: 40,
-    opacity: 0,
+    scale: 0.95,
     duration: 0.8,
     stagger: 0.2,
     ease: "power3.out",
 });
+
+// Contact section
+gsap.from(".gs-contact-card", {
+    scrollTrigger: { trigger: "#contact", start: "top 80%" },
+    y: 30,
+    scale: 0.95,
+    duration: 0.6,
+    stagger: 0.1,
+    ease: "power3.out",
+});
+}
 
 // --- GEMINI API INTEGRATION ---
 const fetchWithRetry = async (url, options, maxRetries = 5) => {
@@ -508,4 +629,17 @@ document.getElementById("btn-generate").addEventListener("click", async () => {
         btnText.textContent = "GENERATE ARCHITECTURE";
         elCur.classList.remove("hidden");
     }
+});
+
+// --- SMOOTH SCROLL ---
+document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
+        const href = this.getAttribute("href");
+        if (href === "#") return;
+        e.preventDefault();
+        const target = document.querySelector(href);
+        if (target) {
+            target.scrollIntoView({ behavior: "smooth" });
+        }
+    });
 });

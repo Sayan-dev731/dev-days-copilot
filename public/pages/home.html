@@ -176,12 +176,38 @@
                         <a href="#prizes" class="hover:text-ghGreen4 transition-colors hidden lg:block">PRIZES</a>
                         <a href="#registration" class="hover:text-ghPurple transition-colors hidden lg:block">REGISTER</a>
                         <a href="#ideation" class="hover:text-ghPurple transition-colors hidden lg:block">IDEATION</a>
-                        <button class="lg:hidden text-white">
-                            <i data-lucide="menu" class="w-6 h-6"></i>
+                        <a href="https://drive.google.com/file/d/1qX75GqLsfUV5Wbk5C3DlccAblCrIHokg/view?usp=drive_link" target="_blank" class="hidden lg:flex relative items-center gap-2 group overflow-hidden px-4 py-1.5 rounded bg-[#121613] border border-ghGreen4/40 transition-all duration-500 hover:border-ghGreen4 hover:shadow-[0_0_20px_rgba(15,191,62,0.4)] hover:-translate-y-0.5">
+                            <div class="absolute inset-0 w-0 bg-gradient-to-r from-ghGreen4/80 to-ghGreen5/80 group-hover:w-full transition-all duration-500 ease-out z-0"></div>
+                            <i data-lucide="book-open" class="w-4 h-4 text-ghGreen4 group-hover:text-white transition-colors duration-300 z-10 relative group-hover:scale-110"></i>
+                            <span class="text-ghGreen4 group-hover:text-white transition-colors duration-300 z-10 relative font-bold tracking-wider">HANDBOOK</span>
+                        </a>
+                        <button id="mobile-menu-btn" class="lg:hidden text-white relative z-50 p-1">
+                            <div id="mobile-icon-wrapper" class="transition-transform duration-300">
+                                <i data-lucide="menu" id="m-icon-open" class="w-7 h-7"></i>
+                                <i data-lucide="x" id="m-icon-close" class="w-7 h-7 hidden"></i>
+                            </div>
                         </button>
                     </div>
                 </div>
             </nav>
+
+            <!-- Mobile Menu Overlay -->
+            <div id="mobile-menu" class="fixed inset-0 z-40 bg-[#0d1117]/95 backdrop-blur-xl translate-x-full lg:hidden flex flex-col pt-28 px-8 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] border-l border-ghGray8/30 shadow-2xl">
+                <div class="flex flex-col gap-6 w-full">
+                    <a href="#about" class="mobile-link text-3xl font-bold text-white hover:text-ghGreen4 transition-colors opacity-0 translate-y-4">ABOUT</a>
+                    <a href="#agenda" class="mobile-link text-3xl font-bold text-white hover:text-ghGreen4 transition-colors opacity-0 translate-y-4">AGENDA</a>
+                    <a href="#hackathon" class="mobile-link text-3xl font-bold text-white hover:text-ghGreen4 transition-colors opacity-0 translate-y-4">HACKATHON</a>
+                    <a href="#prizes" class="mobile-link text-3xl font-bold text-white hover:text-ghGreen4 transition-colors opacity-0 translate-y-4">PRIZES</a>
+                    <a href="#registration" class="mobile-link text-3xl font-bold text-ghPurple hover:text-ghGreen4 transition-colors opacity-0 translate-y-4">REGISTER</a>
+                    <a href="#ideation" class="mobile-link text-3xl font-bold text-ghPurple hover:text-ghGreen4 transition-colors opacity-0 translate-y-4">IDEATION</a>
+                    <div class="mobile-link opacity-0 translate-y-4 mt-6">
+                        <a href="https://drive.google.com/file/d/1qX75GqLsfUV5Wbk5C3DlccAblCrIHokg/view?usp=drive_link" target="_blank" class="flex items-center justify-center gap-3 px-6 py-4 rounded bg-[#121613] border border-ghGreen4/40 transition-colors hover:border-ghGreen4 hover:bg-ghGreen4/10 hover:shadow-[0_0_20px_rgba(15,191,62,0.3)]">
+                            <i data-lucide="book-open" class="w-5 h-5 text-ghGreen4"></i>
+                            <span class="text-ghGreen4 font-bold tracking-wider text-xl mb-0.5">HANDBOOK</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
 
             <!-- ===== HERO SECTION ===== -->
             <section class="min-h-[90vh] md:min-h-screen flex flex-col justify-center pt-24 pb-12 px-4 md:px-6">

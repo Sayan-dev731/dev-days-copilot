@@ -679,3 +679,73 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         }
     });
 });
+
+// --- MOBILE MENU LOGIC ---
+const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+const mobileMenu = document.getElementById('mobile-menu');
+const iconOpen = document.getElementById('m-icon-open');
+const iconClose = document.getElementById('m-icon-close');
+const iconWrapper = document.getElementById('mobile-icon-wrapper');
+const mobileLinks = document.querySelectorAll('.mobile-link');
+
+let isMobileMenuOpen = false;
+
+if (mobileMenuBtn && mobileMenu) {
+    mobileMenuBtn.addEventListener('click', () => {
+        isMobileMenuOpen = !isMobileMenuOpen;
+        
+        if (isMobileMenuOpen) {
+            // Open menu
+            mobileMenu.classList.remove('translate-x-full');
+            mobileMenu.classList.add('translate-x-0');
+            document.body.classList.add("overflow-hidden");
+            
+            // Icon transition
+            iconWrapper.classList.add('rotate-90', 'scale-90', 'opacity-0');
+            setTimeout(() => {
+                if(iconOpen) iconOpen.classList.add('hidden');
+                if(iconClose) iconClose.classList.remove('hidden');
+                iconWrapper.classList.remove('rotate-90', 'scale-90', 'opacity-0');
+            }, 150);
+            
+            // Link animations
+            gsap.to(mobileLinks, {
+                y: 0,
+                opacity: 1,
+                duration: 0.4,
+                stagger: 0.08,
+                ease: "power2.out",
+                delay: 0.2
+            });
+        } else {
+            closeMobileMenu();
+        }
+    });
+
+    mobileLinks.forEach(link => {
+        link.addEventListener('click', closeMobileMenu);
+    });
+}
+
+function closeMobileMenu() {
+    isMobileMenuOpen = false;
+    mobileMenu.classList.remove('translate-x-0');
+    mobileMenu.classList.add('translate-x-full');
+    document.body.classList.remove("overflow-hidden");
+    
+    // Icon transition
+    iconWrapper.classList.add('-rotate-90', 'scale-90', 'opacity-0');
+    setTimeout(() => {
+        if(iconClose) iconClose.classList.add('hidden');
+        if(iconOpen) iconOpen.classList.remove('hidden');
+        iconWrapper.classList.remove('-rotate-90', 'scale-90', 'opacity-0');
+    }, 150);
+    
+    // Reset links
+    gsap.to(mobileLinks, {
+        y: 16,
+        opacity: 0,
+        duration: 0.2,
+        ease: "power2.in"
+    });
+}

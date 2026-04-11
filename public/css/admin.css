@@ -1,0 +1,221 @@
+/* Admin Dashboard Specific Styles */
+
+/* Animation Classes */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-slide-in-down {
+    animation: slideInDown 0.5s ease-out;
+}
+
+.animate-slide-in-up {
+    animation: slideInUp 0.5s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+#login-btn-spinner,
+#signup-btn-spinner,
+#pwd-btn-spinner {
+    animation: spin 1s linear infinite;
+}
+
+/* Smooth transitions for form elements */
+input:focus {
+    box-shadow: 0 0 0 3px rgba(15, 191, 62, 0.1);
+}
+
+/* Admin stat cards */
+.stat-card {
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+}
+
+/* Dashboard transitions */
+#login-container {
+    animation: fadeIn 0.4s ease-out;
+}
+
+#dashboard-container {
+    animation: slideInUp 0.5s ease-out;
+}
+
+/* Button animations */
+button {
+    position: relative;
+    overflow: hidden;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+}
+
+button:active::before {
+    width: 300px;
+    height: 300px;
+}
+
+/* Form group styling */
+.form-group {
+    position: relative;
+}
+
+.form-group input::placeholder {
+    transition: color 0.3s ease;
+}
+
+.form-group input:focus::placeholder {
+    color: transparent;
+}
+
+/* Auth error/success styling */
+.auth-message {
+    animation: slideInDown 0.3s ease-out;
+}
+
+/* Loading state for buttons */
+.btn-loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #login-container {
+        padding: 2rem 1rem;
+    }
+
+    .stat-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Glassmorphism effect for header */
+header {
+    background: linear-gradient(135deg, rgba(18, 22, 19, 0.8) 0%, rgba(53, 61, 55, 0.4) 100%);
+}
+
+/* Icon animations */
+i[data-lucide] {
+    display: inline-block;
+}
+
+.animate-rotation {
+    animation: spin 2s linear infinite;
+}
+
+/* Activity feed pulse effect */
+.pulse-indicator {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Transition for container visibility */
+.transition-visibility {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* Border accent animations */
+.border-accent-animated {
+    position: relative;
+    border-image: linear-gradient(90deg, #0fbf3e, #8534f3, #3094ff) 1;
+    animation: borderFlow 3s ease-in-out infinite;
+}
+
+@keyframes borderFlow {
+
+    0%,
+    100% {
+        border-image-source: linear-gradient(90deg, #0fbf3e, #8534f3, #3094ff);
+    }
+
+    50% {
+        border-image-source: linear-gradient(90deg, #3094ff, #0fbf3e, #8534f3);
+    }
+}
+
+/* Better focus states for accessibility */
+*:focus-visible {
+    outline: 2px solid #0fbf3e;
+    outline-offset: 2px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #121613;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #353d37;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #b6bfb8;
+}

@@ -29,14 +29,22 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public", "pages", "home.html"));
 });
 
+app.get("/admin", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "public", "pages", "admin.html"));
+});
+
 // gemini response route
 import responseRouter from "./routes/response.route.js";
 // health check route
 import healthCheck from "./routes/health.route.js";
+// admin auth routes
+import adminRouter from "./routes/admin.route.js";
 
 app.use("/api/v1/chatbot", responseRouter);
 
 app.use("/api/v1/check", healthCheck);
+
+app.use("/api/v1/auth/admin", adminRouter);
 
 app.all(/(.*)/, (req, res) => {
     res.status(404).sendFile(

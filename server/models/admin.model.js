@@ -11,7 +11,7 @@ const adminSchema = new mongoose.Schema(
         },
         password: {
             type: String,
-            required: [true, "password is required to fill in."],
+            required: true,
             default: "devdays_admin1",
         },
         refreshToken: {
@@ -22,10 +22,10 @@ const adminSchema = new mongoose.Schema(
 );
 
 adminSchema.pre("save", async function (next) {
-    if (this.isModified("password")) return next();
+    if (!this.isModified("password")) return next;
 
     this.password = await bcrypt.hash(this.password, 10);
-    next();
+    next;
 });
 
 adminSchema.methods.comparePassword = async function (adminPassword) {

@@ -29,17 +29,12 @@ app.get("/", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public", "pages", "home.html"));
 });
 
-// app.use((req, res) => {
-//     res.sendFile(path.join(__dirname, "..", "public", "pages", "404.html"));
-// });
-
 // gemini response route
-import { responseRouter } from "./routes/response.route.js";
+import responseRouter from "./routes/response.route.js";
+// health check route
+import healthCheck from "./routes/health.route.js";
 
 app.use("/api/v1/chatbot", responseRouter);
-
-// health check route
-import { healthCheck } from "./controllers/health.controller.js";
 
 app.use("/api/v1/check", healthCheck);
 

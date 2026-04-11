@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { geminiResponse } from "../controllers/gemini.controller.js";
 
-const responseRouter = Router();
+const router = Router();
 
 // route for google gemini response
-responseRouter.route("/response").post(geminiResponse);
+router.route("/response").post(geminiResponse);
 
-export { responseRouter };
+export default router;

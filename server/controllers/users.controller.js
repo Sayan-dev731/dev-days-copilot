@@ -322,6 +322,30 @@ const bulkImportUsers = asyncHandler(async (req, res) => {
     );
 });
 
+// Validate user email (public endpoint - no auth required)
+const validateUserEmail = asyncHandler(async (req, res) => {
+    const { email } = req.body;
+
+    if (!email) {
+        throw new ApiError(400, "Email is required");
+    }
+
+    const user = await User.findOne({ email: email.toLowerCase().trim() });
+
+    if (!user) {
+        throw new ApiError(404, "No registration found with this email");
+    }
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(200, "Email validated successfully", {
+                _id: user._id,
+                firstName: user.firstName,
+            }),
+        );
+});
+
 export {
     getAllUsers,
     getUserById,
@@ -333,4 +357,5 @@ export {
     resetMealAllowances,
     getUserStats,
     bulkImportUsers,
+    validateUserEmail,
 };

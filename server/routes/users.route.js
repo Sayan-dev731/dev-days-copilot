@@ -11,11 +11,15 @@ import {
     resetMealAllowances,
     getUserStats,
     bulkImportUsers,
+    validateUserEmail,
 } from "../controllers/users.controller.js";
 
 const router = Router();
 
-// All routes require JWT authentication from admin
+// Public route - no authentication required
+router.post("/validate-email", validateUserEmail);
+
+// All routes below require JWT authentication from admin
 router.use(verifyJWT);
 
 // Get user statistics (must be before :userId to avoid conflict)

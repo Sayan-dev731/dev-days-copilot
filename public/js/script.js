@@ -749,3 +749,485 @@ function closeMobileMenu() {
         ease: "power2.in"
     });
 }
+
+// ============================================================
+// ID CARD GENERATOR
+// ============================================================
+
+(function() {
+    // --- State ---
+    let validatedUserId = null;
+    let validatedFirstName = null;
+    let constellationAnimId = null;
+
+    // --- DOM Elements ---
+    const emailInput = document.getElementById('idcard-email-input');
+    const validateBtn = document.getElementById('idcard-validate-btn');
+    const emailError = document.getElementById('idcard-email-error');
+    const emailSuccess = document.getElementById('idcard-email-success');
+    const stepGithub = document.getElementById('idcard-step-github');
+    const githubInput = document.getElementById('idcard-github-input');
+    const generateBtn = document.getElementById('idcard-generate-btn');
+    const generatingStatus = document.getElementById('idcard-generating-status');
+    const statusText = document.getElementById('idcard-status-text');
+    const placeholder = document.getElementById('idcard-placeholder');
+    const cardCanvas = document.getElementById('idcard-canvas');
+    const downloadBtn = document.getElementById('idcard-download-btn');
+    const regenerateBtn = document.getElementById('idcard-regenerate-btn');
+    const constellationCanvas = document.getElementById('constellation-canvas');
+
+    // =========================================
+    // CONSTELLATION / STARFIELD ANIMATION
+    // =========================================
+    function initConstellation() {
+        const canvas = constellationCanvas;
+        const ctx = canvas.getContext('2d');
+        const section = document.getElementById('id-card');
+
+        function resize() {
+            canvas.width = section.offsetWidth;
+            canvas.height = section.offsetHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // Stars
+        const stars = [];
+        const STAR_COUNT = 250;
+        const colors = [
+            'rgba(15, 191, 62, ',   // green
+            'rgba(133, 52, 243, ',  // purple
+            'rgba(48, 148, 255, ',  // blue
+            'rgba(255, 255, 255, ', // white
+        ];
+
+        for (let i = 0; i < STAR_COUNT; i++) {
+            stars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                radius: Math.random() * 1.8 + 0.3,
+                color: colors[Math.floor(Math.random() * colors.length)],
+                twinkleSpeed: Math.random() * 0.03 + 0.01,
+                twinklePhase: Math.random() * Math.PI * 2,
+                vx: (Math.random() - 0.5) * 0.15,
+                vy: (Math.random() - 0.5) * 0.1,
+            });
+        }
+
+        // Constellation lines (connect nearby stars)
+        function getConstellationLines() {
+            const lines = [];
+            const maxDist = 120;
+            for (let i = 0; i < stars.length; i++) {
+                for (let j = i + 1; j < stars.length; j++) {
+                    const dx = stars[i].x - stars[j].x;
+                    const dy = stars[i].y - stars[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < maxDist) {
+                        lines.push({ a: stars[i], b: stars[j], dist });
+                    }
+                }
+            }
+            return lines;
+        }
+
+        // Shooting stars
+        const shootingStars = [];
+        function spawnShootingStar() {
+            shootingStars.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height * 0.3,
+                length: Math.random() * 80 + 40,
+                speed: Math.random() * 8 + 4,
+                angle: Math.PI / 4 + (Math.random() - 0.5) * 0.3,
+                opacity: 1,
+                color: Math.random() > 0.5 ? '#0FBF3E' : '#8534F3',
+            });
+        }
+
+        let frame = 0;
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            frame++;
+
+            // Update and draw stars
+            for (const star of stars) {
+                star.x += star.vx;
+                star.y += star.vy;
+
+                // Wrap around
+                if (star.x < 0) star.x = canvas.width;
+                if (star.x > canvas.width) star.x = 0;
+                if (star.y < 0) star.y = canvas.height;
+                if (star.y > canvas.height) star.y = 0;
+
+                const twinkle = Math.sin(frame * star.twinkleSpeed + star.twinklePhase);
+                const alpha = 0.3 + (twinkle + 1) * 0.35;
+
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                ctx.fillStyle = star.color + alpha + ')';
+                ctx.fill();
+
+                // Glow for larger stars
+                if (star.radius > 1.2) {
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius * 3, 0, Math.PI * 2);
+                    ctx.fillStyle = star.color + (alpha * 0.15) + ')';
+                    ctx.fill();
+                }
+            }
+
+            // Draw constellation lines
+            const lines = getConstellationLines();
+            for (const line of lines) {
+                const alpha = (1 - line.dist / 120) * 0.15;
+                ctx.beginPath();
+                ctx.moveTo(line.a.x, line.a.y);
+                ctx.lineTo(line.b.x, line.b.y);
+                ctx.strokeStyle = `rgba(48, 148, 255, ${alpha})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+            }
+
+            // Spawn shooting stars periodically
+            if (frame % 90 === 0) spawnShootingStar();
+
+            // Update and draw shooting stars
+            for (let i = shootingStars.length - 1; i >= 0; i--) {
+                const ss = shootingStars[i];
+                ss.x += Math.cos(ss.angle) * ss.speed;
+                ss.y += Math.sin(ss.angle) * ss.speed;
+                ss.opacity -= 0.015;
+
+                if (ss.opacity <= 0) {
+                    shootingStars.splice(i, 1);
+                    continue;
+                }
+
+                const tailX = ss.x - Math.cos(ss.angle) * ss.length;
+                const tailY = ss.y - Math.sin(ss.angle) * ss.length;
+
+                const gradient = ctx.createLinearGradient(tailX, tailY, ss.x, ss.y);
+                gradient.addColorStop(0, 'transparent');
+                gradient.addColorStop(1, ss.color);
+
+                ctx.beginPath();
+                ctx.moveTo(tailX, tailY);
+                ctx.lineTo(ss.x, ss.y);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.globalAlpha = ss.opacity;
+                ctx.stroke();
+                ctx.globalAlpha = 1;
+            }
+
+            constellationAnimId = requestAnimationFrame(animate);
+        }
+
+        animate();
+    }
+
+    function startConstellation() {
+        constellationCanvas.style.opacity = '1';
+        if (!constellationAnimId) initConstellation();
+    }
+
+    function stopConstellation() {
+        gsap.to(constellationCanvas, {
+            opacity: 0,
+            duration: 1.5,
+            onComplete: () => {
+                if (constellationAnimId) {
+                    cancelAnimationFrame(constellationAnimId);
+                    constellationAnimId = null;
+                }
+            }
+        });
+    }
+
+    // =========================================
+    // STEP 1: EMAIL VALIDATION
+    // =========================================
+    validateBtn.addEventListener('click', async () => {
+        const email = emailInput.value.trim();
+        emailError.classList.add('hidden');
+        emailSuccess.classList.add('hidden');
+
+        if (!email) {
+            emailError.textContent = '> SYS_ERR: Email field cannot be empty.';
+            emailError.classList.remove('hidden');
+            return;
+        }
+
+        // Disable button
+        validateBtn.disabled = true;
+        validateBtn.textContent = 'VALIDATING...';
+
+        try {
+            const res = await fetch('/api/v1/users/validate-email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await res.json();
+
+            if (!res.ok) {
+                throw new Error(data.message || 'Email not found in our records');
+            }
+
+            // Success
+            validatedUserId = data.data._id;
+            validatedFirstName = data.data.firstName;
+            emailSuccess.textContent = `> VERIFIED: Welcome, ${validatedFirstName}! Proceed to enter your GitHub username.`;
+            emailSuccess.classList.remove('hidden');
+
+            // Activate step 2
+            gsap.to(stepGithub, {
+                opacity: 1,
+                duration: 0.5,
+                ease: 'power2.out',
+                onComplete: () => {
+                    stepGithub.classList.remove('pointer-events-none');
+                    stepGithub.style.borderLeftColor = '#0FBF3E';
+                    githubInput.focus();
+                }
+            });
+
+            // Mark step 1 as complete
+            emailInput.disabled = true;
+            validateBtn.textContent = 'VERIFIED ✓';
+            validateBtn.classList.remove('bg-ghSecurityBlue/10', 'border-ghSecurityBlue/40', 'text-ghSecurityBlue', 'hover:bg-ghSecurityBlue');
+            validateBtn.classList.add('bg-ghGreen4/10', 'border-ghGreen4/40', 'text-ghGreen4');
+
+        } catch (err) {
+            emailError.textContent = `> SYS_ERR: ${err.message}`;
+            emailError.classList.remove('hidden');
+            validateBtn.disabled = false;
+            validateBtn.textContent = 'VALIDATE';
+        }
+    });
+
+    // Allow Enter key on email input
+    emailInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') validateBtn.click();
+    });
+
+    // =========================================
+    // STEP 2: GENERATE CARD
+    // =========================================
+    generateBtn.addEventListener('click', async () => {
+        const githubUsername = githubInput.value.trim();
+
+        if (!githubUsername) {
+            githubInput.style.borderColor = '#f87171';
+            setTimeout(() => { githubInput.style.borderColor = ''; }, 2000);
+            return;
+        }
+
+        if (!validatedUserId) {
+            emailError.textContent = '> SYS_ERR: Please validate your email first.';
+            emailError.classList.remove('hidden');
+            return;
+        }
+
+        // Disable inputs
+        githubInput.disabled = true;
+        generateBtn.disabled = true;
+        generateBtn.textContent = 'GENERATING...';
+
+        // Show status + start constellation
+        generatingStatus.classList.remove('hidden');
+        startConstellation();
+
+        // Animate status messages
+        const messages = [
+            'Initializing card generation...',
+            'Loading card template...',
+            'Generating QR code from UID...',
+            'Inverting QR code colors...',
+            'Compositing GitHub identity...',
+            'Rendering final card...',
+            'Card generation complete!'
+        ];
+
+        try {
+            // Animate through status messages
+            for (let i = 0; i < messages.length - 1; i++) {
+                statusText.textContent = messages[i];
+                await new Promise(r => setTimeout(r, 600 + Math.random() * 400));
+            }
+
+            // Generate the card
+            await generateCard(githubUsername, validatedUserId);
+
+            statusText.textContent = messages[messages.length - 1];
+            await new Promise(r => setTimeout(r, 500));
+
+            // Show card
+            placeholder.classList.add('hidden');
+            cardCanvas.classList.remove('hidden');
+
+            // Show buttons
+            downloadBtn.classList.remove('hidden');
+            regenerateBtn.classList.remove('hidden');
+            lucide.createIcons();
+
+            // Hide status + stop constellation
+            gsap.to(generatingStatus, { opacity: 0, duration: 0.3, onComplete: () => {
+                generatingStatus.classList.add('hidden');
+                generatingStatus.style.opacity = '';
+            }});
+
+            stopConstellation();
+
+            // Animate card reveal
+            gsap.fromTo(cardCanvas, 
+                { scale: 0.9, opacity: 0 },
+                { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out(1.2)' }
+            );
+            gsap.fromTo(downloadBtn,
+                { y: 20, opacity: 0 },
+                { y: 0, opacity: 1, duration: 0.5, delay: 0.3, ease: 'power2.out' }
+            );
+
+            generateBtn.textContent = 'GENERATED ✓';
+            generateBtn.classList.remove('bg-ghGreen4/10', 'border-ghGreen4/40', 'text-ghGreen4', 'hover:bg-ghGreen4');
+            generateBtn.classList.add('bg-ghGreen4/20', 'border-ghGreen4', 'text-ghGreen4');
+
+        } catch (err) {
+            console.error('Card generation error:', err);
+            statusText.textContent = `Error: ${err.message}`;
+            stopConstellation();
+            generateBtn.disabled = false;
+            githubInput.disabled = false;
+            generateBtn.textContent = 'GENERATE';
+        }
+    });
+
+    // Allow Enter key on github input
+    githubInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') generateBtn.click();
+    });
+
+    // =========================================
+    // CARD GENERATION (Canvas)
+    // =========================================
+    async function generateCard(githubUsername, userId) {
+        const canvas = cardCanvas;
+        const ctx = canvas.getContext('2d');
+        const W = 1845;
+        const H = 3137;
+
+        // Load the blank card template
+        const cardImg = await loadImage('../images/card-blank.png');
+        ctx.drawImage(cardImg, 0, 0, W, H);
+
+        // --- Draw GitHub Username ---
+        // Position based on the reference card: large bold text, center-left, below hero graphic
+        ctx.save();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.textBaseline = 'top';
+
+        // Measure and fit the username
+        let fontSize = 160;
+        ctx.font = `bold ${fontSize}px "Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif`;
+
+        // Scale down if too wide (leave 100px padding on each side)
+        let textWidth = ctx.measureText(githubUsername).width;
+        const maxWidth = W - 120;
+        if (textWidth > maxWidth) {
+            fontSize = Math.floor(fontSize * (maxWidth / textWidth));
+            ctx.font = `bold ${fontSize}px "Mona Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif`;
+        }
+
+        // Draw the username at the reference position (~55% down)
+        const textX = 60;
+        const textY = 1680;
+        ctx.fillText(githubUsername, textX, textY);
+        ctx.restore();
+
+        // --- Generate QR Code (Inverted: white on transparent) ---
+        const qr = qrcode(0, 'M');
+        qr.addData(userId);
+        qr.make();
+
+        const moduleCount = qr.getModuleCount();
+        const qrSize = 500; // QR code size in pixels
+        const cellSize = qrSize / moduleCount;
+
+        // Create temporary canvas for the QR code
+        const qrCanvas = document.createElement('canvas');
+        qrCanvas.width = qrSize;
+        qrCanvas.height = qrSize;
+        const qrCtx = qrCanvas.getContext('2d');
+
+        // Draw inverted QR: white modules on transparent background
+        qrCtx.clearRect(0, 0, qrSize, qrSize);
+        for (let row = 0; row < moduleCount; row++) {
+            for (let col = 0; col < moduleCount; col++) {
+                if (qr.isDark(row, col)) {
+                    qrCtx.fillStyle = '#FFFFFF';
+                    qrCtx.fillRect(
+                        col * cellSize,
+                        row * cellSize,
+                        cellSize + 0.5,
+                        cellSize + 0.5
+                    );
+                }
+            }
+        }
+
+        // Draw QR code on the card at bottom-right position
+        const qrX = W - qrSize - 80;
+        const qrY = H - qrSize - 130;
+        ctx.drawImage(qrCanvas, qrX, qrY, qrSize, qrSize);
+    }
+
+    function loadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+            img.src = src;
+        });
+    }
+
+    // =========================================
+    // DOWNLOAD
+    // =========================================
+    downloadBtn.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.download = `github-devdays-idcard-${githubInput.value.trim()}.png`;
+        link.href = cardCanvas.toDataURL('image/png');
+        link.click();
+    });
+
+    // =========================================
+    // REGENERATE
+    // =========================================
+    regenerateBtn.addEventListener('click', () => {
+        // Reset step 2
+        githubInput.disabled = false;
+        githubInput.value = '';
+        generateBtn.disabled = false;
+        generateBtn.textContent = 'GENERATE';
+        generateBtn.classList.remove('bg-ghGreen4/20', 'border-ghGreen4');
+        generateBtn.classList.add('bg-ghGreen4/10', 'border-ghGreen4/40', 'text-ghGreen4', 'hover:bg-ghGreen4');
+
+        // Hide card + buttons
+        cardCanvas.classList.add('hidden');
+        placeholder.classList.remove('hidden');
+        downloadBtn.classList.add('hidden');
+        regenerateBtn.classList.add('hidden');
+
+        // Clear canvas
+        const ctx = cardCanvas.getContext('2d');
+        ctx.clearRect(0, 0, cardCanvas.width, cardCanvas.height);
+
+        githubInput.focus();
+    });
+})();
+

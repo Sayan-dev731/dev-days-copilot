@@ -20,6 +20,9 @@
         <!-- Lucide Icons -->
         <script src="https://unpkg.com/lucide@latest"></script>
 
+        <!-- QR Code Generator -->
+        <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.min.js"></script>
+
         <!-- Configuration & Custom CSS -->
         <script>
             tailwind.config = {
@@ -254,6 +257,11 @@
                             >IDEATION</a
                         >
                         <a
+                            href="#id-card"
+                            class="hover:text-ghSecurityBlue transition-colors hidden lg:block"
+                            >ID CARD</a
+                        >
+                        <a
                             href="https://drive.google.com/file/d/18bGx8-i6_Jxnp7qrd5BfI2qthFGJ_6nW/view?usp=sharing"
                             target="_blank"
                             class="hidden lg:flex relative items-center gap-2 group overflow-hidden px-4 py-1.5 rounded bg-[#121613] border border-ghGreen4/40 transition-all duration-500 hover:border-ghGreen4 hover:shadow-[0_0_20px_rgba(15,191,62,0.4)] hover:-translate-y-0.5"
@@ -329,6 +337,11 @@
                         href="#ideation"
                         class="mobile-link text-3xl font-bold text-ghPurple hover:text-ghGreen4 transition-colors opacity-0 translate-y-4"
                         >IDEATION</a
+                    >
+                    <a
+                        href="#id-card"
+                        class="mobile-link text-3xl font-bold text-[#3094FF] hover:text-ghGreen4 transition-colors opacity-0 translate-y-4"
+                        >ID CARD</a
                     >
                     <div class="mobile-link opacity-0 translate-y-4 mt-6">
                         <a
@@ -1790,6 +1803,235 @@
                             Stay connected through the official portals for the
                             latest updates and announcements
                         </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ===== ID CARD GENERATOR SECTION ===== -->
+            <section
+                id="id-card"
+                class="py-20 md:py-32 px-4 md:px-6 relative overflow-hidden min-h-screen"
+            >
+                <!-- Constellation Canvas Background -->
+                <canvas
+                    id="constellation-canvas"
+                    class="absolute inset-0 w-full h-full z-0 opacity-0 transition-opacity duration-1000"
+                ></canvas>
+
+                <div
+                    class="max-w-[1400px] mx-auto relative z-10"
+                >
+                    <!-- Section Header -->
+                    <div
+                        class="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 items-end mb-12 md:mb-16"
+                    >
+                        <div class="lg:col-span-8">
+                            <span
+                                class="font-mono text-xs text-ghSecurityBlue uppercase tracking-widest block mb-4"
+                                >// Generate Your ID Card</span
+                            >
+                            <h2 class="text-h1 mb-4 md:mb-6">
+                                Your Event <br /><span class="text-ghGray4"
+                                    >Identity</span
+                                >
+                            </h2>
+                            <p
+                                class="text-body-lg max-w-2xl border-l-[4px] border-l-ghSecurityBlue pl-4 text-sm md:text-base"
+                            >
+                                Generate your personalized GitHub Dev Days ID
+                                card. Verify your registration, enter your
+                                GitHub username, and download your unique card.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- ID Card Generator Interface -->
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start">
+                        <!-- Left: Form Steps -->
+                        <div class="space-y-8">
+                            <!-- Step 1: Email Validation -->
+                            <div
+                                id="idcard-step-email"
+                                class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[4px] border-l-ghSecurityBlue transition-all duration-300"
+                            >
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div
+                                        class="w-10 h-10 rounded bg-ghSecurityBlue/10 flex items-center justify-center border border-ghSecurityBlue/30"
+                                    >
+                                        <i
+                                            data-lucide="mail"
+                                            class="w-5 h-5 text-ghSecurityBlue"
+                                        ></i>
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="font-mono text-[10px] text-ghSecurityBlue uppercase tracking-widest block"
+                                            >Step 01</span
+                                        >
+                                        <h3
+                                            class="text-lg font-bold text-white"
+                                        >
+                                            Verify Your Email
+                                        </h3>
+                                    </div>
+                                </div>
+                                <p
+                                    class="text-ghGray4 text-sm mb-6 leading-relaxed"
+                                >
+                                    Enter the email you used for registration.
+                                    We'll verify it against our database.
+                                </p>
+                                <div class="flex gap-3">
+                                    <input
+                                        type="email"
+                                        id="idcard-email-input"
+                                        placeholder="your.email@example.com"
+                                        class="flex-1 bg-[#0d1117] border border-ghGray8 rounded px-4 py-3 text-white font-mono text-sm placeholder:text-ghGray8 focus:outline-none focus:border-ghSecurityBlue transition-colors"
+                                    />
+                                    <button
+                                        id="idcard-validate-btn"
+                                        class="px-6 py-3 bg-ghSecurityBlue/10 border border-ghSecurityBlue/40 rounded font-mono text-sm text-ghSecurityBlue hover:bg-ghSecurityBlue hover:text-white transition-all duration-300 tracking-wider whitespace-nowrap"
+                                    >
+                                        VALIDATE
+                                    </button>
+                                </div>
+                                <div
+                                    id="idcard-email-error"
+                                    class="hidden mt-4 text-red-400 font-mono text-xs"
+                                ></div>
+                                <div
+                                    id="idcard-email-success"
+                                    class="hidden mt-4 text-ghGreen4 font-mono text-xs"
+                                ></div>
+                            </div>
+
+                            <!-- Step 2: GitHub Username (Hidden Initially) -->
+                            <div
+                                id="idcard-step-github"
+                                class="bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[4px] border-l-ghGray8 transition-all duration-500 opacity-40 pointer-events-none"
+                            >
+                                <div class="flex items-center gap-3 mb-6">
+                                    <div
+                                        class="w-10 h-10 rounded bg-ghGreen4/10 flex items-center justify-center border border-ghGreen4/30"
+                                    >
+                                        <i
+                                            data-lucide="github"
+                                            class="w-5 h-5 text-ghGreen4"
+                                        ></i>
+                                    </div>
+                                    <div>
+                                        <span
+                                            class="font-mono text-[10px] text-ghGreen4 uppercase tracking-widest block"
+                                            >Step 02</span
+                                        >
+                                        <h3
+                                            class="text-lg font-bold text-white"
+                                        >
+                                            Enter GitHub Username
+                                        </h3>
+                                    </div>
+                                </div>
+                                <p
+                                    class="text-ghGray4 text-sm mb-6 leading-relaxed"
+                                >
+                                    Your GitHub username will appear on your ID
+                                    card. Enter just the username (e.g.,
+                                    <span class="text-white">Sayan-dev731</span
+                                    >).
+                                </p>
+                                <div class="flex gap-3">
+                                    <div class="flex-1 flex items-center bg-[#0d1117] border border-ghGray8 rounded px-4 py-3 focus-within:border-ghGreen4 transition-colors">
+                                        <span class="text-ghGray4 font-mono text-sm mr-1">@</span>
+                                        <input
+                                            type="text"
+                                            id="idcard-github-input"
+                                            placeholder="your-username"
+                                            class="flex-1 bg-transparent text-white font-mono text-sm placeholder:text-ghGray8 focus:outline-none"
+                                        />
+                                    </div>
+                                    <button
+                                        id="idcard-generate-btn"
+                                        class="px-6 py-3 bg-ghGreen4/10 border border-ghGreen4/40 rounded font-mono text-sm text-ghGreen4 hover:bg-ghGreen4 hover:text-white transition-all duration-300 tracking-wider whitespace-nowrap"
+                                    >
+                                        GENERATE
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Status Messages -->
+                            <div
+                                id="idcard-generating-status"
+                                class="hidden bg-[#121613]/80 backdrop-blur-md p-6 md:p-8 border-subtle border-l-[4px] border-l-ghPurple"
+                            >
+                                <div class="flex items-center gap-4">
+                                    <div class="idcard-spinner"></div>
+                                    <div>
+                                        <span class="font-mono text-xs text-ghPurple uppercase tracking-widest block mb-1">Generating</span>
+                                        <p class="text-white font-mono text-sm" id="idcard-status-text">Initializing card generation...</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right: Card Preview -->
+                        <div class="flex flex-col items-center">
+                            <div
+                                id="idcard-preview-container"
+                                class="relative w-full max-w-[400px] aspect-[1845/3137] bg-[#121613]/50 border border-ghGray8 rounded-sm overflow-hidden flex items-center justify-center"
+                            >
+                                <!-- Placeholder State -->
+                                <div
+                                    id="idcard-placeholder"
+                                    class="flex flex-col items-center gap-4 text-center px-8"
+                                >
+                                    <div class="w-16 h-16 rounded-full bg-ghGray8/20 flex items-center justify-center border border-ghGray8/40">
+                                        <i
+                                            data-lucide="id-card"
+                                            class="w-8 h-8 text-ghGray8"
+                                        ></i>
+                                    </div>
+                                    <p class="font-mono text-xs text-ghGray8 uppercase tracking-widest">
+                                        Your ID card will appear here
+                                    </p>
+                                </div>
+
+                                <!-- Generated Card (Hidden Initially) -->
+                                <canvas
+                                    id="idcard-canvas"
+                                    class="hidden absolute inset-0 w-full h-full"
+                                    width="1845"
+                                    height="3137"
+                                ></canvas>
+                            </div>
+
+                            <!-- Download Button (Hidden Initially) -->
+                            <button
+                                id="idcard-download-btn"
+                                class="hidden mt-6 w-full max-w-[400px] group relative overflow-hidden px-8 py-4 rounded bg-[#121613] border border-ghGreen4/40 transition-all duration-500 hover:border-ghGreen4 hover:shadow-[0_0_20px_rgba(15,191,62,0.4)] hover:-translate-y-0.5"
+                            >
+                                <div
+                                    class="absolute inset-0 w-0 bg-gradient-to-r from-ghGreen4/80 to-ghGreen5/80 group-hover:w-full transition-all duration-500 ease-out z-0"
+                                ></div>
+                                <div class="flex items-center justify-center gap-3 z-10 relative">
+                                    <i
+                                        data-lucide="download"
+                                        class="w-5 h-5 text-ghGreen4 group-hover:text-white transition-colors duration-300"
+                                    ></i>
+                                    <span
+                                        class="text-ghGreen4 group-hover:text-white transition-colors duration-300 font-mono font-bold tracking-wider text-sm"
+                                        >DOWNLOAD ID CARD</span
+                                    >
+                                </div>
+                            </button>
+
+                            <!-- Regenerate Button (Hidden Initially) -->
+                            <button
+                                id="idcard-regenerate-btn"
+                                class="hidden mt-3 w-full max-w-[400px] px-8 py-3 rounded bg-transparent border border-ghGray8 hover:border-ghGray4 transition-all duration-300 font-mono text-xs text-ghGray4 hover:text-white tracking-wider"
+                            >
+                                REGENERATE WITH DIFFERENT USERNAME
+                            </button>
+                        </div>
                     </div>
                 </div>
             </section>

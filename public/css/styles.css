@@ -324,3 +324,36 @@ body {
     transform: translateY(-4px) scale(1.1);
     color: var(--ghGreen4);
 }
+
+/* ID Card Generator Styles */
+#constellation-canvas {
+    pointer-events: none;
+}
+
+.idcard-spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(133, 52, 243, 0.2);
+    border-top-color: #8534F3;
+    border-radius: 50%;
+    animation: idcard-spin 0.8s linear infinite;
+}
+
+@keyframes idcard-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#idcard-preview-container {
+    box-shadow: 0 0 60px rgba(48, 148, 255, 0.05), inset 0 0 60px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.5s ease;
+}
+
+#idcard-preview-container:has(canvas:not(.hidden)) {
+    box-shadow: 0 0 80px rgba(15, 191, 62, 0.08), 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#idcard-canvas {
+    object-fit: contain;
+}

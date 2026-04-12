@@ -1,0 +1,279 @@
+/* Users Management Page Styles */
+
+/* Tab Navigation */
+.tab-btn {
+    display: flex;
+    align-items: center;
+}
+
+.tab-btn:hover {
+    transform: translateY(-2px);
+}
+
+/* Tab Content */
+.tab-content {
+    animation: fadeIn 0.4s ease-out;
+}
+
+/* Animation Classes */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.animate-slide-in-down {
+    animation: slideInDown 0.5s ease-out;
+}
+
+.animate-slide-in-up {
+    animation: slideInUp 0.5s ease-out;
+}
+
+.animate-fade-in {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Form Elements */
+input:focus,
+select:focus,
+textarea:focus {
+    box-shadow: 0 0 0 3px rgba(15, 191, 62, 0.1);
+}
+
+/* Users Table */
+tbody tr {
+    border-b border-ghGray8;
+    transition: all 0.3s ease;
+}
+
+tbody tr:hover {
+    background-color: rgba(15, 191, 62, 0.05);
+}
+
+/* Stat Cards */
+.stat-card {
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-4px);
+    border-color: #0fBf3E;
+}
+
+/* Mobile User Card */
+.user-mobile-card {
+    transition: all 0.3s ease;
+}
+
+.user-mobile-card:hover {
+    transform: translateY(-2px);
+}
+
+/* Meal Option Buttons */
+.meal-option-btn {
+    transition: all 0.3s ease;
+}
+
+.meal-option-btn.selected {
+    background-color: #0fBf3E;
+    border-color: #0fBf3E;
+    color: #121613;
+    font-weight: bold;
+}
+
+.meal-option-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* QR Scanner Video */
+#qr-video {
+    background: #000;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 100%;
+}
+
+/* QR Code Container */
+#qr-code-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+}
+
+#qr-code-container canvas,
+#qr-code-container img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Modal Styles */
+#qr-modal {
+    backdrop-filter: blur(2px);
+}
+
+/* Loading Spinner */
+.spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+}
+
+/* Responsive Tables */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    tbody tr {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1rem;
+        background-color: rgba(53, 61, 55, 0.5);
+        padding: 1rem;
+        border-radius: 8px;
+        border-bottom: 2px solid #353D37;
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        padding: 0.75rem 0;
+        border: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #0fbf3e;
+        margin-right: 1rem;
+    }
+}
+
+/* Smooth Transitions */
+* {
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+/* Badge Styles */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.badge-success {
+    background-color: rgba(15, 191, 62, 0.1);
+    color: #0fbf3e;
+    border: 1px solid #0fbf3e;
+}
+
+.badge-warning {
+    background-color: rgba(249, 115, 22, 0.1);
+    color: #f97316;
+    border: 1px solid #f97316;
+}
+
+.badge-danger {
+    background-color: rgba(220, 38, 38, 0.1);
+    color: #dc2626;
+    border: 1px solid #dc2626;
+}
+
+/* Button Styles */
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+button:not(:disabled):active {
+    transform: scale(0.98);
+}
+
+/* Error/Success Messages */
+.error-message {
+    animation: slideInDown 0.3s ease-out;
+}
+
+.success-message {
+    animation: slideInDown 0.3s ease-out;
+}
+
+/* Mobile Menu */
+@media (max-width: 640px) {
+    .tab-btn {
+        padding: 0.75rem 1rem;
+        font-size: 0.875rem;
+    }
+
+    .tab-btn i {
+        width: 1.125rem;
+        height: 1.125rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Header Hide on Mobile */
+@media (max-width: 640px) {
+    .header-hide {
+        display: none;
+    }
+}
+
+/* Smooth Scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Focus Visible for Accessibility */
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+    outline: 2px solid #0fbf3e;
+    outline-offset: 2px;
+}

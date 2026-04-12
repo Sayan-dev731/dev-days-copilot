@@ -1,0 +1,745 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" type="image/png" href="../images/github.png" />
+        <title>Users Management — GitHub Dev Days</title>
+        <meta
+            name="description"
+            content="User management and mess allowance tracking system."
+        />
+
+        <!-- Tailwind CSS -->
+        <script src="https://cdn.tailwindcss.com"></script>
+
+        <!-- GSAP & ScrollTrigger -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+        <!-- Lucide Icons -->
+        <script src="https://unpkg.com/lucide@latest"></script>
+
+        <!-- QR Code Generator -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+        <!-- jsQR Library for QR code detection -->
+        <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+
+        <!-- QR Code Scanner (Instascan) -->
+        <script src="https://rawgit.com/schmich/instascan-builds/master/qr-scanner.min.js"></script>
+
+        <!-- Configuration & Custom CSS -->
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['"Mona Sans"', "sans-serif"],
+                            mono: ['"Mona Sans Mono"', "monospace"],
+                        },
+                        colors: {
+                            ghGray9: "#121613",
+                            ghGray8: "#353D37",
+                            ghGray4: "#B6BFB8",
+                            ghGreen4: "#0FBF3E",
+                            ghGreen5: "#088728",
+                            ghPurple: "#8534F3",
+                            ghSecurityBlue: "#3094FF",
+                        },
+                    },
+                },
+            };
+        </script>
+        <link rel="stylesheet" href="../css/styles.css" />
+        <link rel="stylesheet" href="../css/users.css" />
+
+        <!-- QR Scanner Overlay Styles -->
+        <style>
+            #qr-scan-overlay {
+                cursor: crosshair;
+                filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+                image-rendering: crisp-edges;
+                image-rendering: pixelated;
+            }
+
+            .qr-scanning {
+                animation: pulse-border 1.5s ease-in-out infinite;
+            }
+
+            @keyframes pulse-border {
+                0% {
+                    box-shadow: 0 0 10px rgba(15, 191, 62, 0.5);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(15, 191, 62, 0.8);
+                }
+                100% {
+                    box-shadow: 0 0 10px rgba(15, 191, 62, 0.5);
+                }
+            }
+
+            #qr-video {
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body class="antialiased overflow-x-hidden bg-ghGray9" id="body">
+        <!-- Fixed Background -->
+        <div id="fixed-bg">
+            <div class="absolute inset-0 bg-dither z-10"></div>
+            <div
+                class="absolute inset-0 bg-gradient-to-br from-ghGray9/80 via-ghGray9 to-[#050505] z-0"
+            ></div>
+        </div>
+
+        <!-- Main Container -->
+        <div class="relative z-20 min-h-screen">
+            <!-- Navigation Header -->
+            <div
+                class="sticky top-0 z-40 bg-ghGray9/95 backdrop-blur-xl border-b border-ghGray8"
+            >
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <div class="flex items-center gap-4">
+                            <a
+                                href="admin.html"
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-lg border-2 border-ghGray8 hover:border-ghGreen4 transition-colors"
+                            >
+                                <svg
+                                    class="w-5 h-5 text-ghGreen4"
+                                    fill="currentColor"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235C7 20.565 6.35 19.65 6.15 19.115c-.135-.345-.72-1.435-1.23-1.725-.42-.225-1.02-.78-.015-.795.945.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.016 12.016 0 0024 12c0-6.63-5.37-12-12-12z"
+                                    />
+                                </svg>
+                            </a>
+                            <h1 class="text-2xl font-bold text-white">
+                                Users Management
+                            </h1>
+                        </div>
+                        <button
+                            id="logout-users-btn"
+                            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg font-semibold transition-colors"
+                        >
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Tabs Navigation -->
+                <div class="flex flex-wrap gap-2 mb-8 border-b border-ghGray8">
+                    <button
+                        id="tab-users-list"
+                        class="tab-btn px-4 py-3 text-white font-semibold border-b-2 border-ghGreen4 cursor-pointer hover:text-ghGreen4 transition-colors"
+                        data-tab="users-list"
+                    >
+                        <i
+                            data-lucide="users"
+                            class="inline-block mr-2 h-5 w-5"
+                        ></i>
+                        Users List
+                    </button>
+                    <button
+                        id="tab-add-user"
+                        class="tab-btn px-4 py-3 text-ghGray4 font-semibold border-b-2 border-transparent cursor-pointer hover:text-white transition-colors"
+                        data-tab="add-user"
+                    >
+                        <i
+                            data-lucide="user-plus"
+                            class="inline-block mr-2 h-5 w-5"
+                        ></i>
+                        Add User
+                    </button>
+                    <button
+                        id="tab-qr-scanner"
+                        class="tab-btn px-4 py-3 text-ghGray4 font-semibold border-b-2 border-transparent cursor-pointer hover:text-white transition-colors"
+                        data-tab="qr-scanner"
+                    >
+                        <i
+                            data-lucide="camera"
+                            class="inline-block mr-2 h-5 w-5"
+                        ></i>
+                        QR Scanner
+                    </button>
+                    <button
+                        id="tab-statistics"
+                        class="tab-btn px-4 py-3 text-ghGray4 font-semibold border-b-2 border-transparent cursor-pointer hover:text-white transition-colors"
+                        data-tab="statistics"
+                    >
+                        <i
+                            data-lucide="bar-chart-3"
+                            class="inline-block mr-2 h-5 w-5"
+                        ></i>
+                        Statistics
+                    </button>
+                </div>
+
+                <!-- TAB 1: Users List -->
+                <div
+                    id="users-list-content"
+                    class="tab-content animate-fade-in"
+                >
+                    <div class="space-y-4">
+                        <!-- Search Bar -->
+                        <div class="mb-6">
+                            <input
+                                type="text"
+                                id="search-users"
+                                placeholder="Search by name, email, or GitHub ID..."
+                                class="w-full px-4 py-3 bg-ghGray8 border-2 border-ghGray8 rounded-lg text-white placeholder-ghGray4 focus:outline-none focus:border-ghGreen4 transition-colors"
+                            />
+                        </div>
+
+                        <!-- Users Table (Desktop) -->
+                        <div class="hidden md:block overflow-x-auto">
+                            <table class="w-full text-left">
+                                <thead>
+                                    <tr class="border-b-2 border-ghGray8">
+                                        <th
+                                            class="px-4 py-3 text-white font-semibold text-sm"
+                                        >
+                                            Name
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-white font-semibold text-sm"
+                                        >
+                                            Email
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-white font-semibold text-sm"
+                                        >
+                                            GitHub ID
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-white font-semibold text-sm"
+                                        >
+                                            Meals Left
+                                        </th>
+                                        <th
+                                            class="px-4 py-3 text-white font-semibold text-sm"
+                                        >
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="users-table-body">
+                                    <!-- Populated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Users List (Mobile) -->
+                        <div id="users-mobile-list" class="md:hidden space-y-3">
+                            <!-- Populated by JavaScript -->
+                        </div>
+
+                        <!-- Loading spinner -->
+                        <div
+                            id="users-loading"
+                            class="text-center py-8 text-ghGray4"
+                        >
+                            Loading users...
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: Add User -->
+                <div
+                    id="add-user-content"
+                    class="tab-content hidden animate-fade-in"
+                >
+                    <div
+                        class="max-w-2xl bg-ghGray8 border-2 border-ghGray8 rounded-lg p-6"
+                    >
+                        <h2 class="text-2xl font-bold text-white mb-6">
+                            Add New User
+                        </h2>
+                        <form id="add-user-form" class="space-y-4">
+                            <div class="grid md:grid-cols-2 gap-4">
+                                <!-- First Name -->
+                                <div>
+                                    <label
+                                        for="firstName"
+                                        class="block text-sm font-semibold text-white mb-2"
+                                        >First Name</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="firstName"
+                                        name="firstName"
+                                        required
+                                        class="w-full px-4 py-3 bg-ghGray9 border-2 border-ghGray8 rounded-lg text-white placeholder-ghGray4 focus:outline-none focus:border-ghGreen4 transition-colors"
+                                        placeholder="John"
+                                    />
+                                </div>
+
+                                <!-- Email -->
+                                <div>
+                                    <label
+                                        for="email"
+                                        class="block text-sm font-semibold text-white mb-2"
+                                        >Email</label
+                                    >
+                                    <input
+                                        type="email"
+                                        id="email"
+                                        name="email"
+                                        required
+                                        class="w-full px-4 py-3 bg-ghGray9 border-2 border-ghGray8 rounded-lg text-white placeholder-ghGray4 focus:outline-none focus:border-ghGreen4 transition-colors"
+                                        placeholder="john@example.com"
+                                    />
+                                </div>
+
+                                <!-- GitHub ID -->
+                                <div>
+                                    <label
+                                        for="githubId"
+                                        class="block text-sm font-semibold text-white mb-2"
+                                        >GitHub ID</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="githubId"
+                                        name="githubId"
+                                        required
+                                        class="w-full px-4 py-3 bg-ghGray9 border-2 border-ghGray8 rounded-lg text-white placeholder-ghGray4 focus:outline-none focus:border-ghGreen4 transition-colors"
+                                        placeholder="john-dev"
+                                    />
+                                </div>
+
+                                <!-- Phone -->
+                                <div>
+                                    <label
+                                        for="phone"
+                                        class="block text-sm font-semibold text-white mb-2"
+                                        >Phone (Optional)</label
+                                    >
+                                    <input
+                                        type="tel"
+                                        id="phone"
+                                        name="phone"
+                                        class="w-full px-4 py-3 bg-ghGray9 border-2 border-ghGray8 rounded-lg text-white placeholder-ghGray4 focus:outline-none focus:border-ghGreen4 transition-colors"
+                                        placeholder="+1 234-567-8900"
+                                    />
+                                </div>
+
+                                <!-- Mess Plan -->
+                                <div class="md:col-span-2">
+                                    <label
+                                        for="messPlan"
+                                        class="block text-sm font-semibold text-white mb-2"
+                                        >Mess Plan</label
+                                    >
+                                    <select
+                                        id="messPlan"
+                                        name="messPlan"
+                                        class="w-full px-4 py-3 bg-ghGray9 border-2 border-ghGray8 rounded-lg text-white focus:outline-none focus:border-ghGreen4 transition-colors"
+                                    >
+                                        <option value="Standard">
+                                            Standard
+                                        </option>
+                                        <option value="Premium">Premium</option>
+                                        <option value="Basic">Basic</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-3 mt-6">
+                                <button
+                                    type="submit"
+                                    class="flex-1 px-6 py-3 bg-ghGreen4 hover:bg-ghGreen5 text-white font-semibold rounded-lg transition-colors"
+                                >
+                                    Add User
+                                </button>
+                                <button
+                                    type="reset"
+                                    class="flex-1 px-6 py-3 bg-ghGray8 hover:bg-ghGray7 text-white font-semibold rounded-lg transition-colors"
+                                >
+                                    Clear
+                                </button>
+                            </div>
+
+                            <!-- Error & Success Messages -->
+                            <div
+                                id="add-user-error"
+                                class="hidden p-3 bg-red-900/30 border border-red-500 text-red-200 rounded-lg text-sm"
+                            ></div>
+                            <div
+                                id="add-user-success"
+                                class="hidden p-3 bg-green-900/30 border border-green-500 text-green-200 rounded-lg text-sm"
+                            ></div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- TAB 3: QR Scanner -->
+                <div
+                    id="qr-scanner-content"
+                    class="tab-content hidden animate-fade-in"
+                >
+                    <div class="grid md:grid-cols-2 gap-8">
+                        <!-- Scanner Section -->
+                        <div
+                            class="bg-ghGray8 border-2 border-ghGray8 rounded-lg p-6"
+                        >
+                            <h2 class="text-2xl font-bold text-white mb-6">
+                                Scan QR Code
+                            </h2>
+
+                            <!-- Scanning Instructions -->
+                            <div
+                                class="mb-4 p-3 bg-ghGreen4/10 border border-ghGreen4 rounded-lg"
+                            >
+                                <p class="text-sm text-ghGreen4 font-semibold">
+                                    📱 Hold QR code in front of camera to scan
+                                </p>
+                                <p class="text-xs text-ghGray4 mt-1">
+                                    Keep the QR code within the frame. Scanning
+                                    updates automatically.
+                                </p>
+                            </div>
+
+                            <div
+                                class="relative w-full bg-black rounded-lg mb-4 overflow-hidden"
+                                style="max-height: 400px"
+                            >
+                                <video
+                                    id="qr-video"
+                                    class="w-full h-auto"
+                                    style="max-height: 400px; display: block"
+                                    autoplay
+                                    playsinline
+                                    muted
+                                ></video>
+
+                                <!-- Scanning Frame Overlay -->
+                                <canvas
+                                    id="qr-scan-overlay"
+                                    class="absolute top-0 left-0 w-full h-full"
+                                    style="display: none"
+                                ></canvas>
+                            </div>
+
+                            <!-- Scanning Indicator -->
+                            <div
+                                id="scanning-indicator"
+                                class="hidden text-center mb-4 p-3 bg-ghGreen4/20 border border-ghGreen4 rounded-lg"
+                            >
+                                <p
+                                    class="text-ghGreen4 font-semibold animate-pulse"
+                                >
+                                    🔄 Scanning for QR codes...
+                                </p>
+                            </div>
+                            <button
+                                id="start-camera-btn"
+                                class="w-full px-6 py-3 bg-ghGreen4 hover:bg-ghGreen5 text-white font-semibold rounded-lg transition-colors"
+                            >
+                                <i
+                                    data-lucide="camera"
+                                    class="inline-block mr-2 h-5 w-5"
+                                ></i>
+                                Start Camera
+                            </button>
+                            <button
+                                id="stop-camera-btn"
+                                class="hidden w-full mt-3 px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors"
+                            >
+                                <i
+                                    data-lucide="x"
+                                    class="inline-block mr-2 h-5 w-5"
+                                ></i>
+                                Stop Camera
+                            </button>
+
+                            <!-- Camera Help -->
+                            <div
+                                class="mt-6 p-4 bg-ghGray9 rounded-lg border border-ghGray8"
+                            >
+                                <p class="text-sm text-ghGray4 mb-2">
+                                    <strong>Camera not working?</strong>
+                                </p>
+                                <ul class="text-xs text-ghGray4 space-y-1">
+                                    <li>
+                                        ✓ Allow camera access when your browser
+                                        prompts
+                                    </li>
+                                    <li>
+                                        ✓ Check browser settings (Settings →
+                                        Privacy → Camera)
+                                    </li>
+                                    <li>
+                                        ✓ Try a different browser if issues
+                                        persist
+                                    </li>
+                                    <li>
+                                        ✓ Ensure your device has a working
+                                        camera
+                                    </li>
+                                    <li>✓ Close other apps using the camera</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- User Info & Meal Selection -->
+                        <div>
+                            <div id="scanner-user-section" class="hidden">
+                                <!-- User Card -->
+                                <div
+                                    class="bg-ghGray8 border-2 border-ghGreen4 rounded-lg p-6 mb-6 animate-slide-in-up"
+                                >
+                                    <div class="mb-4">
+                                        <h3
+                                            id="scanner-user-name"
+                                            class="text-xl font-bold text-white"
+                                        ></h3>
+                                        <p
+                                            id="scanner-user-email"
+                                            class="text-ghGray4 text-sm"
+                                        ></p>
+                                    </div>
+
+                                    <!-- Meals Left -->
+                                    <div class="mb-6">
+                                        <h4
+                                            class="text-sm font-semibold text-ghGray4 mb-3"
+                                        >
+                                            Meals Left:
+                                        </h4>
+                                        <div
+                                            id="scanner-meals-left"
+                                            class="flex flex-wrap gap-2"
+                                        >
+                                            <!-- Populated by JavaScript -->
+                                        </div>
+                                    </div>
+
+                                    <!-- Meal Selection -->
+                                    <div class="mb-6">
+                                        <h4
+                                            class="text-sm font-semibold text-ghGray4 mb-3"
+                                        >
+                                            Remove Meal:
+                                        </h4>
+                                        <div
+                                            id="scanner-meal-options"
+                                            class="grid grid-cols-2 gap-3"
+                                        >
+                                            <button
+                                                data-meal="Breakfast"
+                                                class="meal-option-btn px-3 py-2 bg-ghGray9 border-2 border-ghGray8 hover:border-ghGreen4 rounded-lg text-white font-semibold transition-colors"
+                                            >
+                                                🌅 Breakfast
+                                            </button>
+                                            <button
+                                                data-meal="Lunch"
+                                                class="meal-option-btn px-3 py-2 bg-ghGray9 border-2 border-ghGray8 hover:border-ghGreen4 rounded-lg text-white font-semibold transition-colors"
+                                            >
+                                                🍽️ Lunch
+                                            </button>
+                                            <button
+                                                data-meal="Snack"
+                                                class="meal-option-btn px-3 py-2 bg-ghGray9 border-2 border-ghGray8 hover:border-ghGreen4 rounded-lg text-white font-semibold transition-colors"
+                                            >
+                                                🍪 Snack
+                                            </button>
+                                            <button
+                                                data-meal="Dinner"
+                                                class="meal-option-btn px-3 py-2 bg-ghGray9 border-2 border-ghGray8 hover:border-ghGreen4 rounded-lg text-white font-semibold transition-colors"
+                                            >
+                                                🍲 Dinner
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Buttons -->
+                                    <div class="flex gap-3">
+                                        <button
+                                            id="confirm-remove-btn"
+                                            class="flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                            disabled
+                                        >
+                                            Remove Meal
+                                        </button>
+                                        <button
+                                            id="view-qr-code-btn"
+                                            class="px-4 py-3 bg-ghPurple hover:bg-purple-600 text-white font-semibold rounded-lg transition-colors"
+                                        >
+                                            View QR
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- Messages -->
+                                <div
+                                    id="scanner-error"
+                                    class="hidden p-4 bg-red-900/40 border-2 border-red-500 text-red-100 rounded-lg text-sm mb-4 font-semibold"
+                                ></div>
+                                <div
+                                    id="scanner-success"
+                                    class="hidden p-3 bg-green-900/30 border border-green-500 text-green-200 rounded-lg text-sm mb-3"
+                                ></div>
+                            </div>
+
+                            <!-- No User Scanned Message -->
+                            <div
+                                id="scanner-no-user"
+                                class="bg-ghGray8 border-2 border-dashed border-ghGray4 rounded-lg p-8 text-center"
+                            >
+                                <i
+                                    data-lucide="qr-code"
+                                    class="h-16 w-16 mx-auto text-ghGray4 mb-4"
+                                ></i>
+                                <p class="text-ghGray4">
+                                    Scan a QR code to get started
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 4: Statistics -->
+                <div
+                    id="statistics-content"
+                    class="tab-content hidden animate-fade-in"
+                >
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <!-- Total Users Card -->
+                        <div
+                            class="bg-ghGray8 border-2 border-ghGray8 rounded-lg p-6 stat-card"
+                        >
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-ghGray4 text-sm font-semibold mb-1"
+                                    >
+                                        Total Users
+                                    </p>
+                                    <p
+                                        id="stat-total-users"
+                                        class="text-3xl font-bold text-white"
+                                    >
+                                        0
+                                    </p>
+                                </div>
+                                <i
+                                    data-lucide="users"
+                                    class="h-12 w-12 text-ghGreen4 opacity-80"
+                                ></i>
+                            </div>
+                        </div>
+
+                        <!-- Users with Meals Card -->
+                        <div
+                            class="bg-ghGray8 border-2 border-ghGray8 rounded-lg p-6 stat-card"
+                        >
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-ghGray4 text-sm font-semibold mb-1"
+                                    >
+                                        With Meals Left
+                                    </p>
+                                    <p
+                                        id="stat-with-meals"
+                                        class="text-3xl font-bold text-white"
+                                    >
+                                        0
+                                    </p>
+                                </div>
+                                <i
+                                    data-lucide="check-circle"
+                                    class="h-12 w-12 text-ghSecurityBlue opacity-80"
+                                ></i>
+                            </div>
+                        </div>
+
+                        <!-- Meals Used Card -->
+                        <div
+                            class="bg-ghGray8 border-2 border-ghGray8 rounded-lg p-6 stat-card"
+                        >
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <p
+                                        class="text-ghGray4 text-sm font-semibold mb-1"
+                                    >
+                                        Meals Used Today
+                                    </p>
+                                    <p
+                                        id="stat-meals-used"
+                                        class="text-3xl font-bold text-white"
+                                    >
+                                        0
+                                    </p>
+                                </div>
+                                <i
+                                    data-lucide="utensils"
+                                    class="h-12 w-12 text-ghPurple opacity-80"
+                                ></i>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Refresh Stats Button -->
+                    <button
+                        id="refresh-stats-btn"
+                        class="px-6 py-3 bg-ghGreen4 hover:bg-ghGreen5 text-white font-semibold rounded-lg transition-colors"
+                    >
+                        <i
+                            data-lucide="refresh-cw"
+                            class="inline-block mr-2 h-5 w-5"
+                        ></i>
+                        Refresh Statistics
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- QR Code Display Modal -->
+        <div
+            id="qr-modal"
+            class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+        >
+            <div
+                class="bg-ghGray9 border-2 border-ghGray8 rounded-lg p-8 max-w-md w-full"
+            >
+                <div class="flex justify-between items-center mb-6">
+                    <h3
+                        id="qr-modal-title"
+                        class="text-2xl font-bold text-white"
+                    >
+                        User QR Code
+                    </h3>
+                    <button
+                        id="close-qr-modal"
+                        class="text-ghGray4 hover:text-white transition-colors"
+                    >
+                        <i data-lucide="x" class="h-6 w-6"></i>
+                    </button>
+                </div>
+                <div
+                    id="qr-code-container"
+                    class="bg-white p-4 rounded-lg mb-6"
+                ></div>
+                <p
+                    id="qr-modal-info"
+                    class="text-ghGray4 text-center mb-4 text-sm"
+                ></p>
+                <button
+                    id="download-qr-btn"
+                    class="w-full px-4 py-3 bg-ghGreen4 hover:bg-ghGreen5 text-white font-semibold rounded-lg transition-colors"
+                >
+                    Download QR Code
+                </button>
+            </div>
+        </div>
+
+        <script src="../js/users.js"></script>
+    </body>
+</html>

@@ -419,7 +419,6 @@ if (logoutBtn) {
         try {
             await apiCall("/logout", "POST");
         } catch (error) {
-            console.warn("Logout API call failed:", error);
         }
 
         // Clear tokens and show login
@@ -495,7 +494,6 @@ async function loadDashboardData() {
                 document.getElementById("stat-participants").textContent = "—";
             }
         } catch (error) {
-            console.warn("Failed to fetch user count:", error);
             document.getElementById("stat-participants").textContent = "—";
         }
 
@@ -506,7 +504,6 @@ async function loadDashboardData() {
             ? "✓"
             : "✗";
     } catch (error) {
-        console.warn("Failed to load dashboard data:", error);
         // Set default values
         document.getElementById("stat-participants").textContent = "—";
         document.getElementById("stat-teams").textContent = "—";
@@ -579,7 +576,6 @@ async function refreshAccessToken() {
             throw new Error(data.message || "Token refresh failed");
         }
     } catch (error) {
-        console.warn("Token refresh failed:", error);
         clearTokens();
         hideDashboard();
     }
@@ -982,13 +978,13 @@ document
             );
             formData.append("selectedEmails", JSON.stringify(selectedEmails));
 
-            console.log("Sending data:", {
-                selectedEmails,
-                eventbriteFieldMapping:
-                    csvState.fieldMappings.eventbriteFieldMapping,
-                mlhFieldMapping: csvState.fieldMappings.mlhFieldMapping,
-                totalSelected: selectedEmails.length,
-            });
+            // console.log("Sending data:", {
+            //     selectedEmails,
+            //     eventbriteFieldMapping:
+            //         csvState.fieldMappings.eventbriteFieldMapping,
+            //     mlhFieldMapping: csvState.fieldMappings.mlhFieldMapping,
+            //     totalSelected: selectedEmails.length,
+            // });
 
             const token = localStorage.getItem("accessToken");
 
@@ -1026,11 +1022,11 @@ document
                             const data = JSON.parse(line.substring(6));
 
                             if (data.type === "start") {
-                                console.log(
-                                    "Stream started for",
-                                    data.total,
-                                    "records",
-                                );
+                                // console.log(
+                                //     "Stream started for",
+                                //     data.total,
+                                //     "records",
+                                // );
                                 addLogEntry(
                                     `Starting to process ${data.total} records...`,
                                 );
@@ -1064,7 +1060,7 @@ document
                                     total: data.total,
                                 };
                             } else if (data.type === "complete") {
-                                console.log("Stream completed:", data);
+                                // console.log("Stream completed:", data);
                                 addLogEntry(
                                     `✓ Processing complete: ${data.created} created, ${data.updated} updated`,
                                 );
@@ -1080,7 +1076,7 @@ document
                                     total: data.total,
                                 };
                             } else if (data.type === "error") {
-                                console.error("Stream error:", data);
+                                // console.error("Stream error:", data);
                                 addLogEntry(`✗ Error: ${data.message}`);
                             }
                         } catch (e) {
@@ -1125,7 +1121,7 @@ document
                     .classList.remove("hidden");
             }, 500);
         } catch (error) {
-            console.error("Error during CSV processing:", error);
+                            console.error("Error during CSV processing:", error);
             hideProgressModal();
             showError(
                 "csv-error",
@@ -1245,7 +1241,7 @@ function updateProgressStats(created, updated, errors) {
 // Display Processing Results with Table
 function displayProcessingResults(data) {
     if (!data || typeof data !== "object") {
-        console.error("Invalid data passed to displayProcessingResults");
+            console.error("Invalid data passed to displayProcessingResults");
         return;
     }
 

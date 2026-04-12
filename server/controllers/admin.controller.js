@@ -585,13 +585,6 @@ const processCSVWithMapping = asyncHandler(async (req, res) => {
         selectedEmails = JSON.parse(selectedEmails);
     }
 
-    console.log("processCSVWithMapping - Received data:", {
-        eventbriteFieldMapping,
-        mlhFieldMapping,
-        selectedEmailsCount: selectedEmails?.length || 0,
-        selectedEmailsSample: selectedEmails?.slice(0, 5),
-    });
-
     if (!req.files || !req.files.eventbriteCSV || !req.files.mlhCSV) {
         throw new ApiError(
             400,

@@ -20,6 +20,30 @@ const userSchema = new mongoose.Schema(
             type: [String],
             default: ["Breakfast", "Lunch", "Snack", "Dinner"],
         },
+        qrCode: {
+            type: String,
+            unique: true,
+            sparse: true,
+        },
+        phone: {
+            type: String,
+            default: "",
+        },
+        messPlan: {
+            type: String,
+            enum: ["Premium", "Standard", "Basic"],
+            default: "Standard",
+        },
+        totalAllowances: {
+            type: Number,
+            default: 4,
+        },
+        messHistory: [
+            {
+                mealType: String,
+                removedAt: Date,
+            },
+        ],
     },
     { timestamps: true },
 );

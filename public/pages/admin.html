@@ -401,13 +401,22 @@
                             ></span>
                         </p>
                     </div>
-                    <button
-                        id="logout-btn"
-                        class="flex items-center gap-2 px-4 py-2 bg-ghGray8 hover:border-ghGreen4 border border-ghGray8 rounded-lg text-white transition-colors"
-                    >
-                        <i data-lucide="log-out" class="w-4 h-4"></i>
-                        Logout
-                    </button>
+                    <div class="flex items-center gap-3">
+                        <a
+                            href="/users"
+                            class="flex items-center gap-2 px-4 py-2 bg-ghGreen4/20 hover:bg-ghGreen4/30 border border-ghGreen4 rounded-lg text-ghGreen4 font-semibold transition-colors"
+                        >
+                            <i data-lucide="users" class="w-4 h-4"></i>
+                            Users Management
+                        </a>
+                        <button
+                            id="logout-btn"
+                            class="flex items-center gap-2 px-4 py-2 bg-ghGray8 hover:border-ghGreen4 border border-ghGray8 rounded-lg text-white transition-colors"
+                        >
+                            <i data-lucide="log-out" class="w-4 h-4"></i>
+                            Logout
+                        </button>
+                    </div>
                 </div>
             </header>
 

@@ -23,10 +23,10 @@ app.use((req, res, next) => {
     // Referrer policy to prevent credential leakage
     res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
 
-    // Permissions policy
+    // Permissions policy - Allow camera and microphone for QR scanning
     res.setHeader(
         "Permissions-Policy",
-        "geolocation=(), microphone=(), camera=()",
+        "geolocation=(), microphone=(self), camera=(self)",
     );
 
     // Cache control to prevent caching sensitive data
@@ -67,18 +67,26 @@ app.get("/admin", (req, res) => {
     res.sendFile(path.join(__dirname, "..", "public", "pages", "admin.html"));
 });
 
+app.get("/users", (req, res) => {
+    res.sendFile(path.join(__dirname, "..", "public", "pages", "users.html"));
+});
+
 // gemini response route
 import responseRouter from "./routes/response.route.js";
 // health check route
 import healthCheck from "./routes/health.route.js";
 // admin auth routes
 import adminRouter from "./routes/admin.route.js";
+// users management routes
+import usersRouter from "./routes/users.route.js";
 
 app.use("/api/v1/chatbot", responseRouter);
 
 app.use("/api/v1/check", healthCheck);
 
 app.use("/api/v1/auth/admin", adminRouter);
+
+app.use("/api/v1/users", usersRouter);
 
 app.all(/(.*)/, (req, res) => {
     res.status(404).sendFile(

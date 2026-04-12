@@ -104,8 +104,14 @@ function showError(elementId, message, duration = 5000) {
     if (errorEl) {
         errorEl.textContent = message;
         errorEl.classList.remove("hidden");
+        errorEl.classList.add("animate-slide-in-down");
         setTimeout(() => {
-            errorEl.classList.add("hidden");
+            errorEl.classList.remove("animate-slide-in-down");
+            errorEl.classList.add("animate-fade-out");
+            setTimeout(() => {
+                errorEl.classList.remove("animate-fade-out");
+                errorEl.classList.add("hidden");
+            }, 300);
         }, duration);
     }
 }
@@ -115,8 +121,14 @@ function showSuccess(elementId, message, duration = 5000) {
     if (successEl) {
         successEl.textContent = message;
         successEl.classList.remove("hidden");
+        successEl.classList.add("animate-slide-in-down");
         setTimeout(() => {
-            successEl.classList.add("hidden");
+            successEl.classList.remove("animate-slide-in-down");
+            successEl.classList.add("animate-fade-out");
+            setTimeout(() => {
+                successEl.classList.remove("animate-fade-out");
+                successEl.classList.add("hidden");
+            }, 300);
         }, duration);
     }
 }
@@ -971,17 +983,20 @@ function updateMealSelection() {
 confirmRemoveBtn.addEventListener("click", async () => {
     if (!currentScannedUser || !selectedMealType) return;
 
+    // Store the meal name before it gets cleared
+    const removedMealType = selectedMealType;
+
     try {
         const response = await apiCall("/users/meal/remove", "POST", {
             userId: currentScannedUser._id,
-            mealType: selectedMealType,
+            mealType: removedMealType,
         });
 
         currentScannedUser = response.data;
         displayScannedUserInfo();
         showSuccess(
             "scanner-success",
-            `${selectedMealType} removed successfully!`,
+            `✓ ${removedMealType} removed successfully!`,
             4000,
         );
     } catch (error) {
@@ -1012,8 +1027,7 @@ async function loadStatistics() {
         const mealsUsed =
             mealsUsedData.length > 0 ? mealsUsedData[0].totalMealsUsed || 0 : 0;
         statMealsUsed.textContent = mealsUsed;
-    } catch (error) {
-    }
+    } catch (error) {}
 }
 
 refreshStatsBtn.addEventListener("click", () => {

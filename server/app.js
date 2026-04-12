@@ -9,11 +9,45 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 
+// Security headers middleware
+app.use((req, res, next) => {
+    // Prevent MIME type sniffing
+    res.setHeader("X-Content-Type-Options", "nosniff");
+
+    // Prevent clickjacking
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+
+    // Enable XSS protection
+    res.setHeader("X-XSS-Protection", "1; mode=block");
+
+    // Referrer policy to prevent credential leakage
+    res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+
+    // Permissions policy
+    res.setHeader(
+        "Permissions-Policy",
+        "geolocation=(), microphone=(), camera=()",
+    );
+
+    // Cache control to prevent caching sensitive data
+    if (req.path.includes("/admin") || req.path.includes("/api")) {
+        res.setHeader(
+            "Cache-Control",
+            "no-store, no-cache, must-revalidate, proxy-revalidate",
+        );
+        res.setHeader("Pragma", "no-cache");
+        res.setHeader("Expires", "0");
+    }
+
+    next();
+});
+
 app.use(
     cors({
-        origin: process.env.CORS_ORIGIN || "*",
+        origin: process.env.CORS_ORIGIN || "http://localhost:3000",
         credentials: true,
         methods: ["GET", "POST", "PUT", "DELETE"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     }),
 );
 
